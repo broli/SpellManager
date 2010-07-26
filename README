@@ -1,0 +1,18 @@
+if you have played D&D, you know that is filled with spell lists.
+you have to manage them, choosing every day which spell you want to
+prepare, or what spell you want to learn when you gain a new level.
+
+The worst and best part of this system, is haveing to read the various
+player's manuals, using indexes, searching the full descriptions, ect ect.
+
+The intention of this proyect, is the creation of (at least one) application
+that will help you with that.
+The first step, is to make an application that will help you enter the
+details of a spell, and store it. Hopefully step 2 will involve a usefull
+way of printing said list.
+
+In the end, you will be able to print a full list of cleric spells, to
+simplyfy selection which spells to order a particular day, or keep and 
+manage your wizard spellbook, from wich you will choose which spells to 
+prepare that morning, or make a simple list off all the spells your
+sorcerer knows
