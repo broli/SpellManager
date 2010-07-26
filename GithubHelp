@@ -1,0 +1,22 @@
+This is the help page that Github shows when creating a new repo
+I keep it here because is easier to access :P
+
+
+Next steps:
+
+  mkdir SpellManager
+  cd SpellManager
+  git init
+  touch README
+  git add README
+  git commit -m 'first commit'
+  git remote add origin git@github.com:broli/SpellManager.git
+  git push origin master
+      
+
+Existing Git Repo?
+
+  cd existing_git_repo
+  git remote add origin git@github.com:broli/SpellManager.git
+  git push origin master
+      
