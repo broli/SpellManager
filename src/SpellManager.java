@@ -24,7 +24,7 @@ public class SpellManager {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MFrame MainApp = new MFrame();
+		AddSpellFrame MainApp = new AddSpellFrame();
 		MainApp.goMain();
 
 	}
