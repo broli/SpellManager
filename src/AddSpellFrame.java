@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -7,8 +9,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /* This file is part of SpellManager
@@ -35,8 +35,9 @@ public class AddSpellFrame {
 	
 	final String[] SClases = { "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Wizard"};
 	final String[] SLevels = { "0", "1","2","3","4","5","6","7","8","9"};
+	
 	final String[] SSchools = { "Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"};
-	final String[] SFirstchooseschool = { "First choose school"};
+	final String[] SFirstchooseschool = { "Not applicable"};
 	final String[] SConjSubschool = {"None","Calling", "Creation","Healing","Healing","Teleportation"};
 	final String[] SDivSubSchool = { "None", "Scrying"};
 	final String[] SEnchSubSchool = { "None", "Charm", "Compulsion"};
@@ -50,7 +51,8 @@ public class AddSpellFrame {
 	final String[] SDomains1 = { "Air", "Animal", "Chaos", "Death", "Destruction", "Earth", "Evil", "Fire"}; 
 	final String[] SDomains2 = { "Good", "Healing", "Knowledge","Law", "Luck", "Magic", "Plant", "Protection"};
 	final String[] SDomains3 = {"Strength", "Sun", "Travel", "Trickery", "War", "Water"};
-	
+
+	private JComboBox JComboSubSchool;
 
 	public void goMain() {
 		JFrame MainJFrame = new JFrame("SpellManager");
@@ -77,36 +79,37 @@ public class AddSpellFrame {
 		
 		//Class and level selector ---------------------------------------------------------------------------
 		JPanel JPClass_level = new JPanel();
-		JPClass_level.setLayout(new BoxLayout(JPClass_level,BoxLayout.X_AXIS));
-
-		ArrayList<JCheckBox> ArrayJcheckClases = new ArrayList<JCheckBox>(); //To hold all the checkboxes
-		ArrayList<JComboBox> ArrayJComboLevels = new ArrayList<JComboBox>(); //To hold all the comboboxes
-		
 		JPanel JPClasesCheck = new JPanel();
-		JPClasesCheck.setLayout(new BoxLayout(JPClasesCheck,BoxLayout.Y_AXIS));
-		
 		JPanel JPLevelCombo = new JPanel();
+		
+		JPClass_level.setLayout(new BoxLayout(JPClass_level,BoxLayout.X_AXIS));
+		JPClasesCheck.setLayout(new BoxLayout(JPClasesCheck,BoxLayout.Y_AXIS));
 		JPLevelCombo.setLayout(new BoxLayout(JPLevelCombo,BoxLayout.Y_AXIS));
 		
 		JCheckBox checkTemporal; //to temporaly hold the checkboxes before adding them to the array
-		JComboBox comboTemporal; //to temporally hold the combos 
+		JComboBox comboTemporal; //to temporally hold the combos
+
+		SpellCaster temporal;
+		ArrayList<SpellCaster> SpellCasterarr = new ArrayList<SpellCaster>();
 		
 		for (String line:SClases){
 			checkTemporal = new JCheckBox(line);
-			ArrayJcheckClases.add(checkTemporal);
-			JPClasesCheck.add(checkTemporal);
 			comboTemporal = new JComboBox(SLevels);
 			comboTemporal.setMaximumRowCount(10);
 			comboTemporal.setMaximumSize(comboTemporal.getPreferredSize());
-			ArrayJComboLevels.add(comboTemporal);
+			temporal = new SpellCaster(line,checkTemporal,comboTemporal);
+			SpellCasterarr.add(temporal);
+			
+			JPClasesCheck.add(checkTemporal);
 			JPLevelCombo.add(comboTemporal);
 		}
+		
 		JPClass_level.add(JPClasesCheck);
 		JPClass_level.add(JPLevelCombo);
 		JPClass_level.setBorder(BorderFactory.createTitledBorder("Class and Level"));
 		JPTier2.add(JPClass_level);
 		
-		//This panel is to acomodate School and descriptor options
+		//This panel is to accommodate School and descriptor options
 		JPanel JPTier2_Right = new JPanel();
 		JPTier2_Right.setLayout(new BoxLayout(JPTier2_Right,BoxLayout.Y_AXIS));
 		
@@ -114,8 +117,9 @@ public class AddSpellFrame {
 		JPanel JPSchool = new JPanel();
 		JPSchool.setLayout(new BoxLayout(JPSchool,BoxLayout.X_AXIS));
 		JComboBox JComboSchool = new JComboBox(SSchools);
-		JComboBox JComboSubSchool = new JComboBox(SFirstchooseschool);
+		JComboSubSchool = new JComboBox(SFirstchooseschool);
 		JComboSubSchool.setEnabled(false);
+		JComboSchool.addActionListener(new SchoolListener());
 		
 		JPSchool.add(JComboSchool);
 		JPSchool.add(JComboSubSchool);
@@ -223,12 +227,13 @@ public class AddSpellFrame {
 		JPDomains.add(JPDomains1);
 		JPDomains.add(JPDomains2);
 		JPDomains.add(JPDomains3);
+		JPDomains.setBorder(BorderFactory.createTitledBorder("Domains"));
 		JPTier3.add(JPDomains);
 		
 		
 		//Main description area, with scroller ---------------------------------------------------------------
-		JTextArea JTADescription = new JTextArea(10,100);
-		JScrollPane JSPTADescription = new JScrollPane(JTADescription);
+		//JTextArea JTADescription = new JTextArea(10,100);
+		//JScrollPane JSPTADescription = new JScrollPane(JTADescription);
 		
 		
 		
@@ -244,5 +249,34 @@ public class AddSpellFrame {
 		MainJFrame.setLocationRelativeTo(null);
 		JTFSpellName.requestFocus();
 	} //Public void goMain()
+	
+	public class SchoolListener implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			JComboBox argument = (JComboBox) arg0.getSource();
+			String Selected = (String)argument.getSelectedItem();
+			String[] temporal= {"None"};
+			if (Selected.equals("Conjuration")){
+				temporal = SConjSubschool;
+			} else if (Selected.equals("Divination")) {
+				temporal = SDivSubSchool;
+			} else if (Selected.equals("Enchantment")) {
+				temporal = SEnchSubSchool;
+			} else if (Selected.equals("Illusion")) {
+				temporal = SIluSubSchool;
+			} 
+			
+			JComboSubSchool.removeAllItems();
+			for (String line: temporal){
+				JComboSubSchool.addItem(line);
+				JComboSubSchool.setEnabled(true);
+			}
+
+				
+		}
+		
+	}
+	
+	
 } //public class MFrame
