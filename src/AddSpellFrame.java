@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 /* This file is part of SpellManager
  *
@@ -37,6 +40,12 @@ public class AddSpellFrame {
 	final String[] SDomains1 = { "Air", "Animal", "Chaos", "Death", "Destruction", "Earth", "Evil", "Fire"}; 
 	final String[] SDomains2 = { "Good", "Healing", "Knowledge","Law", "Luck", "Magic", "Plant", "Protection"};
 	final String[] SDomains3 = {"Strength", "Sun", "Travel", "Trickery", "War", "Water"};
+	
+	final String[] SCastingTime = { "Standard Action", "Round(s)", "Free Action" };
+	final String[] SRanges = { "Personal","Touch","Close","Medium","Long","Unlimited"};
+	final String[] STargets = { "Self", "Friend","Foe","Object"};
+	final String[] SDurations = { "","Instantaneous", "Permanent"};
+	
 
 	public void goMain() {
 		JFrame MainJFrame = new JFrame("SpellManager");
@@ -161,6 +170,67 @@ public class AddSpellFrame {
 		JPDomains.setBorder(BorderFactory.createTitledBorder("Domains"));
 		JPTier3.add(JPDomains);
 		
+		// Tier 4
+		JPanel JPTier4 = new JPanel();
+		JPTier4.setLayout(new BoxLayout(JPTier4,BoxLayout.X_AXIS));
+		
+		// Casting time
+		JComboBox JComboCastingtimeunit = new JComboBox(SCastingTime);
+		JComboCastingtimeunit.setEditable(true);
+		JLabel JLCastingtime = new JLabel(" Casting Time ");
+		JSpinner JTACastingTimeNumber = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); 
+		
+	    //Range
+		JLabel JLRange = new JLabel(" Range ");
+		JComboBox JComboRange = new JComboBox(SRanges);
+		JComboRange.setEditable(true);
+		
+		JPTier4.add(JLCastingtime);
+		JPTier4.add(JTACastingTimeNumber);
+		JPTier4.add(Box.createHorizontalStrut(5));
+		JPTier4.add(JComboCastingtimeunit);
+		JPTier4.add(Box.createHorizontalStrut(40));
+		JPTier4.add(JLRange);
+		JPTier4.add(JComboRange);
+		JPTier4.setMaximumSize(JPTier4.getPreferredSize());
+		
+		
+		// Tier 5
+		JPanel JPTier5 = new JPanel();
+		JPTier5.setLayout(new BoxLayout(JPTier5,BoxLayout.X_AXIS));
+		
+		//Targets
+		JPanel JPTarget = new JPanel();
+		JPTarget.setLayout(new BoxLayout(JPTarget,BoxLayout.X_AXIS));
+		JPTarget.setBorder(BorderFactory.createTitledBorder("Target(s)"));
+		ArrayList<JCheckBox> ALTargets = new ArrayList<JCheckBox>();
+		
+		for (String line:STargets){
+			checkTemporal = new JCheckBox(line);
+			JPTarget.add(checkTemporal);
+			ALTargets.add(checkTemporal);
+		}
+		
+		//duration
+		JComboBox JComboDuration = new JComboBox(SDurations);
+		JComboDuration.setEditable(true);
+		JLabel JLDuration = new JLabel("  Duration ");
+		JComboDuration.setMaximumSize(JComboDuration.getPreferredSize());
+		
+		JPTier5.add(JPTarget);
+		JPTier5.add(JLDuration);
+		JPTier5.add(JComboDuration);
+
+		//Tier 6
+		JPanel JPTier6 = new JPanel();
+		JPTier6.setLayout(new BoxLayout(JPTier6,BoxLayout.X_AXIS));
+		
+		//Saving Throw
+		SavingThrowWidget SavingThrow = new SavingThrowWidget();
+		
+		JPTier6.add(SavingThrow.getJPanel());
+		
+		
 		
 		//Main description area, with scroller ---------------------------------------------------------------
 		//JTextArea JTADescription = new JTextArea(10,100);
@@ -173,6 +243,9 @@ public class AddSpellFrame {
 		MainJPanel.add(JPTier1);
 		MainJPanel.add(JPTier2);
 		MainJPanel.add(JPTier3);
+		MainJPanel.add(JPTier4);
+		MainJPanel.add(JPTier5);
+		MainJPanel.add(JPTier6);
 		MainJFrame.getContentPane().add(MainJPanel);
 		
 		MainJFrame.setVisible(true);

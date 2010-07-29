@@ -106,4 +106,25 @@ public class DescriptorWidget {
 		return JPDescriptor;
 	}
 	
+	public String getListEnabled(){
+		String temporal="";
+		for (JCheckBox line: ArrayJcheckDescriptors){
+			if (line.isSelected()){
+				temporal = temporal + line.getText() + ", ";
+			}
+		}
+		return temporal;
+			
+	}
+	
+	public String[] getListEnabledArr(){
+		ArrayList<String> temporal = new ArrayList<String>();
+		for (JCheckBox line: ArrayJcheckDescriptors){
+			if (line.isSelected()){
+				temporal.add(line.getText());
+			}
+		}
+		return (String[]) temporal.toArray();
+			
+	}
 }
