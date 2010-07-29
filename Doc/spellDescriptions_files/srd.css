@@ -1,0 +1,11 @@
+@import "main.css";
+
+body {
+	padding-bottom: 800px;
+}
+
+@media print {
+	body {
+		padding: 10px;
+	}
+}
