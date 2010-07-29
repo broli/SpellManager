@@ -1,5 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -36,23 +34,9 @@ public class AddSpellFrame {
 	final String[] SClases = { "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Wizard"};
 	final String[] SLevels = { "0", "1","2","3","4","5","6","7","8","9"};
 	
-	final String[] SSchools = { "Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"};
-	final String[] SFirstchooseschool = { "Not applicable"};
-	final String[] SConjSubschool = {"None","Calling", "Creation","Healing","Healing","Teleportation"};
-	final String[] SDivSubSchool = { "None", "Scrying"};
-	final String[] SEnchSubSchool = { "None", "Charm", "Compulsion"};
-	final String[] SIluSubSchool = { "Figment", "Glamer", "Pattern", "Phantasm", "Shadow"};
-	
-	final String[] SDescriptor1 = {"acid", "air", "chaotic", "cold", "darkness"}; 
-	final String[] SDescriptor2 = {"death", "earth", "electricity", "evil", "fear"};
-	final String[] SDescriptor3 = {"fire", "force", "good", "language-dependent", "lawful"};
-	final String[] SDescriptor4 = {"light", "mind-affecting", "sonic", "water"};
-	
 	final String[] SDomains1 = { "Air", "Animal", "Chaos", "Death", "Destruction", "Earth", "Evil", "Fire"}; 
 	final String[] SDomains2 = { "Good", "Healing", "Knowledge","Law", "Luck", "Magic", "Plant", "Protection"};
 	final String[] SDomains3 = {"Strength", "Sun", "Travel", "Trickery", "War", "Water"};
-
-	private JComboBox JComboSubSchool;
 
 	public void goMain() {
 		JFrame MainJFrame = new JFrame("SpellManager");
@@ -114,65 +98,12 @@ public class AddSpellFrame {
 		JPTier2_Right.setLayout(new BoxLayout(JPTier2_Right,BoxLayout.Y_AXIS));
 		
 		//School and sub school -----------------------------------------------------------------------------------
-		JPanel JPSchool = new JPanel();
-		JPSchool.setLayout(new BoxLayout(JPSchool,BoxLayout.X_AXIS));
-		JComboBox JComboSchool = new JComboBox(SSchools);
-		JComboSubSchool = new JComboBox(SFirstchooseschool);
-		JComboSubSchool.setEnabled(false);
-		JComboSchool.addActionListener(new SchoolListener());
-		
-		JPSchool.add(JComboSchool);
-		JPSchool.add(JComboSubSchool);
-		JPSchool.setBorder(BorderFactory.createTitledBorder("School and SubSchool"));
-		JPSchool.setMaximumSize(JPSchool.getPreferredSize());
-		JPTier2_Right.add(JPSchool);
+		SchoolWidget Schoolcombo = new SchoolWidget();
+		JPTier2_Right.add(Schoolcombo.getJPanel());
 		
 		//Descriptor
-		JPanel JPDescriptor = new JPanel();
-		JPanel JPDescriptor1 = new JPanel();
-		JPanel JPDescriptor2 = new JPanel();
-		JPanel JPDescriptor3 = new JPanel();
-		JPanel JPDescriptor4 = new JPanel();
-		JPDescriptor.setLayout(new BoxLayout(JPDescriptor,BoxLayout.X_AXIS));
-		JPDescriptor1.setLayout(new BoxLayout(JPDescriptor1,BoxLayout.Y_AXIS));
-		JPDescriptor2.setLayout(new BoxLayout(JPDescriptor2,BoxLayout.Y_AXIS));
-		JPDescriptor3.setLayout(new BoxLayout(JPDescriptor3,BoxLayout.Y_AXIS));
-		JPDescriptor4.setLayout(new BoxLayout(JPDescriptor4,BoxLayout.Y_AXIS));
-		
-		ArrayList<JCheckBox> ArrayJcheckDescriptors = new ArrayList<JCheckBox>(); //To hold all the checkboxes
-		
-		for (String line:SDescriptor1){
-			checkTemporal = new JCheckBox(line);
-			ArrayJcheckDescriptors.add(checkTemporal);
-			JPDescriptor1.add(checkTemporal);
-		}
-		JPDescriptor.add(JPDescriptor1);
-		
-		for (String line:SDescriptor2){
-			checkTemporal = new JCheckBox(line);
-			ArrayJcheckDescriptors.add(checkTemporal);
-			JPDescriptor2.add(checkTemporal);
-		}
-		
-		for (String line:SDescriptor3){
-			checkTemporal = new JCheckBox(line);
-			ArrayJcheckDescriptors.add(checkTemporal);
-			JPDescriptor3.add(checkTemporal);
-		}
-		
-		for (String line:SDescriptor4){
-			checkTemporal = new JCheckBox(line);
-			ArrayJcheckDescriptors.add(checkTemporal);
-			JPDescriptor4.add(checkTemporal);
-		}
-		
-		JPDescriptor.add(JPDescriptor1);
-		JPDescriptor.add(JPDescriptor2);
-		JPDescriptor.add(JPDescriptor3);
-		JPDescriptor.add(JPDescriptor4);
-		JPDescriptor.setBorder(BorderFactory.createTitledBorder("Descriptor(s)"));
-		
-		JPTier2_Right.add(JPDescriptor);
+		DescriptorWidget Descriptors = new DescriptorWidget();
+		JPTier2_Right.add(Descriptors.getJPanel());
 		JPTier2.add(JPTier2_Right);
 		
 		//Tier 3
@@ -249,34 +180,6 @@ public class AddSpellFrame {
 		MainJFrame.setLocationRelativeTo(null);
 		JTFSpellName.requestFocus();
 	} //Public void goMain()
-	
-	public class SchoolListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			JComboBox argument = (JComboBox) arg0.getSource();
-			String Selected = (String)argument.getSelectedItem();
-			String[] temporal= {"None"};
-			if (Selected.equals("Conjuration")){
-				temporal = SConjSubschool;
-			} else if (Selected.equals("Divination")) {
-				temporal = SDivSubSchool;
-			} else if (Selected.equals("Enchantment")) {
-				temporal = SEnchSubSchool;
-			} else if (Selected.equals("Illusion")) {
-				temporal = SIluSubSchool;
-			} 
-			
-			JComboSubSchool.removeAllItems();
-			for (String line: temporal){
-				JComboSubSchool.addItem(line);
-				JComboSubSchool.setEnabled(true);
-			}
-
-				
-		}
-		
-	}
 	
 	
 } //public class MFrame
