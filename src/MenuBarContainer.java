@@ -1,7 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -32,9 +31,9 @@ public class MenuBarContainer {
 	JMenu JMFile=null;
 	JMenu JMTools=null;
 	JMenu JMHelp=null;
-	JFrame MainJFrame=null;
+	AddSpellFrame MainJFrame=null;
 	
-	public MenuBarContainer(JFrame parFrame){
+	public MenuBarContainer(AddSpellFrame parFrame){
 		MainJFrame=parFrame;
 		menuBar = new JMenuBar();
 		JMFile = new JMenu("File");
@@ -87,7 +86,7 @@ public class MenuBarContainer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MainJFrame.dispose();
+			System.exit(0);
 			
 		}
 		
