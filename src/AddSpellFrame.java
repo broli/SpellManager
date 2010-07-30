@@ -1,14 +1,21 @@
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
@@ -43,32 +50,41 @@ public class AddSpellFrame {
 	
 	final String[] SCastingTime = { "Standard Action", "Round(s)", "Free Action" };
 	final String[] SRanges = { "Personal","Touch","Close","Medium","Long","Unlimited"};
-	final String[] STargets = { "Self", "Friend","Foe","Object"};
-	final String[] SDurations = { "","Instantaneous", "Permanent"};
+	
+	final String[] SDurations = { "","Instantaneous", "Permanent","Concentration"};
+	final String[] SSpellResistance = { "No","Yes", "Yes (Harmless)","See Text"};
+	
+	private JFrame MainJFrame=null;
+	private JPanel MainJPanel=null;
+	private HashMap<Integer, JPanel> Tiers = new HashMap<Integer, JPanel>();
 	
 
 	public void goMain() {
-		JFrame MainJFrame = new JFrame("SpellManager");
+		JPanel tempJPanel=null;
+		
+		MainJFrame = new JFrame("SpellManager");
 		MainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel MainJPanel = new JPanel();
+		MainJPanel = new JPanel();
 		MainJPanel.setLayout(new BoxLayout(MainJPanel,BoxLayout.Y_AXIS));
 		
 		
 		//Tier 1 (first line) ----------------------------------------------------------------------
-		JPanel JPTier1 = new JPanel();
+		tempJPanel = new JPanel();
+		Tiers.put(1, tempJPanel);
 		
 		
 		//spell name -----------------------------------------------------------------------------
 		JLabel JLSpellName = new JLabel("Spell Name");
 		JTextField JTFSpellName = new JTextField(25);
-		JPTier1.add(JLSpellName);
-		JPTier1.add(JTFSpellName);
-		JPTier1.setMaximumSize(JPTier1.getPreferredSize());
+		Tiers.get(1).add(JLSpellName);
+		Tiers.get(1).add(JTFSpellName);
+		Tiers.get(1).setMaximumSize(Tiers.get(1).getPreferredSize());
 		
 		//Create a new tier --------------------------------------------------------------------
-		JPanel JPTier2 = new JPanel();
-		JPTier2.setLayout(new BoxLayout(JPTier2,BoxLayout.X_AXIS));
+		tempJPanel = new JPanel();
+		tempJPanel.setLayout(new BoxLayout(tempJPanel,BoxLayout.X_AXIS));
+		Tiers.put(2,tempJPanel);
 		
 		//Class and level selector ---------------------------------------------------------------------------
 		JPanel JPClass_level = new JPanel();
@@ -100,7 +116,7 @@ public class AddSpellFrame {
 		JPClass_level.add(JPClasesCheck);
 		JPClass_level.add(JPLevelCombo);
 		JPClass_level.setBorder(BorderFactory.createTitledBorder("Class and Level"));
-		JPTier2.add(JPClass_level);
+		Tiers.get(2).add(JPClass_level);
 		
 		//This panel is to accommodate School and descriptor options
 		JPanel JPTier2_Right = new JPanel();
@@ -113,7 +129,7 @@ public class AddSpellFrame {
 		//Descriptor
 		DescriptorWidget Descriptors = new DescriptorWidget();
 		JPTier2_Right.add(Descriptors.getJPanel());
-		JPTier2.add(JPTier2_Right);
+		Tiers.get(2).add(JPTier2_Right);
 		
 		//Tier 3
 		JPanel JPTier3 = new JPanel();
@@ -200,26 +216,21 @@ public class AddSpellFrame {
 		JPTier5.setLayout(new BoxLayout(JPTier5,BoxLayout.X_AXIS));
 		
 		//Targets
-		JPanel JPTarget = new JPanel();
-		JPTarget.setLayout(new BoxLayout(JPTarget,BoxLayout.X_AXIS));
-		JPTarget.setBorder(BorderFactory.createTitledBorder("Target(s)"));
-		ArrayList<JCheckBox> ALTargets = new ArrayList<JCheckBox>();
+		JLabel JLTarget = new JLabel(" Target(s) ");
+		JTextField JTFTarget = new JTextField(25);
 		
-		for (String line:STargets){
-			checkTemporal = new JCheckBox(line);
-			JPTarget.add(checkTemporal);
-			ALTargets.add(checkTemporal);
-		}
 		
 		//duration
 		JComboBox JComboDuration = new JComboBox(SDurations);
 		JComboDuration.setEditable(true);
-		JLabel JLDuration = new JLabel("  Duration ");
+		JLabel JLDuration = new JLabel(" Duration ");
 		JComboDuration.setMaximumSize(JComboDuration.getPreferredSize());
 		
-		JPTier5.add(JPTarget);
+		JPTier5.add(JLTarget);
+		JPTier5.add(JTFTarget);
 		JPTier5.add(JLDuration);
 		JPTier5.add(JComboDuration);
+		JPTier5.setMaximumSize(JPTier5.getPreferredSize());
 
 		//Tier 6
 		JPanel JPTier6 = new JPanel();
@@ -229,24 +240,68 @@ public class AddSpellFrame {
 		SavingThrowWidget SavingThrow = new SavingThrowWidget();
 		
 		JPTier6.add(SavingThrow.getJPanel());
+		JPTier6.setMaximumSize(JPTier6.getPreferredSize());
+
+		//tier 7
+		JPanel JPTier7 = new JPanel();
+		JPTier7.setLayout(new BoxLayout(JPTier7,BoxLayout.X_AXIS));
 		
+		//Spell resistance
+		JLabel JLResistance = new JLabel(" Spell Resistance ");
+		JComboBox JComboResistance = new JComboBox(SSpellResistance);
+		JComboResistance.setMaximumSize(JComboResistance.getPreferredSize());
+		
+		//Efect (just a small description)
+		JLabel JLEffect = new JLabel("Effect");
+		JTextField JTFEffect = new JTextField(25);
+		
+		
+		JPTier7.add(JLResistance);
+		JPTier7.add(JComboResistance);
+		JPTier7.add(JLEffect);
+		JPTier7.add(JTFEffect);
 		
 		
 		//Main description area, with scroller ---------------------------------------------------------------
-		//JTextArea JTADescription = new JTextArea(10,100);
-		//JScrollPane JSPTADescription = new JScrollPane(JTADescription);
+		JTextArea JTADescription = new JTextArea(5,50);
+		JScrollPane JSPTADescription = new JScrollPane(JTADescription);
 		
+		//Bottom Buttons
+		JPanel JPControls = new JPanel();
+		JPControls.setLayout(new BoxLayout(JPControls,BoxLayout.LINE_AXIS));
 		
+		JButton JBNext = new JButton("Add & Next");
+		JButton JBAddQuit = new JButton("Add & Quit");
+		JButton JBQuit = new JButton("Quit");
+		JBQuit.addActionListener(new QuitListener());
+		JButton JBClear = new JButton("Clear");
+		
+		JPControls.add(Box.createHorizontalGlue());
+		JPControls.add(JBQuit);
+		JPControls.add(Box.createRigidArea(new Dimension(30, 0)));
+		JPControls.add(JBAddQuit);
+		JPControls.add(Box.createRigidArea(new Dimension(10, 0)));
+		JPControls.add(JBClear);
+		JPControls.add(Box.createRigidArea(new Dimension(10, 0)));
+		JPControls.add(JBNext);
+		
+		//Menues 
+		MenuBarContainer menuBar = new MenuBarContainer(MainJFrame);
 		
 		
 		//Adding everything to the main panel
-		MainJPanel.add(JPTier1);
-		MainJPanel.add(JPTier2);
+		MainJPanel.add(Tiers.get(1));
+		MainJPanel.add(Tiers.get(2));
 		MainJPanel.add(JPTier3);
 		MainJPanel.add(JPTier4);
 		MainJPanel.add(JPTier5);
 		MainJPanel.add(JPTier6);
+		MainJPanel.add(JPTier7);
+		MainJPanel.add(JSPTADescription);
+		MainJPanel.add(JPControls);
 		MainJFrame.getContentPane().add(MainJPanel);
+		//And adding the menubar
+		MainJFrame.setJMenuBar(menuBar.getJMenuBar());
 		
 		MainJFrame.setVisible(true);
 		MainJFrame.setMinimumSize(MainJFrame.getPreferredSize());
@@ -254,5 +309,16 @@ public class AddSpellFrame {
 		JTFSpellName.requestFocus();
 	} //Public void goMain()
 	
+	
+	
+	public class QuitListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			MainJFrame.dispose();
+			
+		}
+		
+	}//Class ButtonListener
 	
 } //public class MFrame

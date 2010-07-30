@@ -38,7 +38,7 @@ public class SavingThrowWidget {
 	private JPanel myPanel=null;
 	
 	public SavingThrowWidget(){
-		JPanel myPanel = new JPanel();
+		myPanel = new JPanel();
 		myPanel.setLayout(new BoxLayout(myPanel,BoxLayout.X_AXIS));
 		JComboSavingThrow = new JComboBox(SSavingThrow);
 		JComboSavingThrow.setEditable(true);
@@ -46,7 +46,7 @@ public class SavingThrowWidget {
 		JComboSavingThrow.addActionListener(new ComboListener());
 		
 		JLSavingThrow = new JLabel(" Saving Throw ");
-		JTASavingThrow = new JTextField();
+		JTASavingThrow = new JTextField(25);
 		Name="Saving Throw";
 		
 		myPanel.add(JLSavingThrow);

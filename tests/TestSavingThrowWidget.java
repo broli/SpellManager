@@ -25,26 +25,26 @@ import javax.swing.JFrame;
  * @author cferrabo
  *
  */
-public class TestDescriptorWidget {
+public class TestSavingThrowWidget {
+	
+	public SavingThrowWidget test;
 
 	/**
 	 * @param args
 	 */
-	
-	public DescriptorWidget test;
-	
 	public static void main(String[] args) {
-		TestDescriptorWidget maingui = new TestDescriptorWidget();
-		maingui.go();
+		TestSavingThrowWidget maine = new TestSavingThrowWidget();
+		maine.go();
 
 	}
 
 	private void go() {
 		JFrame mainframe = new JFrame();
 		JButton boton = new JButton("press me");
-		test = new DescriptorWidget();
 		
-		mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		test = new SavingThrowWidget();
+		
+mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mainframe.getContentPane().add(test.getJPanel(),BorderLayout.CENTER);
 		mainframe.getContentPane().add(boton,BorderLayout.SOUTH);
@@ -61,10 +61,11 @@ public class TestDescriptorWidget {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			test.SetAllDisabled();
+			System.out.println("hooraaa");
 			
 		}
 		
 	}
+	
 
 }

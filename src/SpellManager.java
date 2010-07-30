@@ -25,8 +25,9 @@ public class SpellManager {
 	 */
 	public static void main(String[] args) {
 		AddSpellFrame MainApp = new AddSpellFrame();
+		
 		MainApp.goMain();
-
+		
 	}
 
 }

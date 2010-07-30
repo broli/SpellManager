@@ -117,6 +117,12 @@ public class DescriptorWidget {
 			
 	}
 	
+	public void SetAllDisabled(){
+		for (JCheckBox line: ArrayJcheckDescriptors){
+			line.setSelected(false);
+		}
+	}
+	
 	public String[] getListEnabledArr(){
 		ArrayList<String> temporal = new ArrayList<String>();
 		for (JCheckBox line: ArrayJcheckDescriptors){
