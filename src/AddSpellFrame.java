@@ -1,7 +1,10 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -378,12 +381,24 @@ public class AddSpellFrame {
 	
 	public AddSpellFrame(File parFile) {
 		this.Constructor();
-		SpellFile=parFile;
+		this.setSpellFfile(parFile);
 	}
 	
 	// Setters -------------------------------------------------------------
 	public void setName(String parName){
 		Name = parName;
+	}
+	
+	public void setSpellFfile (File parFile){
+		SpellFile = parFile;
+		if (!SpellFile.exists()) {
+			try {
+				SpellFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// getters -------------------------------------------------------------
@@ -395,6 +410,19 @@ public class AddSpellFrame {
 	@Override
 	public String toString(){
 		return Name;
+	}
+	
+	// Others ----------------------------------------------------------------
+	public void AppendSpell (String parLine){
+		try{
+			BufferedWriter writer = new BufferedWriter(new FileWriter(SpellFile));
+			writer.append(csq)
+			
+		}catch (IOException ex) {
+			System.err.println("Error Appending to Spellfile!!");
+			ex.printStackTrace();
+		}
+		
 	}
 	
 	// Inner Clases *****************************************************************
