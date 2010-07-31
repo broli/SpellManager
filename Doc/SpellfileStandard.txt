@@ -1,0 +1,16 @@
+Spell Name;Class lvl,...;School,Subschool;Descriptor1,...;Component,...;Domains,...;casting time;range;Targets;Duration;Saving Throw;spell resistance;effect;Full description;
+
+Spell Name = 			String, no specific format
+Class lvl = 			class and level, ie "Bard 1, Sorcerer 2,Wizard 2", comma separated list
+School,Subschool = 		ordered pair, separated by commas
+Descriptor =			Comma separated list of descriptors
+Domains =				Comma separated list of domains
+Casting time =			String, with no specific format 
+Range = 				String, no specific format
+Targets = 				String, no specific format
+Duration = 				String, no specific format
+Saving Throw = 			String, no specific format(up to medium size)
+spell resistance = 		String, no specific format(up to medium size)
+effect =				String, no specific format(up to long size)
+Full description = 		String, no specific format(huge)
+

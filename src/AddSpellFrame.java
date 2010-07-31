@@ -395,7 +395,8 @@ public class AddSpellFrame {
 			try {
 				SpellFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.err.println("This was not suposed to happen, i checked if the file exists\n" +
+						"in method setSpellFile(File), catch section");
 				e.printStackTrace();
 			}
 		}
@@ -416,13 +417,25 @@ public class AddSpellFrame {
 	public void AppendSpell (String parLine){
 		try{
 			BufferedWriter writer = new BufferedWriter(new FileWriter(SpellFile));
-			writer.append(csq)
+			writer.write(parLine + "\n");
+			writer.close();
 			
 		}catch (IOException ex) {
 			System.err.println("Error Appending to Spellfile!!");
 			ex.printStackTrace();
 		}
 		
+	}
+	
+	public String getSerializedOption (){
+		/** we need to set a standard for this. Look on the docs folder for the current one
+		 * SpellfileStandard.txt
+		 */
+		String options="lal";
+		
+		
+		
+		return options;
 	}
 	
 	// Inner Clases *****************************************************************
