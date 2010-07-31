@@ -108,9 +108,17 @@ public class DescriptorWidget {
 	
 	public String getListEnabled(){
 		String temporal="";
+		boolean first=true;
+		
 		for (JCheckBox line: ArrayJcheckDescriptors){
 			if (line.isSelected()){
-				temporal = temporal + line.getText() + ", ";
+				if (first) {
+					temporal = temporal + line.getText();
+					first=false;
+				}else {
+					temporal = temporal + ", " + line.getText() ;
+				}
+				
 			}
 		}
 		return temporal;
@@ -133,4 +141,11 @@ public class DescriptorWidget {
 		return (String[]) temporal.toArray();
 			
 	}
+	
+	@Override
+	public String toString(){
+		return this.getListEnabled();
+	}
+	
+	
 }

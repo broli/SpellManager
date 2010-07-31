@@ -61,6 +61,8 @@ public class TestDescriptorWidget {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			System.out.println(test.getListEnabled()+"\n");
+			System.out.println(test+"\n");
 			test.SetAllDisabled();
 			
 		}
