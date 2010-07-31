@@ -63,6 +63,13 @@ public class SpellCaster {
 		return combo;
 	}
 	
+	@Override
+	public String toString(){
+		String temp = name +" "+(String)combo.getSelectedItem();
+		
+		return temp;
+	}
+	
 	public class ClassLevelListener implements  ActionListener {
 
 		@Override

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,7 +64,7 @@ public class AddSpellFrame {
 	private JFrame MainJFrame=null;
 	private JPanel MainJPanel=null;
 	private HashMap<Integer, JPanel> HMapTiers = null;
-	private JSpinner JTACastingTimeNumber=null;
+	
 	
 	//Tier 1 vars
 	private JLabel JLSpellName=null;
@@ -82,9 +83,11 @@ public class AddSpellFrame {
 	private HashMap<String,JCheckBox> HMapComponents = null;
 	private JPanel JPDomains=null;
 	private HashMap<Integer,JPanel> HMapDomains = null;
+	private ArrayList<JCheckBox> ArrayJcheckDomains=null;
 	//tier4
 	private JComboBox JComboCastingtimeunit=null;
 	private JLabel JLCastingtime=null;
+	private JSpinner JTACastingTimeNumber=null;
 	private JLabel JLRange=null;
 	private JComboBox JComboRange=null;
 	//tier5
@@ -108,6 +111,8 @@ public class AddSpellFrame {
 	private JButton JBAddQuit = null;
 	private JButton JBQuit = null;
 	private JButton JBClear = null;
+	
+	private Color prevColor=null;
 	
 	private File SpellFile=null;
 	
@@ -222,7 +227,7 @@ public class AddSpellFrame {
 		HMapDomains.get(3).setLayout(new BoxLayout(HMapDomains.get(3),BoxLayout.X_AXIS));
 		
 		
-		ArrayList<JCheckBox> ArrayJcheckDomains = new ArrayList<JCheckBox>(); //To hold all the checkboxes
+		ArrayJcheckDomains = new ArrayList<JCheckBox>(); //To hold all the checkboxes
 		for (String line:SDomains1){
 			checkTemporal = new JCheckBox(line);
 			ArrayJcheckDomains.add(checkTemporal);
@@ -332,6 +337,7 @@ public class AddSpellFrame {
 		JPControls.setLayout(new BoxLayout(JPControls,BoxLayout.LINE_AXIS));
 		
 		JBNext = new JButton("Add & Next");
+		JBNext.addActionListener(new test());
 		JBAddQuit = new JButton("Add & Quit");
 		JBQuit = new JButton("Quit");
 		JBQuit.addActionListener(new QuitListener());
@@ -427,15 +433,102 @@ public class AddSpellFrame {
 		
 	}
 	
-	public String getSerializedOption (){
+	public String getSpellasTextline (){
 		/** we need to set a standard for this. Look on the docs folder for the current one
 		 * SpellfileStandard.txt
 		 */
-		String options="lal";
+		String options=null;
+		boolean primero=true;
+		boolean chainerror=false;
+		
+		//Spell name
+		if (!chainerror){
+			if (JTFSpellName.getText().isEmpty()) {
+				JTFSpellName.requestFocus();
+				chainerror=true;
+			}else {
+				options=JTFSpellName.getText()+";";
+			}
+		}
+		
+		//Spell casters
+		primero=true;
+		if (!chainerror) {
+			for (SpellCaster line:SpellCasterarr) {
+				if (line.getCheckBox().isSelected()) {
+					if (primero){
+						options = options + line.toString();
+						primero=false;
+					}else {
+						options = options + ", "+line.toString();
+					}
+				}//if its enabled
+			}
+			if (primero){
+				chainerror=true;
+			}
+
+			options = options + ";";
+		}
+		
+		//Schools
+		if (!chainerror) {
+			options = options + Schoolcombo.toString()+";";
+		}
+		//Descriptors
+		if (!chainerror){
+			options = options + Descriptors.toString()+";";
+		}
+		//Components
+		if (!chainerror) {
+			primero=true;
+			for (String line:SComponents){
+				if (HMapComponents.get(line).isSelected()){
+					if (primero){
+						options = options + line;
+						primero=false;
+					}else{
+						options = options +", "+ line;
+					}
+				}
+			}
+			options = options + ";";
+		}
+		
+		//Domains
+		if (!chainerror) {
+			primero=true;
+			for (JCheckBox line:ArrayJcheckDomains){
+				if (line.isSelected()){
+					if (primero){
+						options = options + line.getText();
+					}else {
+						options = options + ", "+ line.getText();
+					}
+				}
+			} //for each element in ArrayJcheckDomains
+			options = options + ";";
+		}//if chain errors
+		
+		//casting time
+		if (!chainerror) {
+			String temp=null;
+			temp = (String)JComboCastingtimeunit.getSelectedItem();
+			if (!temp.isEmpty()){
+				options = options + JTACastingTimeNumber.getValue() +" "+temp;
+			}else {
+				chainerror=true;
+			}
+			options = options + ";";
+		}
 		
 		
 		
-		return options;
+		if (chainerror) {
+			return "";
+		}else {
+			return options;
+		}
 	}
 	
 	// Inner Clases *****************************************************************
@@ -449,5 +542,14 @@ public class AddSpellFrame {
 		}
 		
 	}//Class ButtonListener
+	public class test implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JTADescription.setText(getSpellasTextline());
+			
+		}
+		
+	}
 	
 } //public class MFrame

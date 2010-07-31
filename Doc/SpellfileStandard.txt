@@ -4,6 +4,7 @@ Spell Name = 			String, no specific format
 Class lvl = 			class and level, ie "Bard 1, Sorcerer 2,Wizard 2", comma separated list
 School,Subschool = 		ordered pair, separated by commas
 Descriptor =			Comma separated list of descriptors
+Components =			Comma separated list of components
 Domains =				Comma separated list of domains
 Casting time =			String, with no specific format 
 Range = 				String, no specific format

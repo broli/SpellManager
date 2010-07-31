@@ -87,7 +87,12 @@ public class SchoolWidget {
 	public JPanel getJPanel(){
 		return JPSchool;
 	}
-	
+	//Override
+	@Override
+	public String toString() {
+		String temp = (String)JComboSchool.getSelectedItem()+","+ (String)JComboSubSchool.getSelectedItem();
+		return temp;
+	}
 	
 	
 	public class SchoolListener implements ActionListener {
@@ -115,5 +120,6 @@ public class SchoolWidget {
 			JPSchool.setMaximumSize(JPSchool.getPreferredSize());
 				
 		}
+
 	}
 }

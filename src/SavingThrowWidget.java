@@ -71,6 +71,20 @@ public class SavingThrowWidget {
 		return myPanel;
 	}
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String temporal;
+		temporal = (String)JComboSavingThrow.getSelectedItem()+","+JTASavingThrow.getText();
+		return temporal;
+	}
+
+
+
 	public class ComboListener implements ActionListener {
 
 		@Override
