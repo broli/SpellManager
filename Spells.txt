@@ -1,0 +1,4 @@
+a;Bard 0;Conjuration,Calling;acid;Somatic;Animal;1 Standard Action;Personal;b;Instantaneous;None,;No;c;asd;
+spell name;Cleric 2;Conjuration,Healing;lawful;Verbal, Somatic;Healing;1 Standard Action;Personal;you;Instantaneous;None,;Yes;Heals;heals you alot;
+a;Bard 0;Abjuration,None;cold;Material;Death;1 Standard Action;Personal;aa;Instantaneous;None,;No;hhhh;h;
+

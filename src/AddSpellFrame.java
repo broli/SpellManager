@@ -337,7 +337,7 @@ public class AddSpellFrame {
 		JPControls.setLayout(new BoxLayout(JPControls,BoxLayout.LINE_AXIS));
 		
 		JBNext = new JButton("Add & Next");
-		JBNext.addActionListener(new test());
+		JBNext.addActionListener(new AddNext());
 		JBAddQuit = new JButton("Add & Quit");
 		JBQuit = new JButton("Quit");
 		JBQuit.addActionListener(new QuitListener());
@@ -422,7 +422,7 @@ public class AddSpellFrame {
 	// Others ----------------------------------------------------------------
 	public void AppendSpell (String parLine){
 		try{
-			BufferedWriter writer = new BufferedWriter(new FileWriter(SpellFile));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(SpellFile,true));
 			writer.write(parLine + "\n");
 			writer.close();
 			
@@ -438,6 +438,7 @@ public class AddSpellFrame {
 		 * SpellfileStandard.txt
 		 */
 		String options=null;
+		String temp=null;
 		boolean primero=true;
 		boolean chainerror=false;
 		
@@ -512,7 +513,7 @@ public class AddSpellFrame {
 		
 		//casting time
 		if (!chainerror) {
-			String temp=null;
+			
 			temp = (String)JComboCastingtimeunit.getSelectedItem();
 			if (!temp.isEmpty()){
 				options = options + JTACastingTimeNumber.getValue() +" "+temp;
@@ -521,14 +522,62 @@ public class AddSpellFrame {
 			}
 			options = options + ";";
 		}
+		//Range
+		temp=null;
+		if (!chainerror) {
+			temp = (String)JComboRange.getSelectedItem();
+			if (!temp.isEmpty()){
+				options = options + temp+";";
+			}else{
+				chainerror=true;
+			}
+			
+		}
+		//Targets
+		if (!chainerror) {
+			if (!JTFTarget.getText().isEmpty()){
+				options = options + JTFTarget.getText()+";";
+			}else{
+				chainerror=true;
+			}
+		}
+
+		//Duration
+		if (!chainerror) {
+			options = options + JComboDuration.getSelectedItem()+";";
+		}
+		//Saving Throw
+		if (!chainerror) {
+			options = options + SavingThrow.toString()+";";
+		}
+		//spell resistance
+		if (!chainerror) {
+			options = options + JComboResistance.getSelectedItem()+";";
+		}
+		//effect
+		if (!chainerror) {
+			options = options + JTFEffect.getText()+";";
+		}
+		//Full description
+		if (!chainerror) {
+			options = options + JTADescription.getText()+";";
+		}
 		
-		
-		
+		//And if nothing went wrong, we report the result
 		if (chainerror) {
 			return "";
 		}else {
 			return options;
 		}
+	}
+	
+	public void  resetForm (){
+		JTFSpellName.setText("");
+		
+		for (SpellCaster line:SpellCasterarr) {
+			line.clear();
+		}
+		
 	}
 	
 	// Inner Clases *****************************************************************
@@ -541,12 +590,19 @@ public class AddSpellFrame {
 			
 		}
 		
-	}//Class ButtonListener
-	public class test implements ActionListener {
+	}//Class Add&next listener
+	public class AddNext implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JTADescription.setText(getSpellasTextline());
+			String line=null;
+			line = getSpellasTextline();
+			if (!line.isEmpty()){
+				AppendSpell(getSpellasTextline());
+			}else {
+				// TODO show a message saying there was an error generating the string
+			}
+			resetForm();
 			
 		}
 		

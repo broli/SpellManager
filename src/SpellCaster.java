@@ -70,6 +70,11 @@ public class SpellCaster {
 		return temp;
 	}
 	
+	public void clear (){
+		combo.setSelectedIndex(0);
+		check.setSelected(false);
+	}
+	
 	public class ClassLevelListener implements  ActionListener {
 
 		@Override
@@ -77,5 +82,6 @@ public class SpellCaster {
 			check.setSelected(true);
 		}
 	}
+	
 	
 }

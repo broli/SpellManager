@@ -47,6 +47,7 @@ public class SavingThrowWidget {
 		
 		JLSavingThrow = new JLabel(" Saving Throw ");
 		JTASavingThrow = new JTextField(25);
+		JTASavingThrow.setEnabled(false);//the default position of the combo box is "None" so we disable the text field
 		Name="Saving Throw";
 		
 		myPanel.add(JLSavingThrow);
@@ -89,8 +90,13 @@ public class SavingThrowWidget {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			
-			
+			JComboBox source = (JComboBox)arg0.getSource();
+			String Ssource = (String)source.getSelectedItem();
+			if (Ssource.equalsIgnoreCase("None")){
+				JTASavingThrow.setEnabled(false);
+			}else {
+				JTASavingThrow.setEnabled(true);
+			}
 		}
 		
 	}
