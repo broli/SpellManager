@@ -388,6 +388,9 @@ public class AddSpellFrame {
 	public JLabel getJLSpellName(){
 		return JLSpellName;
 	}
+	public JFrame getMainJFrame(){
+		return MainJFrame;
+	}
 	
 	//Overrides 
 	@Override
@@ -586,6 +589,7 @@ public class AddSpellFrame {
 	}
 
 	public void dispose() {
+		//nothing much for now, but i might need it in the future
 		MainJFrame.dispose();
 		System.exit(0);
 	}

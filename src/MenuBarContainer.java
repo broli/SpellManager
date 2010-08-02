@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,10 +32,10 @@ public class MenuBarContainer {
 	JMenu JMFile=null;
 	JMenu JMTools=null;
 	JMenu JMHelp=null;
-	AddSpellFrame MainJFrame=null;
+	AddSpellFrame MainFrame=null;
 	
 	public MenuBarContainer(AddSpellFrame parFrame){
-		MainJFrame=parFrame;
+		MainFrame=parFrame;
 		menuBar = new JMenuBar();
 		JMFile = new JMenu("File");
 		JMTools = new JMenu("Tools");
@@ -75,7 +76,13 @@ public class MenuBarContainer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("tocaste " + e.getSource().toString());
+			JFileChooser fc = new JFileChooser();
+			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			
+			int returnVal = fc.showOpenDialog(MainFrame.getMainJFrame());
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            MainFrame.setSpellFfile(fc.getSelectedFile());
+	        } 
 			
 		}
 		
@@ -86,7 +93,7 @@ public class MenuBarContainer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
+			MainFrame.dispose();
 			
 		}
 		
