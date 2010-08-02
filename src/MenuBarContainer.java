@@ -5,6 +5,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /* This file is part of SpellManager
  *
@@ -103,7 +104,10 @@ public class MenuBarContainer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("tocaste " + e.getSource().toString());
+			JOptionPane.showMessageDialog(MainFrame.getMainJFrame().getContentPane(), 
+					"This options is not implemented yet,\n " +
+					"but if you need to move the file, this is it\n"+
+					MainFrame.getSpellFile().getAbsolutePath());
 			
 		}
 		
@@ -113,7 +117,10 @@ public class MenuBarContainer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("tocaste " + e.getSource().toString());
+			JOptionPane.showMessageDialog(MainFrame.getMainJFrame().getContentPane(), 
+					"SpellManager by Carlos Ferrabone\n" +
+					"Visit http://github.com/broli/SpellManager\n" +
+					"To submit Bugs, requests, or to send me cookies");
 			
 		}
 		

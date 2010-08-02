@@ -391,6 +391,9 @@ public class AddSpellFrame {
 	public JFrame getMainJFrame(){
 		return MainJFrame;
 	}
+	public File getSpellFile(){
+		return SpellFile;
+	}
 	
 	//Overrides 
 	@Override
