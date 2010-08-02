@@ -94,6 +94,10 @@ public class SchoolWidget {
 		return temp;
 	}
 	
+	public void reset(){
+		JComboSchool.setSelectedIndex(0);
+		JComboSubSchool.setSelectedIndex(0);
+	}
 	
 	public class SchoolListener implements ActionListener {
 

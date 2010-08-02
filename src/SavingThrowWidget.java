@@ -72,7 +72,10 @@ public class SavingThrowWidget {
 		return myPanel;
 	}
 	
-	
+	public void clear(){
+		JComboSavingThrow.setSelectedIndex(0);
+		JTASavingThrow.setText("");
+	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

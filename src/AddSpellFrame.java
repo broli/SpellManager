@@ -1,7 +1,3 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +8,6 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -106,13 +101,7 @@ public class AddSpellFrame {
 	private JTextArea JTADescription=null;
 	private JScrollPane JSPTADescription=null;
 	//tier buttons
-	private JPanel JPControls=null;
-	private JButton JBNext=null;
-	private JButton JBAddQuit = null;
-	private JButton JBQuit = null;
-	private JButton JBClear = null;
-	
-	private Color prevColor=null;
+	BottomButtonsManager BottomButtons=null;
 	
 	private File SpellFile=null;
 	
@@ -330,27 +319,14 @@ public class AddSpellFrame {
 		
 		//Main description area, with scroller 
 		JTADescription = new JTextArea(5,50);
+		JTADescription.setLineWrap(true);
 		JSPTADescription = new JScrollPane(JTADescription);
 		
 		//Bottom Buttons
-		JPControls= new JPanel();
-		JPControls.setLayout(new BoxLayout(JPControls,BoxLayout.LINE_AXIS));
-		
-		JBNext = new JButton("Add & Next");
-		JBNext.addActionListener(new AddNext());
-		JBAddQuit = new JButton("Add & Quit");
-		JBQuit = new JButton("Quit");
-		JBQuit.addActionListener(new QuitListener());
-		JBClear = new JButton("Clear");
-		
-		JPControls.add(Box.createHorizontalGlue());
-		JPControls.add(JBQuit);
-		JPControls.add(Box.createRigidArea(new Dimension(30, 0)));
-		JPControls.add(JBAddQuit);
-		JPControls.add(Box.createRigidArea(new Dimension(10, 0)));
-		JPControls.add(JBClear);
-		JPControls.add(Box.createRigidArea(new Dimension(10, 0)));
-		JPControls.add(JBNext);
+		/**
+
+		*/
+		BottomButtons = new BottomButtonsManager(this);
 		
 		//Menues 
 		MenuBarContainer menuBar = new MenuBarContainer(this);
@@ -365,7 +341,7 @@ public class AddSpellFrame {
 		MainJPanel.add(HMapTiers.get(6));
 		MainJPanel.add(HMapTiers.get(7));
 		MainJPanel.add(JSPTADescription);
-		MainJPanel.add(JPControls);
+		MainJPanel.add(BottomButtons.getPanel());
 		MainJFrame.getContentPane().add(MainJPanel);
 		//And adding the menubar
 		MainJFrame.setJMenuBar(menuBar.getJMenuBar());
@@ -578,34 +554,41 @@ public class AddSpellFrame {
 			line.clear();
 		}
 		
-	}
-	
-	// Inner Clases *****************************************************************
-	public class QuitListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			MainJFrame.dispose();
-			System.exit(0);
-			
+		Schoolcombo.reset();
+		
+		Descriptors.SetAllDisabled();
+		
+		for (String line:SComponents){
+			HMapComponents.get(line).setSelected(false);
 		}
 		
-	}//Class Add&next listener
-	public class AddNext implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String line=null;
-			line = getSpellasTextline();
-			if (!line.isEmpty()){
-				AppendSpell(getSpellasTextline());
-			}else {
-				// TODO show a message saying there was an error generating the string
+		for (JCheckBox line:ArrayJcheckDomains){
+			line.setSelected(false);
 			}
-			resetForm();
-			
-		}
+		
+		JTACastingTimeNumber.setValue(1);
+		JComboCastingtimeunit.setSelectedIndex(0);
+		
+		JComboRange.setSelectedIndex(0);
+		
+		JTFTarget.setText("");
+		
+		JComboDuration.setSelectedIndex(0);
+		
+		SavingThrow.clear();
+		
+		JComboResistance.setSelectedIndex(0);
+		
+		JTFEffect.setText("");
+		
+		JTADescription.setText("");
 		
 	}
+
+	public void dispose() {
+		MainJFrame.dispose();
+		System.exit(0);
+	}
 	
+
 } //public class MFrame
