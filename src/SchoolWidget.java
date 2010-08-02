@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 public class SchoolWidget {
 	
 	//Variables
-	private final String[] SSchools = { "Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"};
+	private final String[] SSchools = { "Universal","Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"};
 	private final String[] SInitialSubSchool = { "None" };
 	private final String[] SConjSubschool = {"None","Calling", "Creation","Healing","Healing","Teleportation"};
 	private final String[] SDivSubSchool = { "None", "Scrying"};
