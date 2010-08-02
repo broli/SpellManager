@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,7 +7,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.GroupLayout.Alignment;
 
 /* This file is part of SpellManager
 *
@@ -46,7 +44,7 @@ public class SpellManager {
 	}
 
 	private void showframe() {
-		JFrame MainFrame = new JFrame("Spell Manager");
+		JFrame MainFrame = new JFrame("Add Spell");
 		JPanel MainPanel = new JPanel();
 		JButton JBaddSpells = new JButton("Add more spells");
 		JButton JBquit = new JButton("Quit");
