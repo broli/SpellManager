@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 public class SpellManager {
 	
 	private AddSpellFrame AddSpellApp=null;
+	private ViewSpellsFrame ViewSpellsApp=null;
 	
 	/**
 	 * @param args
@@ -48,6 +49,7 @@ public class SpellManager {
 		JPanel MainPanel = new JPanel();
 		JButton JBaddSpells = new JButton("Add more spells");
 		JButton JBquit = new JButton("Quit");
+		JButton JBViewSpells = new JButton("View Spells");
 		
 		MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
 		//MainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -55,14 +57,16 @@ public class SpellManager {
 		JBaddSpells.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JBquit.addActionListener(new butonsListeners());
 		JBquit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JBViewSpells.addActionListener(new butonsListeners());
+		JBViewSpells.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		MainPanel.add(JBaddSpells);
-		
+		MainPanel.add(JBViewSpells);
 		MainPanel.add(JBquit);
 		
 		MainFrame.getContentPane().add(MainPanel,BorderLayout.CENTER);
 		
-		
+		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainFrame.setVisible(true);
 		MainFrame.setSize(MainFrame.getPreferredSize());
 		MainFrame.setMinimumSize(MainFrame.getPreferredSize());
@@ -86,6 +90,8 @@ public class SpellManager {
 			}else if (SSource.equalsIgnoreCase("Quit")){
 				disposeClients();
 				System.exit(0);
+			} else if (SSource.equalsIgnoreCase("View Spells")){
+				 ViewSpellsApp = new ViewSpellsFrame();
 			}
 			
 		}
