@@ -53,7 +53,7 @@ public class SpellManager {
 	}
 
 	private void showframe() {
-		
+		LoadSettings();
 		JFrame MainFrame = new JFrame("Add Spell");
 		JPanel MainPanel = new JPanel();
 		JButton JBaddSpells = new JButton("Add more spells");
@@ -102,6 +102,10 @@ public class SpellManager {
 			settings = new Settings();
 		} catch (IOException e) {
 			e.printStackTrace();
+			settings = new Settings();
+			JOptionPane.showMessageDialog(null, settings.getString("CantReadConfigfile")+"\n"
+					+temp.getAbsolutePath()+"\n"
+					+settings.getString("CorruptedOrWrongFile"));
 		} catch (ClassNotFoundException e) {
 			settings = new Settings();
 			JOptionPane.showMessageDialog(null, settings.getString("CantReadConfigfile")

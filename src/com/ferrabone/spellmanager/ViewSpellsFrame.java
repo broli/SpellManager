@@ -1,6 +1,8 @@
 package com.ferrabone.spellmanager;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /* This file is part of SpellManager
  *
@@ -26,6 +28,8 @@ public class ViewSpellsFrame {
 	
 	private JFrame MainJFrame = null;
 	private JPanel MainJPanel = null;
+	private JTextArea JTAtext = null;
+	private JScrollPane JSPscroller = null;
 	
 	public ViewSpellsFrame(Settings settings) {
 
@@ -33,10 +37,14 @@ public class ViewSpellsFrame {
 		setMainJPanel(new JPanel());
 		
 		// TODO add a text area, and load the text in here
+		JTAtext = new JTextArea(10,40);
+		JTAtext.setMinimumSize(JTAtext.getPreferredScrollableViewportSize());
+		JSPscroller = new JScrollPane(JTAtext);
+		MainJPanel.add(JSPscroller);
 		// TODO add buttons for prev, next, quit, and tied it to the reading
 		
 		// TODO make the default option to free memory but not end main app
-		MainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		MainJFrame.getContentPane().add(MainJPanel);
 		MainJFrame.setVisible(true);
 		MainJFrame.setSize(MainJFrame.getPreferredSize());
 		MainJFrame.setMinimumSize(MainJFrame.getPreferredSize());

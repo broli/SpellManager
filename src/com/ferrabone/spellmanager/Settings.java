@@ -1,6 +1,5 @@
 package com.ferrabone.spellmanager;
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -187,29 +186,6 @@ public class Settings implements Serializable {
 		return SpellFile;
 	}
 	
-	private void prepareFile (File parFile){
-		boolean success=false;
-		
-		if (!parFile.exists()){
-			try {
-				parFile.createNewFile();
-				parFile.setReadable(true);
-				parFile.setWritable(true);
-				success=true;
-			} catch (IOException e) {
-				success = false;
-			}
-		}else {
-			if (!parFile.canRead()){
-				success = parFile.setReadable(true);
-			}
-			if (!parFile.canWrite()){
-				if (success){
-					success = parFile.setWritable(true);
-				}
-			}
-		}
-	}
 	
 	private void myconstructor (){
 		File configfile=null;
@@ -218,7 +194,6 @@ public class Settings implements Serializable {
 		configfile = new File("config.cfg");
 		
 		setConfigfile(configfile);
-		prepareFile(configfile);
 		setDefaultLanguage();
 		setDefaultCountry();
 		setCurrentLocale();

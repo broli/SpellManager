@@ -120,8 +120,6 @@ public class AddSpellFrame {
 		HMapDomains = new HashMap<Integer,JPanel>();//create the empty hashmap
 		
 		MainJFrame = new JFrame("SpellManager");
-		// TODO make the default option to free memory but not end main app
-		MainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		MainJPanel = new JPanel();
 		MainJPanel.setLayout(new BoxLayout(MainJPanel,BoxLayout.Y_AXIS));
