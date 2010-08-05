@@ -91,26 +91,57 @@ public class SpellManager {
 		
 	}
 	
+	private void ShowErr(String message){
+		JOptionPane.showMessageDialog(null, message);
+	}
+	
 	private void LoadSettings(){
-		File temp = new File("config.cfg");
-		 
+		File ConfDir = new File(System.getProperty("user.home")+File.pathSeparator+".SpellManager");
+		
+		//test if it exist
+		if (!ConfDir.exists()) {
+			//if it dosnt, change to the current dir
+			ConfDir = new File(System.getProperty("user.dir"));
+		}
+		File Configfile = new File(ConfDir.getAbsolutePath()+File.pathSeparator+"config.cfg");
+		
 		ObjectInputStream is;
 		try {
-			is = new ObjectInputStream(new FileInputStream(temp));
+			is = new ObjectInputStream(new FileInputStream(Configfile));
 			settings =(Settings) is.readObject() ;
 		} catch (FileNotFoundException e) {
-			settings = new Settings();
+			ShowErr("Can't read configuration file\n"+Configfile.getAbsolutePath()+"\nCorrupted or wrong file, Reverting to English defaults");
+			try {
+				settings = new Settings();
+			} catch (IOException e1) {
+				//we are screwed. no config file, and cant create a new config object.
+				//tell the user and die
+				ShowErr("Cant find a Language pack. Place one in the main folder");
+				e1.printStackTrace();
+				System.exit(1);
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
-			settings = new Settings();
-			JOptionPane.showMessageDialog(null, settings.getString("CantReadConfigfile")+"\n"
-					+temp.getAbsolutePath()+"\n"
-					+settings.getString("CorruptedOrWrongFile"));
+			ShowErr("Can't read configuration file\n"+Configfile.getAbsolutePath()+"\nCorrupted or wrong file, Reverting to English defaults");
+			try {
+				settings = new Settings();
+			} catch (IOException e1) {
+				//we are screwed. no config file, and cant create a new config object.
+				//tell the user and die
+				e1.printStackTrace();
+				ShowErr("Cant find a Language pack. Place one in the main folder");
+				System.exit(1);
+			}
 		} catch (ClassNotFoundException e) {
-			settings = new Settings();
-			JOptionPane.showMessageDialog(null, settings.getString("CantReadConfigfile")
-					+temp.getAbsolutePath()
-					+settings.getString("CorruptedOrWrongFile"));
+			ShowErr("Can't read configuration file\n"+Configfile.getAbsolutePath()+"\nCorrupted or wrong file, Reverting to English defaults");
+			try {
+				settings = new Settings();
+			} catch (IOException e1) {
+				//we are screwed. no config file, and cant create a new config object.
+				//tell the user and die
+				e1.printStackTrace();
+				ShowErr("Cant find a Language pack. Place one in the main folder");
+				System.exit(1);
+			}
 			
 		}
 		

@@ -15,6 +15,12 @@
 */
 package com.ferrabone.spellmanager;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.StringTokenizer;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,7 +33,21 @@ public class SettingsFrame {
 	private Settings settings;
 	private JFrame MainJFrame = null;
 	private JPanel MainJPanel = null;
+	private HashMap<Integer, Locale> HMapLocale = null;
 	
+	private HashMap<Integer, Locale> getAvailableLanguages(){
+		HashMap<Integer, Locale> temporal= new HashMap<Integer, Locale>();
+		File pwd = settings.getConfigfile();
+		File[] langPackages=null;
+		
+		langPackages = pwd.listFiles(new LangPackFilter());
+		for (File line:langPackages){
+			StringTokenizer st = new StringTokenizer(line.getName(), "_.");
+
+		}
+		
+		return temporal;
+	}
 	/**
 	 * 
 	 * @param settings
@@ -36,8 +56,21 @@ public class SettingsFrame {
 		this.settings = settings;
 		
 		MainJFrame = new JFrame(settings.getString("SettingsFrameTitle"));
+		MainJPanel = new JPanel();
+		HMapLocale = getAvailableLanguages();
 		
 		
 	}
+	
+	public class LangPackFilter implements FilenameFilter {
 
+		@Override
+		public boolean accept(File dir, String name) {
+			if ((name.startsWith("LangPack")) &&(name.endsWith("properties")) ){
+				return true;
+			}
+			return false;
+		}
+		
+	}
 }
