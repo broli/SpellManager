@@ -39,12 +39,27 @@ public class SettingsFrame {
 		HashMap<Integer, Locale> temporal= new HashMap<Integer, Locale>();
 		File pwd = settings.getConfigfile();
 		File[] langPackages=null;
+		String language=null;
+		String country=null;
+		int loopcount=0;
 		
 		langPackages = pwd.listFiles(new LangPackFilter());
-		for (File line:langPackages){
-			StringTokenizer st = new StringTokenizer(line.getName(), "_.");
-
-		}
+		for (File line:langPackages){  //for each file that matched the filter
+			StringTokenizer st = new StringTokenizer(line.getName(), "_.");  //create the tokenizer
+			if (st.countTokens() == 4){   //if it has 4 parts exactly ( LangPack, <language>,<country>, properties)
+				while(st.hasMoreTokens()) { //just to be sure but should be needed 
+                    String key = st.nextToken(); // read the next key
+                    if (st.countTokens() == 3){ //if its the 2 token is the language (remember i made sure it has exactly 4)
+                    	language = key;
+                    }else if (st.countTokens() == 2){//if its the 3 token is the country (remember i made sure it has exactly 4) 
+                    	country = key;
+                    }// if its 2 or 3 token
+                    
+				} //tokenizer ran out of tokens
+				temporal.put(loopcount, new Locale(language,country));
+			}// if the name file was splited in 4 
+			loopcount++;
+		}// for each file that matched the filter
 		
 		return temporal;
 	}
