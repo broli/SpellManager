@@ -1,8 +1,9 @@
 package com.ferrabone.spellmanager;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /* This file is part of SpellManager
@@ -40,12 +41,15 @@ public class Settings implements Serializable {
     private File LangPackagedir;
     private File Configfile;
     private File SpellFile;
+    private String LangPack = "LangPack";
 
     
     
 	/**
 	 * @param language the language to set
 	 * if the String is empty, it sets the default
+	 * Warning changing this will update all relevant info
+	 * 
 	 */
 	public void setLanguage(String language) {
 		if (!language.isEmpty()){
@@ -137,16 +141,20 @@ public class Settings implements Serializable {
 	 * resource bundle in file with prefix "LangPack"
 	 * and the current Locale
 	 */
-	public void setDefaultStrings() {
-		this.strings = ResourceBundle.getBundle("LangPack",this.currentLocale);
+	public void setDefaultStrings() throws MissingResourceException{
+		setStrings(this.LangPack);
 	}
 	
 	/**
 	 * 
 	 * @param LangPack Prefix of the Language file
 	 */
-	public void setStrings(String LangPack) {
-		this.strings = ResourceBundle.getBundle(LangPack,this.currentLocale);
+	public void setStrings(String LangPack) throws MissingResourceException {
+		try {
+			this.strings = ResourceBundle.getBundle(LangPack,this.currentLocale);
+		} catch (MissingResourceException e)  {
+			throw e;
+		}
 	}
 	/**
 	 * @return the strings
@@ -217,30 +225,45 @@ public class Settings implements Serializable {
 		return LangPackagedir;
 	}
 	
-	private void myconstructor () throws IOException{
+	private void setDirs() throws FileNotFoundException{
 
 		//a nice default
-		ConfDir = new File(System.getProperty("user.home")+File.pathSeparator+".SpellManager");
+		ConfDir = new File(System.getProperty("user.home")+File.separator+".SpellManager");
 		//test if it exist
 		if (!ConfDir.exists()) {
 			//if it dosnt, change to the current dir
 			ConfDir = new File(System.getProperty("user.dir"));
 		}
 		
-		Configfile = new File(ConfDir.getAbsolutePath()+File.pathSeparator+"config.cfg");
-		LangPackagedir = new File(ConfDir.getAbsolutePath()+File.pathSeparator+"Languages");
+		Configfile = new File(ConfDir.getAbsolutePath()+File.separator+"config.cfg");
+		LangPackagedir = new File(ConfDir.getAbsolutePath()+File.separator+"Languages");
 		if (!LangPackagedir.exists()){
 			//we dont have a language file
-			throw new IOException("Cant find Languages folder");
+			System.err.println(System.getProperty("user.dir"));
+			System.err.println(LangPackagedir.getAbsolutePath());
+			throw new FileNotFoundException("Cant find Languages folder");
 		}
 		
+		
+	}
+	
+	public Settings() throws FileNotFoundException,MissingResourceException{
+		this.setDirs();
 		setDefaultLanguage();
 		setDefaultCountry();
 		setCurrentLocale();
 		setDefaultStrings();
 	}
-	
-	public Settings() throws IOException{
-		this.myconstructor();
+	/**
+	 * @param locale The locale to load the messageBundle
+	 * @throws FileNotFoundException
+	 */
+	public Settings(Locale locale) throws FileNotFoundException,MissingResourceException{
+		this.setDirs();
+		setLanguage(locale.getLanguage());
+		setCountry(locale.getCountry());
+		setCurrentLocale(locale);
+		setDefaultStrings();
 	}
+	
 }

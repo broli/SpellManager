@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -33,15 +34,15 @@ public class SettingsFrame {
 	private Settings settings;
 	private JFrame MainJFrame = null;
 	private JPanel MainJPanel = null;
-	private HashMap<Integer, Locale> HMapLocale = null;
+	private HashMap<String, Locale> HMapLocale = null;
+	private JComboBox JComboLanguages=null;
 	
-	private HashMap<Integer, Locale> getAvailableLanguages(){
-		HashMap<Integer, Locale> temporal= new HashMap<Integer, Locale>();
-		File pwd = settings.getConfigfile();
+	private HashMap<String,Locale> getAvailableLanguages(){
+		HashMap<String, Locale> temporal= new HashMap<String, Locale>();
+		File pwd = settings.getLangPackagedir();
 		File[] langPackages=null;
 		String language=null;
 		String country=null;
-		int loopcount=0;
 		
 		langPackages = pwd.listFiles(new LangPackFilter());
 		for (File line:langPackages){  //for each file that matched the filter
@@ -49,16 +50,16 @@ public class SettingsFrame {
 			if (st.countTokens() == 4){   //if it has 4 parts exactly ( LangPack, <language>,<country>, properties)
 				while(st.hasMoreTokens()) { //just to be sure but should be needed 
                     String key = st.nextToken(); // read the next key
-                    if (st.countTokens() == 3){ //if its the 2 token is the language (remember i made sure it has exactly 4)
+                    if (st.countTokens() == 2){ //if its the 2 token is the language (remember i made sure it has exactly 4)
                     	language = key;
-                    }else if (st.countTokens() == 2){//if its the 3 token is the country (remember i made sure it has exactly 4) 
+                    }else if (st.countTokens() == 1){//if its the 3 token is the country (remember i made sure it has exactly 4) 
                     	country = key;
                     }// if its 2 or 3 token
                     
 				} //tokenizer ran out of tokens
-				temporal.put(loopcount, new Locale(language,country));
+				Locale tempLocale = new Locale(language,country);
+				temporal.put(tempLocale.getDisplayName(), tempLocale);
 			}// if the name file was splited in 4 
-			loopcount++;
 		}// for each file that matched the filter
 		
 		return temporal;
@@ -74,7 +75,14 @@ public class SettingsFrame {
 		MainJPanel = new JPanel();
 		HMapLocale = getAvailableLanguages();
 		
+		JComboLanguages = new JComboBox(HMapLocale.keySet().toArray());
+		MainJPanel.add(JComboLanguages);
 		
+		
+		MainJFrame.getContentPane().add(MainJPanel);
+		MainJFrame.setVisible(true);
+		MainJFrame.setSize(MainJFrame.getPreferredSize());
+		//MainJFrame.setMinimumSize(MainJFrame.getPreferredSize());
 	}
 	
 	public class LangPackFilter implements FilenameFilter {
