@@ -168,8 +168,12 @@ public class Settings implements Serializable {
 	 * @param Key the key to retrieve
 	 * @return The string associated with the key
 	 */
-	public String getString(String Key){
-		return this.getStrings().getString(Key);
+	public String getString(String Key) throws MissingResourceException {
+		try {
+			return this.getStrings().getString(Key);
+		}catch (MissingResourceException e)  {
+			throw e;
+		}
 	}
 
 	/**
@@ -252,7 +256,7 @@ public class Settings implements Serializable {
 		setDefaultLanguage();
 		setDefaultCountry();
 		setCurrentLocale();
-		setDefaultStrings();
+		myconstructor();
 	}
 	/**
 	 * @param locale The locale to load the messageBundle
@@ -263,7 +267,13 @@ public class Settings implements Serializable {
 		setLanguage(locale.getLanguage());
 		setCountry(locale.getCountry());
 		setCurrentLocale(locale);
+		myconstructor();
+	}
+	
+	private void myconstructor() {
 		setDefaultStrings();
+		this.SpellFile = new File(this.ConfDir.getAbsoluteFile()+File.separator+"SpellFile.txt");
+		
 	}
 	
 }

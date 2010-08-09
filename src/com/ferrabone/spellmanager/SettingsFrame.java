@@ -21,8 +21,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -34,8 +37,11 @@ public class SettingsFrame {
 	private Settings settings;
 	private JFrame MainJFrame = null;
 	private JPanel MainJPanel = null;
+	private JPanel JPLanguage = null;
+	private JPanel JPSpellFile = null;
 	private HashMap<String, Locale> HMapLocale = null;
 	private JComboBox JComboLanguages=null;
+	private JLabel JLSpellFile=null;
 	
 	private HashMap<String,Locale> getAvailableLanguages(){
 		HashMap<String, Locale> temporal= new HashMap<String, Locale>();
@@ -73,10 +79,26 @@ public class SettingsFrame {
 		
 		MainJFrame = new JFrame(settings.getString("SettingsFrameTitle"));
 		MainJPanel = new JPanel();
-		HMapLocale = getAvailableLanguages();
+		JPLanguage = new JPanel();
+		JPSpellFile = new JPanel();
+		JLSpellFile = new JLabel(settings.getSpellFile().getAbsolutePath());
 		
+		MainJPanel.setBorder(BorderFactory.createTitledBorder(settings.getString("Settings")));
+		MainJPanel.setLayout(new BoxLayout(MainJPanel, BoxLayout.Y_AXIS));
+		JPLanguage.setBorder(BorderFactory.createTitledBorder(settings.getString("Language")));
+		JPSpellFile.setBorder(BorderFactory.createTitledBorder(settings.getString("SpellFile")));
+		
+		
+		
+		HMapLocale = getAvailableLanguages();
 		JComboLanguages = new JComboBox(HMapLocale.keySet().toArray());
-		MainJPanel.add(JComboLanguages);
+		JPLanguage.add(JComboLanguages);
+		
+		JPSpellFile.add(JLSpellFile);
+		
+		
+		MainJPanel.add(JPLanguage);
+		MainJPanel.add(JPSpellFile);
 		
 		
 		MainJFrame.getContentPane().add(MainJPanel);

@@ -39,6 +39,7 @@ public class SpellManager {
 	
 	private AddSpellFrame AddSpellApp=null;
 	private ViewSpellsFrame ViewSpellsApp=null;
+	private SettingsFrame SettingsFrameApp=null;
 	private Settings settings;
 	
 	/**
@@ -59,6 +60,7 @@ public class SpellManager {
 		JButton JBaddSpells = new JButton("Add more spells");
 		JButton JBquit = new JButton("Quit");
 		JButton JBViewSpells = new JButton("View Spells");
+		JButton JBSettings = new JButton("Settings");
 		
 		MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
 		//MainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -68,9 +70,12 @@ public class SpellManager {
 		JBquit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JBViewSpells.addActionListener(new butonsListeners());
 		JBViewSpells.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JBSettings.addActionListener(new butonsListeners());
+		JBSettings.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		MainPanel.add(JBaddSpells);
 		MainPanel.add(JBViewSpells);
+		MainPanel.add(JBSettings);
 		MainPanel.add(JBquit);
 		
 		MainFrame.getContentPane().add(MainPanel,BorderLayout.CENTER);
@@ -96,14 +101,14 @@ public class SpellManager {
 	}
 	
 	private void LoadSettings(){
-		File ConfDir = new File(System.getProperty("user.home")+File.pathSeparator+".SpellManager");
+		File ConfDir = new File(System.getProperty("user.home")+File.separator+".SpellManager");
 		
 		//test if it exist
 		if (!ConfDir.exists()) {
 			//if it dosnt, change to the current dir
 			ConfDir = new File(System.getProperty("user.dir"));
 		}
-		File Configfile = new File(ConfDir.getAbsolutePath()+File.pathSeparator+"config.cfg");
+		File Configfile = new File(ConfDir.getAbsolutePath()+File.separator+"config.cfg");
 		
 		ObjectInputStream is;
 		try {
@@ -158,8 +163,10 @@ public class SpellManager {
 			}else if (SSource.equalsIgnoreCase("Quit")){
 				disposeClients();
 				System.exit(0);
-			} else if (SSource.equalsIgnoreCase("View Spells")){
-				 ViewSpellsApp = new ViewSpellsFrame(settings);
+			}else if (SSource.equalsIgnoreCase("View Spells")){
+				ViewSpellsApp = new ViewSpellsFrame(settings);
+			}else if (SSource.equalsIgnoreCase("Settings")){
+				SettingsFrameApp = new SettingsFrame(settings);
 			}
 			
 		}
