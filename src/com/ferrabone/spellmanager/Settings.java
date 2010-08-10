@@ -33,8 +33,7 @@ public class Settings implements Serializable {
 	 */
 	private static final long serialVersionUID = 7503086199401682499L;
 	
-    private String language="";
-    private String country="";
+	
     private Locale currentLocale;
     private ResourceBundle strings;
     private File ConfDir;
@@ -44,56 +43,20 @@ public class Settings implements Serializable {
     private String LangPack = "LangPack";
 
     
-    
-	/**
-	 * @param language the language to set
-	 * if the String is empty, it sets the default
-	 * Warning changing this will update all relevant info
-	 * 
-	 */
-	public void setLanguage(String language) {
-		if (!language.isEmpty()){
-			this.language = language;
-		}else {
-			setDefaultLanguage();
-		}
-	}
-	/**
-	 * Sets the default language to "en"
-	 */
-	public void setDefaultLanguage() {
-		this.language = "en";
-	}
 	/**
 	 * @return the language
 	 */
 	public String getLanguage() {
-		return language;
+		return currentLocale.getLanguage();
 	}
-	/**
-	 * @param country the country to set
-	 * if the string is empty, the country is set to US
-	 */
-	public void setCountry(String country) {
-		if (!country.isEmpty()){
-			this.country = country;
-		}else {
-			setDefaultCountry();
-		}
-	}
-	
-	/**
-	 * Sets the current country to "US"
-	 */
-	public void setDefaultCountry() {
-		this.country = "US";
-	}
+
 	/**
 	 * @return the country
 	 */
 	public String getCountry() {
-		return country;
+		return currentLocale.getCountry();
 	}
+	
 	/**
 	 * @param currentLocale the currentLocale to set
 	 */
@@ -101,13 +64,6 @@ public class Settings implements Serializable {
 		this.currentLocale = currentLocale;
 	}
 	
-	/**
-	 * Sets the current locale member using the currently
-	 * selected language and country
-	 */
-	public void setCurrentLocale() {
-		this.currentLocale = new Locale(this.language, this.country);
-	}
 	
 	/**
 	 * Sets the current locale member using the language and country passed as parameters
@@ -119,7 +75,7 @@ public class Settings implements Serializable {
 	 * @see Locale
 	 */
 	public void setCurrentLocale(String language,String country) {
-		this.currentLocale = new Locale(language, country);
+		this.setCurrentLocale(new Locale(language,country));
 	}
 	
 	/**
@@ -253,9 +209,7 @@ public class Settings implements Serializable {
 	
 	public Settings() throws FileNotFoundException,MissingResourceException{
 		this.setDirs();
-		setDefaultLanguage();
-		setDefaultCountry();
-		setCurrentLocale();
+		setCurrentLocale("en","US");
 		myconstructor();
 	}
 	/**
@@ -264,8 +218,6 @@ public class Settings implements Serializable {
 	 */
 	public Settings(Locale locale) throws FileNotFoundException,MissingResourceException{
 		this.setDirs();
-		setLanguage(locale.getLanguage());
-		setCountry(locale.getCountry());
 		setCurrentLocale(locale);
 		myconstructor();
 	}
