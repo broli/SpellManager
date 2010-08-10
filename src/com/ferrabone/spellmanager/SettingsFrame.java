@@ -96,6 +96,7 @@ public class SettingsFrame {
 		HMapLocale = getAvailableLanguages();
 		JComboLanguages = new JComboBox(HMapLocale.keySet().toArray());
 		JComboLanguages.addActionListener(new LanguageListener());
+		JComboLanguages.setSelectedItem(settings.getCurrentLocale().getDisplayName());
 		JPLanguage.add(JComboLanguages);
 		
 		JPSpellFile.add(JLSpellFile);
@@ -115,7 +116,8 @@ public class SettingsFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String Language = (String) e.getSource();
+			JComboBox combo = (JComboBox) e.getSource();
+			String Language = (String) combo.getSelectedItem();
 			
 			settings.setCurrentLocale(HMapLocale.get(Language));
 			
