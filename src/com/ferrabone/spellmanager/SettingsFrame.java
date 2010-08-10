@@ -51,6 +51,7 @@ public class SettingsFrame {
 	private JLabel JLSpellFile=null;
 	private JButton JBCancel=null;
 	private JButton JBSave=null;
+	private Locale newLocale=null;
 	
 	private HashMap<String,Locale> getAvailableLanguages(){
 		HashMap<String, Locale> temporal= new HashMap<String, Locale>();
@@ -116,6 +117,8 @@ public class SettingsFrame {
 		
 		JBCancel.setAlignmentX(JButton.RIGHT_ALIGNMENT);
 		JBSave.setAlignmentX(JButton.RIGHT_ALIGNMENT);
+		JBCancel.addActionListener(new BotonListener());
+		JBSave.addActionListener(new BotonListener());
 		
 		JPButtons.add(JBCancel);
 		JPButtons.add(Box.createRigidArea(new Dimension(30, 0)));
@@ -132,16 +135,23 @@ public class SettingsFrame {
 		//MainJFrame.setMinimumSize(MainJFrame.getPreferredSize());
 	}
 	
+	public class BotonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
 	public class LanguageListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JComboBox combo = (JComboBox) e.getSource();
 			String Language = (String) combo.getSelectedItem();
-			
-			settings.setCurrentLocale(HMapLocale.get(Language));
-			settings.updateStrings();
-
+			newLocale = HMapLocale.get(Language);
 		}
 		
 	}
