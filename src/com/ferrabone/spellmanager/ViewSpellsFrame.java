@@ -43,7 +43,6 @@ public class ViewSpellsFrame {
 		MainJPanel.add(JSPscroller);
 		// TODO add buttons for prev, next, quit, and tied it to the reading
 		
-		// TODO make the default option to free memory but not end main app
 		MainJFrame.getContentPane().add(MainJPanel);
 		MainJFrame.setVisible(true);
 		MainJFrame.setSize(MainJFrame.getPreferredSize());

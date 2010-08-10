@@ -15,6 +15,7 @@
 */
 package com.ferrabone.spellmanager;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,7 +25,9 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,9 +45,12 @@ public class SettingsFrame {
 	private JPanel MainJPanel = null;
 	private JPanel JPLanguage = null;
 	private JPanel JPSpellFile = null;
+	private JPanel JPButtons = null;
 	private HashMap<String, Locale> HMapLocale = null;
 	private JComboBox JComboLanguages=null;
 	private JLabel JLSpellFile=null;
+	private JButton JBCancel=null;
+	private JButton JBSave=null;
 	
 	private HashMap<String,Locale> getAvailableLanguages(){
 		HashMap<String, Locale> temporal= new HashMap<String, Locale>();
@@ -85,12 +91,18 @@ public class SettingsFrame {
 		MainJPanel = new JPanel();
 		JPLanguage = new JPanel();
 		JPSpellFile = new JPanel();
+		JPButtons = new JPanel();
 		JLSpellFile = new JLabel(settings.getSpellFile().getAbsolutePath());
+		
+		JBCancel = new JButton(settings.getString("Cancel"));
+		JBSave = new JButton(settings.getString("Save"));
+		
 		
 		MainJPanel.setBorder(BorderFactory.createTitledBorder(settings.getString("Settings")));
 		MainJPanel.setLayout(new BoxLayout(MainJPanel, BoxLayout.Y_AXIS));
 		JPLanguage.setBorder(BorderFactory.createTitledBorder(settings.getString("Language")));
 		JPSpellFile.setBorder(BorderFactory.createTitledBorder(settings.getString("SpellFile")));
+		JPButtons.setLayout(new BoxLayout(JPButtons,BoxLayout.X_AXIS));
 		
 		
 		
@@ -102,9 +114,16 @@ public class SettingsFrame {
 		
 		JPSpellFile.add(JLSpellFile);
 		
+		JBCancel.setAlignmentX(JButton.RIGHT_ALIGNMENT);
+		JBSave.setAlignmentX(JButton.RIGHT_ALIGNMENT);
+		
+		JPButtons.add(JBCancel);
+		JPButtons.add(Box.createRigidArea(new Dimension(30, 0)));
+		JPButtons.add(JBSave);
 		
 		MainJPanel.add(JPLanguage);
 		MainJPanel.add(JPSpellFile);
+		MainJPanel.add(JPButtons);
 		
 		
 		MainJFrame.getContentPane().add(MainJPanel);
