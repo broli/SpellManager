@@ -15,6 +15,8 @@
 */
 package com.ferrabone.spellmanager;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
@@ -93,6 +95,7 @@ public class SettingsFrame {
 		
 		HMapLocale = getAvailableLanguages();
 		JComboLanguages = new JComboBox(HMapLocale.keySet().toArray());
+		JComboLanguages.addActionListener(new LanguageListener());
 		JPLanguage.add(JComboLanguages);
 		
 		JPSpellFile.add(JLSpellFile);
@@ -106,6 +109,21 @@ public class SettingsFrame {
 		MainJFrame.setVisible(true);
 		MainJFrame.setSize(MainJFrame.getPreferredSize());
 		//MainJFrame.setMinimumSize(MainJFrame.getPreferredSize());
+	}
+	
+	public class LanguageListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String Language = (String) e.getSource();
+			
+			settings.setCurrentLocale(HMapLocale.get(Language));
+			
+			
+			
+			
+		}
+		
 	}
 	
 	public class LangPackFilter implements FilenameFilter {
