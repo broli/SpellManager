@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Locale;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -109,6 +110,7 @@ public class SpellManager {
 			ConfDir = new File(System.getProperty("user.dir"));
 		}
 		File Configfile = new File(ConfDir.getAbsolutePath()+File.separator+"config.cfg");
+		// TODO read Locale.getDefault() and try that before reverting to en_US
 		
 		ObjectInputStream is;
 		try {

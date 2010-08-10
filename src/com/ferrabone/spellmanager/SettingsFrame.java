@@ -81,6 +81,7 @@ public class SettingsFrame {
 		this.settings = settings;
 		
 		MainJFrame = new JFrame(settings.getString("SettingsFrameTitle"));
+		
 		MainJPanel = new JPanel();
 		JPLanguage = new JPanel();
 		JPSpellFile = new JPanel();
@@ -120,10 +121,8 @@ public class SettingsFrame {
 			String Language = (String) combo.getSelectedItem();
 			
 			settings.setCurrentLocale(HMapLocale.get(Language));
-			
-			
-			
-			
+			settings.updateStrings();
+
 		}
 		
 	}

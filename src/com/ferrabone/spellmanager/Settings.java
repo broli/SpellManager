@@ -97,8 +97,12 @@ public class Settings implements Serializable {
 	 * resource bundle in file with prefix "LangPack"
 	 * and the current Locale
 	 */
-	public void setDefaultStrings() throws MissingResourceException{
-		setStrings(this.LangPack);
+	public void updateStrings() throws MissingResourceException{
+		try {
+			setStrings(this.LangPack);
+		} catch (MissingResourceException e)  {
+			throw e;
+		}
 	}
 	
 	/**
@@ -185,6 +189,12 @@ public class Settings implements Serializable {
 		return LangPackagedir;
 	}
 	
+	public void changeLanguage (Locale parLocale){
+		setCurrentLocale(parLocale);
+		updateStrings();
+		Locale.setDefault(parLocale);
+	}
+	
 	private void setDirs() throws FileNotFoundException{
 
 		//a nice default
@@ -223,9 +233,8 @@ public class Settings implements Serializable {
 	}
 	
 	private void myconstructor() {
-		setDefaultStrings();
 		this.SpellFile = new File(this.ConfDir.getAbsoluteFile()+File.separator+"SpellFile.txt");
-		
+		changeLanguage(this.currentLocale);
 	}
 	
 }
