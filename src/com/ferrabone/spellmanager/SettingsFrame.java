@@ -33,6 +33,7 @@ import javax.swing.JPanel;
  *
  */
 public class SettingsFrame {
+	// TODO Add a button to change spell file. update error message about reverting to default options
 	
 	private Settings settings;
 	private JFrame MainJFrame = null;
