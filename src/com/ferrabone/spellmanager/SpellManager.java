@@ -56,12 +56,13 @@ public class SpellManager {
 
 	private void showframe() {
 		LoadSettings();
-		JFrame MainFrame = new JFrame("Add Spell");
+		// After this point, you can use the settings
+		JFrame MainFrame = new JFrame(settings.getString("SpellManager"));
 		JPanel MainPanel = new JPanel();
-		JButton JBaddSpells = new JButton("Add more spells");
-		JButton JBquit = new JButton("Quit");
-		JButton JBViewSpells = new JButton("View Spells");
-		JButton JBSettings = new JButton("Settings");
+		JButton JBaddSpells = new JButton(settings.getString("AddSpells"));
+		JButton JBquit = new JButton(settings.getString("Quit"));
+		JButton JBViewSpells = new JButton(settings.getString("ViewSpells"));
+		JButton JBSettings = new JButton(settings.getString("Settings"));
 		
 		MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
 		//MainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -101,6 +102,10 @@ public class SpellManager {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
+	/**
+	 * Atempts to load the config from disk.
+	 * if it fails, it reverts to a default config
+	 */
 	private void LoadSettings(){
 		File ConfDir = new File(System.getProperty("user.home")+File.separator+".SpellManager");
 		
@@ -116,6 +121,8 @@ public class SpellManager {
 		try {
 			is = new ObjectInputStream(new FileInputStream(Configfile));
 			settings =(Settings) is.readObject() ;
+			is.close();
+			settings.updateStrings();
 		} catch (FileNotFoundException e) {
 			ShowErr("Can't read configuration file\n"+Configfile.getAbsolutePath()+"\nCorrupted or wrong file, Reverting to English defaults");
 			try {
@@ -155,19 +162,18 @@ public class SpellManager {
 	}
 	
 	public class butonsListeners implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton) e.getSource();
 			String SSource = source.getText();
-			if (SSource.equalsIgnoreCase("Add more Spells")){
+			if (SSource.equalsIgnoreCase(settings.getString("AddSpells"))){
 				AddSpellApp = new AddSpellFrame();
-			}else if (SSource.equalsIgnoreCase("Quit")){
+			}else if (SSource.equalsIgnoreCase(settings.getString("Quit"))){
 				disposeClients();
 				System.exit(0);
-			}else if (SSource.equalsIgnoreCase("View Spells")){
+			}else if (SSource.equalsIgnoreCase(settings.getString("ViewSpells"))){
 				ViewSpellsApp = new ViewSpellsFrame(settings);
-			}else if (SSource.equalsIgnoreCase("Settings")){
+			}else if (SSource.equalsIgnoreCase(settings.getString("Settings"))){
 				SettingsFrameApp = new SettingsFrame(settings);
 			}
 			
