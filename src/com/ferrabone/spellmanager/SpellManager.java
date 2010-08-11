@@ -167,7 +167,7 @@ public class SpellManager {
 			JButton source = (JButton) e.getSource();
 			String SSource = source.getText();
 			if (SSource.equalsIgnoreCase(settings.getString("AddSpells"))){
-				AddSpellApp = new AddSpellFrame();
+				AddSpellApp = new AddSpellFrame(settings);
 			}else if (SSource.equalsIgnoreCase(settings.getString("Quit"))){
 				disposeClients();
 				System.exit(0);
