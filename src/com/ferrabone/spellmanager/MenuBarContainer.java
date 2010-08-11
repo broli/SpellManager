@@ -30,13 +30,18 @@ import javax.swing.JOptionPane;
  */
 public class MenuBarContainer {
 	
-	JMenuBar menuBar=null;
-	JMenu JMFile=null;
-	JMenu JMTools=null;
-	JMenu JMHelp=null;
-	AddSpellFrame MainFrame=null;
+	private JMenuBar menuBar=null;
+	private JMenu JMFile=null;
+	private JMenu JMTools=null;
+	private JMenu JMHelp=null;
+	private AddSpellFrame MainFrame=null;
+	private Settings settings=null;
 	
-	public MenuBarContainer(AddSpellFrame parFrame){
+	// TODO check if its necesary to get the AddSpellFrame var
+	public MenuBarContainer(AddSpellFrame parFrame,Settings settings){
+		
+		this.settings = settings;
+		
 		MainFrame=parFrame;
 		menuBar = new JMenuBar();
 		JMFile = new JMenu("File");
@@ -44,8 +49,9 @@ public class MenuBarContainer {
 		JMHelp = new JMenu("Help");
 		
 		// File menu
+		// TODO make a open menu item
 		JMenuItem tmpMenuItem = new JMenuItem("Open");
-		tmpMenuItem.addActionListener(new OpenListener());
+		
 		JMFile.add(tmpMenuItem);
 		
 		JMFile.addSeparator();
@@ -74,22 +80,6 @@ public class MenuBarContainer {
 		return menuBar;
 	}
 	
-	public class OpenListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JFileChooser fc = new JFileChooser();
-			fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			
-			int returnVal = fc.showOpenDialog(MainFrame.getMainJFrame());
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            MainFrame.setSpellFfile(fc.getSelectedFile());
-	        } 
-			
-		}
-		
-	}
-	
 	
 	public class QuitListener implements ActionListener {
 
@@ -108,7 +98,7 @@ public class MenuBarContainer {
 			JOptionPane.showMessageDialog(MainFrame.getMainJFrame().getContentPane(), 
 					"This options is not implemented yet,\n " +
 					"but if you need to move the file, this is it\n"+
-					MainFrame.getSpellFile().getAbsolutePath());
+					settings.getSpellFile().getAbsolutePath());
 			
 		}
 		

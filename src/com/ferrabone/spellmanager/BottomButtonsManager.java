@@ -46,6 +46,7 @@ public class BottomButtonsManager {
 		JBNext = new JButton("Add & Next");
 		JBNext.addActionListener(new AddNextListener());
 		JBAddQuit = new JButton("Add & Quit");
+		// TODO change "quit" for "close"
 		JBQuit = new JButton("Quit");
 		JBQuit.addActionListener(new QuitListener());
 		JBClear = new JButton("Clear");

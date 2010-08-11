@@ -34,7 +34,7 @@ public class SchoolWidget {
 	//Variables
 	private final String[] SSchools = { "Universal","Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"};
 	private final String[] SInitialSubSchool = { "None" };
-	private final String[] SConjSubschool = {"None","Calling", "Creation","Healing","Healing","Teleportation"};
+	private final String[] SConjSubschool = {"None","Calling", "Creation","Healing","Teleportation"};
 	private final String[] SDivSubSchool = { "None", "Scrying"};
 	private final String[] SEnchSubSchool = { "None", "Charm", "Compulsion"};
 	private final String[] SIluSubSchool = { "None","Figment", "Glamer", "Pattern", "Phantasm", "Shadow"};
