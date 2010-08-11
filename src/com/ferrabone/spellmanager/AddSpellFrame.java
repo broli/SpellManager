@@ -42,6 +42,8 @@ import javax.swing.SpinnerNumberModel;
  */
 public class AddSpellFrame {
 	
+	private Settings settings;
+	
 	// TODO Convert this app to the message bundle, and move these strings there
 	private final String[] SClases = { "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Wizard"};
 	private final String[] SLevels = { "0", "1","2","3","4","5","6","7","8","9"};
@@ -101,9 +103,7 @@ public class AddSpellFrame {
 	private JTextArea JTADescription=null;
 	private JScrollPane JSPTADescription=null;
 	//tier buttons
-	BottomButtonsManager BottomButtons=null;
-	
-	private File SpellFile=null;
+	private BottomButtonsManager BottomButtons=null;
 	
 
 	private void Constructor(){
@@ -118,7 +118,7 @@ public class AddSpellFrame {
 		HMapComponents = new HashMap<String,JCheckBox>(); //create the empty hashmap
 		HMapDomains = new HashMap<Integer,JPanel>();//create the empty hashmap
 		
-		MainJFrame = new JFrame("SpellManager");
+		MainJFrame = new JFrame(settings.getString("AddSpells"));
 		
 		MainJPanel = new JPanel();
 		MainJPanel.setLayout(new BoxLayout(MainJPanel,BoxLayout.Y_AXIS));
@@ -130,7 +130,7 @@ public class AddSpellFrame {
 		
 		
 		//spell name -----------------------------------------------------------------------------
-		JLSpellName = new JLabel("Spell Name");
+		JLSpellName = new JLabel(settings.getString("SpellName"));
 		JTFSpellName = new JTextField(25);
 		HMapTiers.get(1).add(JLSpellName);
 		HMapTiers.get(1).add(JTFSpellName);
@@ -166,7 +166,7 @@ public class AddSpellFrame {
 		
 		JPClass_level.add(JPClasesCheck);
 		JPClass_level.add(JPLevelCombo);
-		JPClass_level.setBorder(BorderFactory.createTitledBorder("Class and Level"));
+		JPClass_level.setBorder(BorderFactory.createTitledBorder(settings.getString("Class_and_Level")));
 		HMapTiers.get(2).add(JPClass_level);
 	
 		//This panel is to accommodate School and descriptor options
@@ -197,7 +197,7 @@ public class AddSpellFrame {
 			JPComponents.add(checkTemporal);
 		}
 
-		JPComponents.setBorder(BorderFactory.createTitledBorder("Components"));
+		JPComponents.setBorder(BorderFactory.createTitledBorder(settings.getString("Components")));
 		HMapTiers.get(3).add(JPComponents);
 		
 		//Domains
@@ -234,7 +234,7 @@ public class AddSpellFrame {
 		JPDomains.add(HMapDomains.get(1));
 		JPDomains.add(HMapDomains.get(2));
 		JPDomains.add(HMapDomains.get(3));
-		JPDomains.setBorder(BorderFactory.createTitledBorder("Domains"));
+		JPDomains.setBorder(BorderFactory.createTitledBorder(settings.getString("Domains")));
 		HMapTiers.get(3).add(JPDomains);
 		
 		// Tier 4
@@ -245,11 +245,11 @@ public class AddSpellFrame {
 		// Casting time
 		JComboCastingtimeunit = new JComboBox(SCastingTime);
 		JComboCastingtimeunit.setEditable(true);
-		JLCastingtime = new JLabel(" Casting Time ");
+		JLCastingtime = new JLabel(settings.getString("_Casting_Time_"));
 		JTACastingTimeNumber = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); 
 		
 	    //Range
-		JLRange = new JLabel(" Range ");
+		JLRange = new JLabel(settings.getString("_Range_"));
 		JComboRange = new JComboBox(SRanges);
 		JComboRange.setEditable(true);
 		
@@ -269,13 +269,13 @@ public class AddSpellFrame {
 		HMapTiers.put(5,tempJPanel);
 		
 		//Targets
-		JLTarget = new JLabel(" Target(s) ");
+		JLTarget = new JLabel(settings.getString("_Target(s)_"));
 		JTFTarget = new JTextField(25);
 		
 		//duration
 		JComboDuration= new JComboBox(SDurations);
 		JComboDuration.setEditable(true);
-		JLDuration = new JLabel(" Duration ");
+		JLDuration = new JLabel(settings.getString("_Duration_"));
 		JComboDuration.setMaximumSize(JComboDuration.getPreferredSize());
 		
 		HMapTiers.get(5).add(JLTarget);
@@ -301,12 +301,12 @@ public class AddSpellFrame {
 		HMapTiers.put(7,tempJPanel);
 		
 		//Spell resistance
-		JLResistance= new JLabel(" Spell Resistance ");
+		JLResistance= new JLabel(settings.getString("_Spell Resistance_"));
 		JComboResistance= new JComboBox(SSpellResistance);
 		JComboResistance.setMaximumSize(JComboResistance.getPreferredSize());
 		
 		//Efect (just a small description)
-		JLEffect= new JLabel("Effect");
+		JLEffect= new JLabel(settings.getString("Effect"));
 		JTFEffect = new JTextField(25);
 		
 		
@@ -322,13 +322,10 @@ public class AddSpellFrame {
 		JSPTADescription = new JScrollPane(JTADescription);
 		
 		//Bottom Buttons
-		/**
-
-		*/
 		BottomButtons = new BottomButtonsManager(this);
 		
 		//Menues 
-		MenuBarContainer menuBar = new MenuBarContainer(this);
+		MenuBarContainer menuBar = new MenuBarContainer(this,this.settings);
 		
 		
 		//Adding everything to the main panel
@@ -350,58 +347,38 @@ public class AddSpellFrame {
 		MainJFrame.setLocationRelativeTo(null);
 		JTFSpellName.requestFocus();
 		
-		SpellFile = new File("Spells.txt");
-		
 		
 	} //private real constructor
 	
 	//Constructors --------------------------------------------------------
-	public AddSpellFrame() {
+	/**
+	 * @param Settings settings Object
+	 */
+	public AddSpellFrame(Settings settings) {
+		this.settings = settings;
 		this.Constructor();
 	}
-	
-	public AddSpellFrame(File parFile) {
-		this.Constructor();
-		this.setSpellFfile(parFile);
-	}
+
 	
 	// Setters -------------------------------------------------------------
 
-	
-	public void setSpellFfile (File parFile){
-		SpellFile = parFile;
-		if (!SpellFile.exists()) {
-			try {
-				SpellFile.createNewFile();
-			} catch (IOException e) {
-				System.err.println("This was not suposed to happen, i checked if the file exists\n" +
-						"in method setSpellFile(File), catch section");
-				e.printStackTrace();
-			}
-		}
-	}
 
 	// getters -------------------------------------------------------------
-	public JLabel getJLSpellName(){
-		return JLSpellName;
-	}
+
 	public JFrame getMainJFrame(){
 		return MainJFrame;
-	}
-	public File getSpellFile(){
-		return SpellFile;
 	}
 	
 	
 	// Others ----------------------------------------------------------------
 	public void AppendSpell (String parLine){
 		try{
-			BufferedWriter writer = new BufferedWriter(new FileWriter(SpellFile,true));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(settings.getSpellFile(),true));
 			writer.write(parLine + "\n");
 			writer.close();
 			
 		}catch (IOException ex) {
-			System.err.println("Error Appending to Spellfile!!");
+			System.err.println(settings.getString("ErrorAppSpellfile"));
 			ex.printStackTrace();
 		}
 		
