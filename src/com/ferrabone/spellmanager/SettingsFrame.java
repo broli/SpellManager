@@ -19,7 +19,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -139,7 +143,29 @@ public class SettingsFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			JButton source = (JButton) e.getSource();
+			String SSource = source.getText();
+			if (SSource.equalsIgnoreCase(settings.getString("Cancel"))){
+				// nothing happens but the close
+				MainJFrame.dispose();
+			}else if (SSource.equalsIgnoreCase(settings.getString("Save"))){
+				settings.changeLanguage(newLocale);
+				ObjectOutputStream os;
+					try {
+						os = new ObjectOutputStream(new FileOutputStream(settings.getConfigfile()));
+						os.writeObject(settings);
+						os.close();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+				
+				MainJFrame.dispose();
+			}
 			
 		}
 		

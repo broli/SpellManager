@@ -35,7 +35,7 @@ public class Settings implements Serializable {
 	
 	
     private Locale currentLocale;
-    private ResourceBundle strings;
+    transient private ResourceBundle strings;
     private File ConfDir;
     private File LangPackagedir;
     private File Configfile;
@@ -188,7 +188,13 @@ public class Settings implements Serializable {
 	public File getLangPackagedir() {
 		return LangPackagedir;
 	}
-	
+	/**
+	 *
+	 * This function updates the settings Locale, 
+	 * reopens the message bunddle with the current language,
+	 * and sets the default global Locale
+	 * @param parLocale the new Locale.
+	 */
 	public void changeLanguage (Locale parLocale){
 		setCurrentLocale(parLocale);
 		updateStrings();
