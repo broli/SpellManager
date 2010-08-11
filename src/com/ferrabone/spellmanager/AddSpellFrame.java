@@ -42,7 +42,6 @@ import javax.swing.SpinnerNumberModel;
  */
 public class AddSpellFrame {
 	
-	private String Name=null;
 	// TODO Convert this app to the message bundle, and move these strings there
 	private final String[] SClases = { "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Wizard"};
 	private final String[] SLevels = { "0", "1","2","3","4","5","6","7","8","9"};
@@ -108,7 +107,7 @@ public class AddSpellFrame {
 	
 
 	private void Constructor(){
-		Name="Add Spells Form";
+		
 		JPanel tempJPanel=null; //temp var to hold panels before adnig it to the map
 		JCheckBox checkTemporal=null; //to temporaly hold the checkboxes before adding them to the array
 		JComboBox comboTemporal=null; //to temporally hold the combos
@@ -367,9 +366,7 @@ public class AddSpellFrame {
 	}
 	
 	// Setters -------------------------------------------------------------
-	public void setName(String parName){
-		Name = parName;
-	}
+
 	
 	public void setSpellFfile (File parFile){
 		SpellFile = parFile;
@@ -395,11 +392,6 @@ public class AddSpellFrame {
 		return SpellFile;
 	}
 	
-	//Overrides 
-	@Override
-	public String toString(){
-		return Name;
-	}
 	
 	// Others ----------------------------------------------------------------
 	public void AppendSpell (String parLine){
