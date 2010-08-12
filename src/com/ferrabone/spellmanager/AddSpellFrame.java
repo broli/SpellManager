@@ -45,18 +45,18 @@ public class AddSpellFrame {
 	private Settings settings;
 	
 	// TODO Convert this app to the message bundle, and move these strings there
-	private final String[] SClases = { "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Wizard"};
-	private final String[] SLevels = { "0", "1","2","3","4","5","6","7","8","9"};
-	private final String[] SComponents = { "Verbal","Somatic","Material","Focus","Divine Focus","XP Cost"};
-	private final String[] SDomains1 = { "Air", "Animal", "Chaos", "Death", "Destruction", "Earth", "Evil", "Fire"}; 
-	private final String[] SDomains2 = { "Good", "Healing", "Knowledge","Law", "Luck", "Magic", "Plant", "Protection"};
-	private final String[] SDomains3 = {"Strength", "Sun", "Travel", "Trickery", "War", "Water"};
+	private String[] SClases;
+	private String[] SLevels;
+	private String[] SComponents;
+	private  String[] SDomains1; 
+	private  String[] SDomains2;
+	private  String[] SDomains3;
 	
-	private final String[] SCastingTime = { "Standard Action", "Round(s)", "Free Action" };
-	private final String[] SRanges = { "Personal","Touch","Close","Medium","Long","Unlimited"};
+	private  String[] SCastingTime;
+	private  String[] SRanges;
 	
-	private final String[] SDurations = { "","Instantaneous", "Permanent","Concentration"};
-	private final String[] SSpellResistance = { "No","Yes", "Yes (Harmless)","See Text"};
+	private  String[] SDurations;
+	private  String[] SSpellResistance;
 	
 	private JFrame MainJFrame=null;
 	private JPanel MainJPanel=null;
@@ -107,6 +107,8 @@ public class AddSpellFrame {
 	
 
 	private void Constructor(){
+		
+		populateStrings();
 		
 		JPanel tempJPanel=null; //temp var to hold panels before adnig it to the map
 		JCheckBox checkTemporal=null; //to temporaly hold the checkboxes before adding them to the array
@@ -178,7 +180,7 @@ public class AddSpellFrame {
 		JPTier2_Right.add(Schoolcombo.getJPanel());
 		
 		//Descriptor
-		Descriptors = new DescriptorWidget();
+		Descriptors = new DescriptorWidget(settings);
 		JPTier2_Right.add(Descriptors.getJPanel());
 		HMapTiers.get(2).add(JPTier2_Right);
 		
@@ -245,11 +247,11 @@ public class AddSpellFrame {
 		// Casting time
 		JComboCastingtimeunit = new JComboBox(SCastingTime);
 		JComboCastingtimeunit.setEditable(true);
-		JLCastingtime = new JLabel(settings.getString("_Casting_Time_"));
+		JLCastingtime = new JLabel(settings.getString("Casting_Time"));
 		JTACastingTimeNumber = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1)); 
 		
 	    //Range
-		JLRange = new JLabel(settings.getString("_Range_"));
+		JLRange = new JLabel(settings.getString("Range"));
 		JComboRange = new JComboBox(SRanges);
 		JComboRange.setEditable(true);
 		
@@ -269,13 +271,13 @@ public class AddSpellFrame {
 		HMapTiers.put(5,tempJPanel);
 		
 		//Targets
-		JLTarget = new JLabel(settings.getString("_Target(s)_"));
+		JLTarget = new JLabel(settings.getString("Target(s)"));
 		JTFTarget = new JTextField(25);
 		
 		//duration
 		JComboDuration= new JComboBox(SDurations);
 		JComboDuration.setEditable(true);
-		JLDuration = new JLabel(settings.getString("_Duration_"));
+		JLDuration = new JLabel(settings.getString("Duration"));
 		JComboDuration.setMaximumSize(JComboDuration.getPreferredSize());
 		
 		HMapTiers.get(5).add(JLTarget);
@@ -290,7 +292,7 @@ public class AddSpellFrame {
 		HMapTiers.put(6,tempJPanel);
 		
 		//Saving Throw
-		SavingThrow = new SavingThrowWidget();
+		SavingThrow = new SavingThrowWidget(settings);
 		
 		HMapTiers.get(6).add(SavingThrow.getJPanel());
 		HMapTiers.get(6).setMaximumSize(HMapTiers.get(6).getPreferredSize());
@@ -301,7 +303,7 @@ public class AddSpellFrame {
 		HMapTiers.put(7,tempJPanel);
 		
 		//Spell resistance
-		JLResistance= new JLabel(settings.getString("_Spell Resistance_"));
+		JLResistance= new JLabel(settings.getString("Spell Resistance"));
 		JComboResistance= new JComboBox(SSpellResistance);
 		JComboResistance.setMaximumSize(JComboResistance.getPreferredSize());
 		
@@ -322,7 +324,7 @@ public class AddSpellFrame {
 		JSPTADescription = new JScrollPane(JTADescription);
 		
 		//Bottom Buttons
-		BottomButtons = new BottomButtonsManager(this);
+		BottomButtons = new BottomButtonsManager(this,this.settings);
 		
 		//Menues 
 		MenuBarContainer menuBar = new MenuBarContainer(this,this.settings);
@@ -350,6 +352,22 @@ public class AddSpellFrame {
 		
 	} //private real constructor
 	
+	private void populateStrings() {
+		SClases = new String[]{ settings.getString("Class.Bard"), settings.getString("Class.Cleric"), settings.getString("Class.Druid"), settings.getString("Class.Paladin"), settings.getString("Class.Ranger"), settings.getString("Class.Sorcerer"), settings.getString("Class.Wizard")};
+		SClases = new String[]{ settings.getString("Class.Bard"), settings.getString("Class.Cleric"), settings.getString("Class.Druid"), settings.getString("Class.Paladin"), settings.getString("Class.Ranger"), settings.getString("Class.Sorcerer"), settings.getString("Class.Wizard")};
+		SLevels = new String[]{ "0", "1","2","3","4","5","6","7","8","9"};
+		SComponents = new String[]{ settings.getString("Components.Verbal"),settings.getString("Components.Somatic"),settings.getString("Components.Material"),settings.getString("Components.Focus"),settings.getString("Components.Divine_Focus"),settings.getString("Components.XPCost")};
+		SDomains1 = new String[]{ settings.getString("Domains.Air"), settings.getString("Domains.Animal"), settings.getString("Domains.Chaos"), settings.getString("Domains.Death"), settings.getString("Domains.Destruction"), settings.getString("Domains.Earth"), settings.getString("Domains.Evil"), settings.getString("Domains.Fire")}; 
+		SDomains2 = new String[]{ settings.getString("Domains.Good"), settings.getString("Domains.Healing"), settings.getString("Domains.Knowledge"),settings.getString("Domains.Law"), settings.getString("Domains.Luck"), settings.getString("Domains.Magic"), settings.getString("Domains.Plant"), settings.getString("Domains.Protection")};
+		SDomains3 = new String[]{ settings.getString("Domains.Strength"), settings.getString("Domains.Sun"), settings.getString("Domains.Travel"), settings.getString("Domains.Trickery"), settings.getString("Domains.War"), settings.getString("Domains.Water")};
+		
+		SCastingTime = new String[]{ settings.getString("Casting_Time.FreeAction"), settings.getString("Casting_Time.Round(s)"), settings.getString("Casting_Time.StandardAction") };
+		SRanges = new String[]{ settings.getString("Range.Personal"),settings.getString("Range.Touch"),settings.getString("Range.Close"),settings.getString("Range.Medium"),settings.getString("Range.Long"),settings.getString("Range.Unlimited")};
+		
+		SDurations = new String[]{ "",settings.getString("Duration.Instantaneous"), settings.getString("Duration.Permanent"),settings.getString("Duration.Concentration")};
+		SSpellResistance = new String[]{ settings.getString("No"),settings.getString("Yes"), settings.getString("Yes_Harmless"),settings.getString("SeeText")};	
+	}
+
 	//Constructors --------------------------------------------------------
 	/**
 	 * @param Settings settings Object

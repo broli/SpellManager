@@ -36,20 +36,22 @@ public class BottomButtonsManager {
 	private JButton JBAddQuit = null;
 	private JButton JBQuit = null;
 	private JButton JBClear = null;
+	private Settings settings;
 	
 	//Constructors ---------------------------------------
-	public BottomButtonsManager(AddSpellFrame parFrame){
+	public BottomButtonsManager(AddSpellFrame parFrame,Settings parSettings){
+		this.settings = parSettings;
 		this.setParentFrame(parFrame);
+		
 		JPControls= new JPanel();
 		JPControls.setLayout(new BoxLayout(JPControls,BoxLayout.LINE_AXIS));
 		
-		JBNext = new JButton("Add & Next");
+		JBNext = new JButton(settings.getString("AddNext"));
 		JBNext.addActionListener(new AddNextListener());
-		JBAddQuit = new JButton("Add & Quit");
-		// TODO change "quit" for "close"
-		JBQuit = new JButton("Quit");
+		JBAddQuit = new JButton(settings.getString("AddClose"));
+		JBQuit = new JButton(settings.getString("Close"));
 		JBQuit.addActionListener(new QuitListener());
-		JBClear = new JButton("Clear");
+		JBClear = new JButton(settings.getString("Clear"));
 		JBClear.addActionListener(new ClearListener());
 		
 		JPControls.add(Box.createHorizontalGlue());

@@ -1,5 +1,6 @@
 package com.ferrabone.spellmanager;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -29,10 +30,10 @@ import javax.swing.JPanel;
 
 public class DescriptorWidget {
 	
-	private final String[] SDescriptor1 = {"acid", "air", "chaotic", "cold", "darkness"}; 
-	private final String[] SDescriptor2 = {"death", "earth", "electricity", "evil", "fear"};
-	private final String[] SDescriptor3 = {"fire", "force", "good", "language-dependent", "lawful"};
-	private final String[] SDescriptor4 = {"light", "mind-affecting", "sonic", "water"};
+	private  String[] SDescriptor1; 
+	private  String[] SDescriptor2;
+	private  String[] SDescriptor3;
+	private  String[] SDescriptor4;
 	
 	private JPanel JPDescriptor = null;
 	private JPanel JPDescriptor1 = null;
@@ -40,11 +41,13 @@ public class DescriptorWidget {
 	private JPanel JPDescriptor3 = null;
 	private JPanel JPDescriptor4 = null;
 	
-	private String Name=null;
-	
 	private ArrayList<JCheckBox> ArrayJcheckDescriptors = null;//To hold all the checkboxes
+	private Settings settings;
 	
-	public DescriptorWidget() {
+	public DescriptorWidget(Settings parSettings) {
+		this.settings = parSettings;
+		populateStrings();
+		
 		JPDescriptor = new JPanel();
 		JPDescriptor1 = new JPanel();
 		JPDescriptor2 = new JPanel();
@@ -90,17 +93,15 @@ public class DescriptorWidget {
 		JPDescriptor.add(JPDescriptor3);
 		JPDescriptor.add(JPDescriptor4);
 		
-		JPDescriptor.setBorder(BorderFactory.createTitledBorder("Descriptor(s)"));
+		JPDescriptor.setBorder(BorderFactory.createTitledBorder(settings.getString("Descriptor")));
 		
-		this.setName("Descriptors");
 	}
 	
-	public void setName (String parName){
-		Name = parName;
-	}
-	
-	public String getName(){
-		return Name;
+	private void populateStrings() {
+		SDescriptor1 = new String[]{settings.getString("Descriptor.acid"), settings.getString("Descriptor.air"), settings.getString("Descriptor.chaotic"), settings.getString("Descriptor.cold"), settings.getString("Descriptor.darkness")}; 
+		SDescriptor2 = new String[]{settings.getString("Descriptor.death"), settings.getString("Descriptor.earth"), settings.getString("Descriptor.electricity"), settings.getString("Descriptor.evil"), settings.getString("Descriptor.fear")};
+		SDescriptor3 = new String[]{settings.getString("Descriptor.fire"), settings.getString("Descriptor.force"), settings.getString("Descriptor.good"), settings.getString("Descriptor.language-dependent"), settings.getString("Descriptor.lawful")};
+		SDescriptor4 = new String[]{settings.getString("Descriptor.light"), settings.getString("Descriptor.mind-affecting"), settings.getString("Descriptor.sonic"), settings.getString("Descriptor.water")};
 	}
 	
 	public JPanel getJPanel(){

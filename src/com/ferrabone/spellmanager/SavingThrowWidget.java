@@ -37,8 +37,13 @@ public class SavingThrowWidget {
 	private JTextField JTASavingThrow=null;
 	private String Name=null;
 	private JPanel myPanel=null;
+
+	private Settings settings;
 	
-	public SavingThrowWidget(){
+	public SavingThrowWidget(Settings parSettings){
+		this.settings = parSettings;
+		populateStrings();
+		
 		myPanel = new JPanel();
 		myPanel.setLayout(new BoxLayout(myPanel,BoxLayout.X_AXIS));
 		JComboSavingThrow = new JComboBox(SSavingThrow);
@@ -57,6 +62,11 @@ public class SavingThrowWidget {
 		
 	}
 	
+	private void populateStrings() {
+		// TODO Auto-generated method stub populateStrings()
+		
+	}
+
 	public String getName(){
 		return Name;
 	}

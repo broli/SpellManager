@@ -178,6 +178,7 @@ public class SettingsFrame {
 			JComboBox combo = (JComboBox) e.getSource();
 			String Language = (String) combo.getSelectedItem();
 			newLocale = HMapLocale.get(Language);
+			// TODO show messagebox. this change needs restart
 		}
 		
 	}

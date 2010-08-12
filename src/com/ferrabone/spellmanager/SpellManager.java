@@ -70,6 +70,7 @@ public class SpellManager {
 		JBaddSpells.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JBquit.addActionListener(new butonsListeners());
 		JBquit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JBquit.setName("Quit");
 		JBViewSpells.addActionListener(new butonsListeners());
 		JBViewSpells.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JBSettings.addActionListener(new butonsListeners());
@@ -165,6 +166,7 @@ public class SpellManager {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton) e.getSource();
+			// TODO use the name instead of the text (so i18n wont make this fail)
 			String SSource = source.getText();
 			if (SSource.equalsIgnoreCase(settings.getString("AddSpells"))){
 				AddSpellApp = new AddSpellFrame(settings);
