@@ -111,8 +111,9 @@ public class Settings implements Serializable {
 	 */
 	public void setStrings(String LangPack) throws MissingResourceException {
 		try {
-			this.strings = ResourceBundle.getBundle(LangPack,this.currentLocale);
+			this.strings = ResourceBundle.getBundle("Languages."+LangPack,this.currentLocale);
 		} catch (MissingResourceException e)  {
+			System.err.println(System.getProperty( "java.class.path" ));
 			throw e;
 		}
 	}
