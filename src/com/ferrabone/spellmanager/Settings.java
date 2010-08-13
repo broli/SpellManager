@@ -113,7 +113,7 @@ public class Settings implements Serializable {
 		try {
 			this.strings = ResourceBundle.getBundle("Languages."+LangPack,this.currentLocale);
 		} catch (MissingResourceException e)  {
-			System.err.println(System.getProperty( "java.class.path" ));
+			System.err.println("Cant find Language files in \n"+System.getProperty( "java.class.path" ));
 			throw e;
 		}
 	}
