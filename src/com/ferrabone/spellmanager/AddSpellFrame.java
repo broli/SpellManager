@@ -448,11 +448,11 @@ public class AddSpellFrame {
 		
 		//Schools
 		if (!chainerror) {
-			options = options + Schoolcombo.toString()+";";
+			options = options + Schoolcombo.toString()+" ;";
 		}
 		//Descriptors
 		if (!chainerror){
-			options = options + Descriptors.toString()+";";
+			options = options + Descriptors.toString()+" ;";
 		}
 		//Components
 		if (!chainerror) {
@@ -467,7 +467,7 @@ public class AddSpellFrame {
 					}
 				}
 			}
-			options = options + ";";
+			options = options + " ;";
 		}
 		
 		//Domains
@@ -482,7 +482,7 @@ public class AddSpellFrame {
 					}
 				}
 			} //for each element in ArrayJcheckDomains
-			options = options + ";";
+			options = options + " ;";
 		}//if chain errors
 		
 		//casting time
@@ -494,14 +494,14 @@ public class AddSpellFrame {
 			}else {
 				chainerror=true;
 			}
-			options = options + ";";
+			options = options + " ;";
 		}
 		//Range
 		temp=null;
 		if (!chainerror) {
 			temp = (String)JComboRange.getSelectedItem();
 			if (!temp.isEmpty()){
-				options = options + temp+";";
+				options = options + temp+" ;";
 			}else{
 				chainerror=true;
 			}
@@ -510,7 +510,7 @@ public class AddSpellFrame {
 		//Targets
 		if (!chainerror) {
 			if (!JTFTarget.getText().isEmpty()){
-				options = options + JTFTarget.getText()+";";
+				options = options + JTFTarget.getText()+" ;";
 			}else{
 				chainerror=true;
 			}
@@ -518,23 +518,23 @@ public class AddSpellFrame {
 
 		//Duration
 		if (!chainerror) {
-			options = options + JComboDuration.getSelectedItem()+";";
+			options = options + JComboDuration.getSelectedItem()+" ;";
 		}
 		//Saving Throw
 		if (!chainerror) {
-			options = options + SavingThrow.toString()+";";
+			options = options + SavingThrow.toString()+" ;";
 		}
 		//spell resistance
 		if (!chainerror) {
-			options = options + JComboResistance.getSelectedItem()+";";
+			options = options + JComboResistance.getSelectedItem()+" ;";
 		}
 		//effect
 		if (!chainerror) {
-			options = options + JTFEffect.getText()+";";
+			options = options + JTFEffect.getText()+" ;";
 		}
 		//Full description
 		if (!chainerror) {
-			options = options + JTADescription.getText()+";";
+			options = options + JTADescription.getText()+" ;";
 		}
 		
 		//And if nothing went wrong, we report the result
