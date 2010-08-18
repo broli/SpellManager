@@ -1,6 +1,5 @@
 package com.ferrabone.spellmanager;
 import java.util.ArrayList;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;

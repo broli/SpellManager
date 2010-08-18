@@ -1,6 +1,5 @@
 package com.ferrabone.spellmanager;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +43,6 @@ public class AddSpellFrame {
 	
 	private Settings settings;
 	
-	// TODO Convert this app to the message bundle, and move these strings there
 	private String[] SClases;
 	private String[] SLevels;
 	private String[] SComponents;
@@ -354,18 +352,25 @@ public class AddSpellFrame {
 	
 	private void populateStrings() {
 		SClases = new String[]{ settings.getString("Class.Bard"), settings.getString("Class.Cleric"), settings.getString("Class.Druid"), settings.getString("Class.Paladin"), settings.getString("Class.Ranger"), settings.getString("Class.Sorcerer"), settings.getString("Class.Wizard")};
-		SClases = new String[]{ settings.getString("Class.Bard"), settings.getString("Class.Cleric"), settings.getString("Class.Druid"), settings.getString("Class.Paladin"), settings.getString("Class.Ranger"), settings.getString("Class.Sorcerer"), settings.getString("Class.Wizard")};
+		java.util.Arrays.sort(SClases);
 		SLevels = new String[]{ "0", "1","2","3","4","5","6","7","8","9"};
+		java.util.Arrays.sort(SLevels);
 		SComponents = new String[]{ settings.getString("Components.Verbal"),settings.getString("Components.Somatic"),settings.getString("Components.Material"),settings.getString("Components.Focus"),settings.getString("Components.Divine_Focus"),settings.getString("Components.XPCost")};
-		SDomains1 = new String[]{ settings.getString("Domains.Air"), settings.getString("Domains.Animal"), settings.getString("Domains.Chaos"), settings.getString("Domains.Death"), settings.getString("Domains.Destruction"), settings.getString("Domains.Earth"), settings.getString("Domains.Evil"), settings.getString("Domains.Fire")}; 
+		java.util.Arrays.sort(SComponents);
+		SDomains1 = new String[]{ settings.getString("Domains.Air"), settings.getString("Domains.Animal"), settings.getString("Domains.Chaos"), settings.getString("Domains.Death"), settings.getString("Domains.Destruction"), settings.getString("Domains.Earth"), settings.getString("Domains.Evil"), settings.getString("Domains.Fire")};
+		java.util.Arrays.sort(SDomains1);
 		SDomains2 = new String[]{ settings.getString("Domains.Good"), settings.getString("Domains.Healing"), settings.getString("Domains.Knowledge"),settings.getString("Domains.Law"), settings.getString("Domains.Luck"), settings.getString("Domains.Magic"), settings.getString("Domains.Plant"), settings.getString("Domains.Protection")};
+		java.util.Arrays.sort(SDomains2);
 		SDomains3 = new String[]{ settings.getString("Domains.Strength"), settings.getString("Domains.Sun"), settings.getString("Domains.Travel"), settings.getString("Domains.Trickery"), settings.getString("Domains.War"), settings.getString("Domains.Water")};
-		
+		java.util.Arrays.sort(SDomains3);
 		SCastingTime = new String[]{ settings.getString("Casting_Time.FreeAction"), settings.getString("Casting_Time.Round(s)"), settings.getString("Casting_Time.StandardAction") };
+		java.util.Arrays.sort(SCastingTime);
 		SRanges = new String[]{ settings.getString("Range.Personal"),settings.getString("Range.Touch"),settings.getString("Range.Close"),settings.getString("Range.Medium"),settings.getString("Range.Long"),settings.getString("Range.Unlimited")};
-		
+		java.util.Arrays.sort(SRanges);
 		SDurations = new String[]{ "",settings.getString("Duration.Instantaneous"), settings.getString("Duration.Permanent"),settings.getString("Duration.Concentration")};
-		SSpellResistance = new String[]{ settings.getString("No"),settings.getString("Yes"), settings.getString("Yes_Harmless"),settings.getString("SeeText")};	
+		java.util.Arrays.sort(SDurations);
+		SSpellResistance = new String[]{ settings.getString("No"),settings.getString("Yes"), settings.getString("Yes_Harmless"),settings.getString("SeeText")};
+		java.util.Arrays.sort(SSpellResistance);
 	}
 
 	//Constructors --------------------------------------------------------
