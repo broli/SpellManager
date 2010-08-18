@@ -29,9 +29,7 @@ import javax.swing.JTextField;
  *
  */
 public class SavingThrowWidget {
-	
-	private final String[] SSavingThrow = { "None","Negates","Partial","Half","Disbelief","harmless"};
-	
+	private String[] SSavingThrow = null;
 	private JComboBox JComboSavingThrow=null;
 	private JLabel JLSavingThrow=null;
 	private JTextField JTASavingThrow=null;
@@ -51,7 +49,7 @@ public class SavingThrowWidget {
 		JComboSavingThrow.setMaximumSize(JComboSavingThrow.getPreferredSize());
 		JComboSavingThrow.addActionListener(new ComboListener());
 		
-		JLSavingThrow = new JLabel(" Saving Throw ");
+		JLSavingThrow = new JLabel(settings.getString("SavingThrow"));
 		JTASavingThrow = new JTextField(25);
 		JTASavingThrow.setEnabled(false);//the default position of the combo box is "None" so we disable the text field
 		Name="Saving Throw";
@@ -63,7 +61,7 @@ public class SavingThrowWidget {
 	}
 	
 	private void populateStrings() {
-		// TODO Auto-generated method stub populateStrings()
+		SSavingThrow = new String[]{ settings.getString("SavingThrow.None"),settings.getString("SavingThrow.Negates"),settings.getString("SavingThrow.Partial"),settings.getString("SavingThrow.Half"),settings.getString("SavingThrow.Disbelief"),settings.getString("SavingThrow.harmless")};
 		
 	}
 
