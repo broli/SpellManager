@@ -2,7 +2,6 @@ package com.ferrabone.spellmanager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -44,29 +43,25 @@ public class MenuBarContainer {
 		
 		MainFrame=parFrame;
 		menuBar = new JMenuBar();
-		JMFile = new JMenu("File");
-		JMTools = new JMenu("Tools");
-		JMHelp = new JMenu("Help");
+		JMFile = new JMenu(settings.getString("File"));
+		JMTools = new JMenu(settings.getString("Tools"));
+		JMHelp = new JMenu(settings.getString("Help"));
 		
 		// File menu
-		// TODO make a open menu item
-		JMenuItem tmpMenuItem = new JMenuItem("Open");
+		JMenuItem tmpMenuItem ;
 		
-		JMFile.add(tmpMenuItem);
-		
-		JMFile.addSeparator();
-		tmpMenuItem = new JMenuItem("Quit");
+		tmpMenuItem = new JMenuItem(settings.getString("Close"));
 		tmpMenuItem.addActionListener(new QuitListener());
 		JMFile.add(tmpMenuItem);
 		
 		//Tools menu
-		tmpMenuItem = new JMenuItem("Move Spell File");
+		tmpMenuItem = new JMenuItem(settings.getString("MoveSpellFile"));
 		tmpMenuItem.addActionListener(new MoveListener());
 		JMTools.add(tmpMenuItem);
 		
 		
 		//Help menu
-		tmpMenuItem = new JMenuItem("About");
+		tmpMenuItem = new JMenuItem(settings.getString("About"));
 		tmpMenuItem.addActionListener(new AboutListener());
 		JMHelp.add(tmpMenuItem);
 		
@@ -91,6 +86,7 @@ public class MenuBarContainer {
 		
 	}
 	
+	// TODO finish tranlating this 2 listeners
 	public class MoveListener implements ActionListener {
 
 		@Override
