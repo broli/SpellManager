@@ -122,6 +122,7 @@ public class SpellManager {
 			is = new ObjectInputStream(new FileInputStream(Configfile));
 			settings =(Settings) is.readObject() ;
 			is.close();
+			//This is required to reinitialize transient variables
 			settings.updateStrings();
 		} catch (FileNotFoundException e) {
 			ShowErr("Can't read configuration file\n"+Configfile.getAbsolutePath()+"\nCorrupted or wrong file, Reverting to English defaults");
