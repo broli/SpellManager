@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.Locale;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -40,8 +39,9 @@ public class SpellManager {
 	
 	private AddSpellFrame AddSpellApp=null;
 	private ViewSpellsFrame ViewSpellsApp=null;
+	@SuppressWarnings("unused")
 	private SettingsFrame SettingsFrameApp=null;
-	private Settings settings;
+	private Settings settings=null;
 	
 	/**
 	 * @param args
@@ -96,7 +96,6 @@ public class SpellManager {
 		if (ViewSpellsApp!=null){
 			ViewSpellsApp.dispose();
 		}
-		
 	}
 	
 	private void ShowErr(String message){
