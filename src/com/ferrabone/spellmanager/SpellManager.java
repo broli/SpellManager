@@ -115,8 +115,8 @@ public class SpellManager {
 			ConfDir = new File(System.getProperty("user.dir"));
 		}
 		File Configfile = new File(ConfDir.getAbsolutePath()+File.separator+"config.cfg");
+
 		// TODO read Locale.getDefault() and try that before reverting to en_US
-		
 		ObjectInputStream is;
 		try {
 			is = new ObjectInputStream(new FileInputStream(Configfile));
