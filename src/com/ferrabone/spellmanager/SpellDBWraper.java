@@ -15,10 +15,49 @@
 */
 package com.ferrabone.spellmanager;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
 /**
  * @author carlos
  *
  */
 public class SpellDBWraper {
+	private String dataBase=null;
+	private Connection connection = null;
+
+	
+	/**
+	 * Defaults to file name Spell.db
+	 * @throws SQLException if its no posible to create a conection to the DB
+	 * @throws ClassNotFoundException if it cannot load the SQLite driver
+	 */
+	public SpellDBWraper() throws ClassNotFoundException, SQLException {
+		dataBase="Spell.db";
+		this.myconstructor();
+	}
+	/**
+	 * 
+	 * @param DataBase String with the SQLite3 database file
+	 * @throws SQLException if its no posible to create a conection to the DB
+	 * @throws ClassNotFoundException if it cannot load the SQLite driver
+	 */
+	public SpellDBWraper (String DataBase) throws ClassNotFoundException, SQLException{
+		this.dataBase= DataBase;
+		this.myconstructor();
+	}
+	/**
+	 * 
+	 * @throws ClassNotFoundException if it cannot load the SQLite driver
+	 * @throws SQLException if its no posible to create a conection to the DB
+	 */
+	private void myconstructor() throws ClassNotFoundException, SQLException{
+		Class.forName("org.sqlite.JDBC");
+		connection = DriverManager.getConnection("jdbc:sqlite:"+dataBase);
+		
+		
+	}
 
 }
