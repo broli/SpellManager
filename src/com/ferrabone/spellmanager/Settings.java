@@ -202,6 +202,10 @@ public class Settings implements Serializable {
 		Locale.setDefault(parLocale);
 	}
 	
+	/**
+	 * Populates the Confdir, Configgile and LangPackagedir variables
+	 * @throws FileNotFoundException if no Languages folder can be found
+	 */
 	private void setDirs() throws FileNotFoundException{
 
 		//a nice default
@@ -224,14 +228,21 @@ public class Settings implements Serializable {
 		
 	}
 	
+	/**
+	 * Constructor that creates a Settings object using en,US as locale
+	 * @throws FileNotFoundException
+	 * @throws MissingResourceException
+	 */
 	public Settings() throws FileNotFoundException,MissingResourceException{
 		this.setDirs();
 		setCurrentLocale("en","US");
 		myconstructor();
 	}
 	/**
+	 * Constructor that creates a Settings object using the parameter as Locale
 	 * @param locale The locale to load the messageBundle
 	 * @throws FileNotFoundException
+	 * @throws MissingResourceException
 	 */
 	public Settings(Locale locale) throws FileNotFoundException,MissingResourceException{
 		this.setDirs();
