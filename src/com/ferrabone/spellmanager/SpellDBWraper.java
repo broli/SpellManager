@@ -51,12 +51,13 @@ public class SpellDBWraper {
 	/**
 	 * 
 	 * @throws ClassNotFoundException if it cannot load the SQLite driver
-	 * @throws SQLException if its no posible to create a conection to the DB
+	 * @throws SQLException when problems occur while opening/closing the DB
 	 */
 	private void myconstructor() throws ClassNotFoundException, SQLException{
 		Class.forName("org.sqlite.JDBC");
 		connection = DriverManager.getConnection("jdbc:sqlite:"+dataBase);
-		
+		//testing if we could open the databse
+		connection.close();
 		
 	}
 
