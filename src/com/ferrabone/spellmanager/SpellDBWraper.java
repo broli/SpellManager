@@ -55,10 +55,14 @@ public class SpellDBWraper {
 	 */
 	private void myconstructor() throws ClassNotFoundException, SQLException{
 		Class.forName("org.sqlite.JDBC");
+		//test opening and closing the databse
 		connection = DriverManager.getConnection("jdbc:sqlite:"+dataBase);
-		//testing if we could open the databse
 		connection.close();
 		
 	}
-
+	
+	// TODO add function to insert spell
+	// TODO add function to search spell
+	// TODO add function to delete spell
+	// TODO add function to alter? spell
 }
