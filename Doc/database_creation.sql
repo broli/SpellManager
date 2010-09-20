@@ -65,7 +65,8 @@ text_id NUMERIC NOT NULL  REFERENCES textdesc (text_id)
 
 CREATE TABLE class_info (
 spell_id NUMERIC NOT NULL  REFERENCES spells (spell_id),
-class_id NUMERIC NOT NULL  REFERENCES casters (class_id)
+class_id NUMERIC NOT NULL  REFERENCES casters (class_id),
+Level INTEGER NOT NULL  DEFAULT 0
 );
 
 CREATE TABLE components_info (

@@ -21,7 +21,7 @@
 </key>
 <comment>Casting classes</comment>
 </table>
-<table x="522" y="29" name="schools	">
+<table x="522" y="29" name="schools ">
 <row name="school_id" null="0" autoincrement="1">
 <datatype>NUMERIC</datatype>
 </row>
@@ -46,7 +46,7 @@
 <table x="513" y="169" name="school_info">
 <row name="school_id" null="0" autoincrement="0">
 <datatype>NUMERIC</datatype>
-<relation table="schools	" row="school_id" />
+<relation table="schools " row="school_id" />
 </row>
 <row name="subschool_id" null="0" autoincrement="0">
 <datatype>NUMERIC</datatype>
@@ -139,14 +139,14 @@
 </row>
 <row name="casting_time" null="1" autoincrement="0">
 <datatype>TEXT(100)</datatype>
-</row>
+<default>NULL</default></row>
 <row name="range_id" null="0" autoincrement="0">
 <datatype>NUMERIC</datatype>
 <relation table="range" row="range_id" />
 </row>
 <row name="targets" null="1" autoincrement="0">
 <datatype>TEXT(200)</datatype>
-</row>
+<default>NULL</default></row>
 <row name="duration" null="0" autoincrement="0">
 <datatype>TEXT(50)</datatype>
 </row>
@@ -177,6 +177,9 @@
 <datatype>NUMERIC</datatype>
 <relation table="casters" row="class_id" />
 </row>
+<row name="Level" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>0</default></row>
 <key type="PRIMARY" name="">
 </key>
 </table>
@@ -217,4 +220,3 @@
 <comment>full text descriptio</comment>
 </table>
 </sql>
-
