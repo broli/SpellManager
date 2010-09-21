@@ -23,9 +23,52 @@ public class SchoolInfo {
 	private IDStringPairType school=null;
 	private IDStringPairType subSchool=null;
 	
+	/**
+	 * no arg constructor, leaves members empty
+	 */
 	public SchoolInfo(){
-		school = new IDStringPairType();
-		subSchool = new IDStringPairType();
+		setSchool(new IDStringPairType());
+		setSubSchool(new IDStringPairType());
 	}
+	/**
+	 * 
+	 * @param school object
+	 * @param subSchool object
+	 */
+	public SchoolInfo(IDStringPairType school,IDStringPairType subSchool){
+		setSchool(school);
+		setSubSchool(subSchool);
+	}
+	
+
+	/**
+	 * @param school the school to set
+	 */
+	public void setSchool(IDStringPairType school) {
+		this.school = school;
+	}
+
+	/**
+	 * @return the school
+	 */
+	public IDStringPairType getSchool() {
+		return school;
+	}
+
+	/**
+	 * @param subSchool the subSchool to set
+	 */
+	public void setSubSchool(IDStringPairType subSchool) {
+		this.subSchool = subSchool;
+	}
+
+	/**
+	 * @return the subSchool
+	 */
+	public IDStringPairType getSubSchool() {
+		return subSchool;
+	}
+	
+	
 
 }
