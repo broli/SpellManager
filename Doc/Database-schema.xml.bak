@@ -53,7 +53,7 @@
 <relation table="subschools" row="subschool_id" />
 </row>
 <row name="spell_id" null="0" autoincrement="0">
-<datatype>INTEGER</datatype>
+<datatype>NUMERIC</datatype>
 <relation table="spells" row="spell_id" />
 </row>
 <key type="PRIMARY" name="">
@@ -132,7 +132,7 @@
 </table>
 <table x="360" y="530" name="spells">
 <row name="spell_id" null="0" autoincrement="1">
-<datatype>INTEGER</datatype>
+<datatype>NUMERIC</datatype>
 </row>
 <row name="spell_name" null="0" autoincrement="0">
 <datatype>TEXT(50)</datatype>
