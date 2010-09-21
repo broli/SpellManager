@@ -15,25 +15,17 @@
 */
 package com.ferrabone.spellmanager.types;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-
 /**
- * @author carlos
- * This class will hold 1 spell at a time.
- * its main use will be to transport a spell from
- *  the addSpellFrame to the database  
- * But will also be used to read a spell out of the database
+ * @author cferrabo
+ *
  */
-public class SpellStruct {
+public class SchoolInfo {
+	private IDStringPairType school=null;
+	private IDStringPairType subSchool=null;
 	
-	private int ID=0;
-	private String spellName=null;
-
-	public SpellStruct(){
-		
-		
+	public SchoolInfo(){
+		school = new IDStringPairType();
+		subSchool = new IDStringPairType();
 	}
 
 }

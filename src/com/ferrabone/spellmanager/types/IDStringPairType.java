@@ -49,6 +49,14 @@ public class IDStringPairType {
 			
 	}
 	/**
+	 * Create an object using another 
+	 * @param object of type IDStringPairType
+	 */
+	public IDStringPairType(IDStringPairType obj){
+		this.setID(obj.getID());
+		this.setText(obj.getText());
+	}
+	/**
 	 * @param iD the iD to set
 	 */
 	public void setID(int iD) {
