@@ -64,7 +64,7 @@ public class ClassInfo {
 	}
 
 	/**
-	 * @param classID the classID to set, if parameter is inviladid, 0 is used
+	 * @param classID the classID to set, if parameter is invalid, 0 is used
 	 */
 	public void setClassID(int classID) {
 		if (classID >= 0){
