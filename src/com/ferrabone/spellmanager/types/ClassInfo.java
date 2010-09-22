@@ -16,105 +16,67 @@
 package com.ferrabone.spellmanager.types;
 
 /**
- * @author carlos
+ * @author cferrabo
  *
  */
 public class ClassInfo {
-	
-	private int SpellID=0;
-	private int ClassID=0;
-	private int Level=0;
-	private String ClassName=null;
+	private IDStringPairType casterClass=null;
+	private int level=0;
 	
 	/**
-	 * creates an empty instance (defaulting to 0 or null)
+	 * No args constructor, creates an obj with empty members
 	 */
 	public ClassInfo(){
-		//does nothing for now
+		setCasterClass(new IDStringPairType());
+	}
+	/**
+	 * Creates an obj, using another one, leaving level=0 
+	 * @param obj to copy
+	 */
+	public ClassInfo(IDStringPairType obj){
+		setCasterClass(new IDStringPairType(obj));
+	}
+	/**
+	 * Creates an obj, using another one, and using arg as level
+	 * @param obj to copy
+	 * @param level to set
+	 */
+	public ClassInfo(IDStringPairType obj,int level){
+		setCasterClass(new IDStringPairType(obj));
+		setLevel(level);
 	}
 	
-	/**
-	 * Constructor that takes all the state as parameters
-	 * @param SpellID Database ID asigned to the Spell this caster belongs
-	 * @param ClassID Database ID assigned to the Class
-	 * @param Level Number representing the caster level
-	 * @param ClassName The name of the caster class
-	 */
-	public ClassInfo(int SpellID,int ClassID,int Level,String ClassName){
-		
+	public ClassInfo(int iD,String text,int level){
+		setCasterClass(new IDStringPairType(iD, text));
+		setLevel(level);
 	}
-
 	/**
-	 * @param spellID the spellID to set. if parameter is invalid, 0 is used
+	 * @param casterClass the casterClass to set
 	 */
-	public void setSpellID(int spellID) {
-		if (spellID >= 0){
-			this.SpellID = spellID;
-		}else {
-			this.SpellID=0;
-		}
-		
+	public void setCasterClass(IDStringPairType casterClass) {
+		this.casterClass = casterClass;
 	}
-
 	/**
-	 * @return the spellID
+	 * @return the casterClass
 	 */
-	public int getSpellID() {
-		return SpellID;
+	public IDStringPairType getCasterClass() {
+		return casterClass;
 	}
-
 	/**
-	 * @param classID the classID to set, if parameter is inviladid, 0 is used
-	 */
-	public void setClassID(int classID) {
-		if (classID >= 0){
-			this.ClassID = classID;
-		}else{
-			this.ClassID = 0;
-		}
-	}
-
-	/**
-	 * @return the classID
-	 */
-	public int getClassID() {
-		return ClassID;
-	}
-
-	/**
-	 * @param level the level to set, if parameter is invalid, 0 is used
+	 * @param level the level to set
 	 */
 	public void setLevel(int level) {
-		if ( level >= 0 ){
-			this.Level = level;
+		if (level >= 0){
+			this.level = level;
 		}else{
-			this.Level= 0;
+			this.level = 0;
 		}
 	}
-
 	/**
 	 * @return the level
 	 */
 	public int getLevel() {
-		return Level;
-	}
-
-	/**
-	 * @param className the className to set
-	 */
-	public void setClassName(String className) {
-		if (className != null && className.length() > 0){
-			this.ClassName = className;
-		}else{
-			this.ClassName="Wrong!!!";
-		}
-	}
-
-	/**
-	 * @return the className
-	 */
-	public String getClassName() {
-		return ClassName;
+		return level;
 	}
 
 }

@@ -15,24 +15,48 @@
 */
 package com.ferrabone.spellmanager.types;
 
-import java.util.HashMap;
-
-
 /**
- * @author carlos
- * This class will hold 1 spell at a time.
- * its main use will be to transport a spell from
- *  the addSpellFrame to the database  
- * But will also be used to read a spell out of the database
+ * @author cferrabo
+ *
  */
-public class SpellStruct {
+public class RangeType extends IDStringPairType {
+	private int range=0;
 	
-	private String SpellName=null;
-	private HashMap<Integer, String> HMCasters = null;
-	
-	public SpellStruct(){
-		
-		
+	/**
+	 * Creates an obj with empty members
+	 */
+	public RangeType(){
+		// this automaticly calls super with no args
+	}
+	/**
+	 * 
+	 * @param Range to use (other members are created empty)
+	 */
+	public RangeType(int Range){
+		super();
+		this.setRange(Range);
+	}
+	/**
+	 * Fully parameterized constructor
+	 * @param iD
+	 * @param name
+	 * @param range
+	 */
+	public RangeType(int iD,String name,int range){
+		super(iD,name);
+		this.setRange(range);
+	}
+	/**
+	 * @param range the range to set
+	 */
+	public void setRange(int range) {
+		this.range = range;
+	}
+	/**
+	 * @return the range
+	 */
+	public int getRange() {
+		return range;
 	}
 
 }
