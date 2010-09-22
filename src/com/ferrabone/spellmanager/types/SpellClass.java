@@ -1,3 +1,7 @@
+package com.ferrabone.spellmanager.types;
+
+import java.util.ArrayList;
+
 /* This file is part of SpellManager
 *
 * SpellManager is free software: you can redistribute it and/or modify
@@ -13,15 +17,12 @@
 * You should have received a copy of the GNU General Public License
 * along with SpellManager. If not, see <http://www.gnu.org/licenses/>.
 */
-package com.ferrabone.spellmanager.types;
-
-import java.util.ArrayList;
 
 /**
  * @author cferrabo
  *
  */
-public class SpellType {
+public class SpellClass {
 	private int ID=0;
 	private String Name=null;
 	private ArrayList<ClassInfo> casters=null;
@@ -37,13 +38,13 @@ public class SpellType {
 	private IDStringPairType duration=null;
 	
 	/**
-	 * No args constructor
+	 * No args constructor 
 	 */
-	public SpellType(){
+	public SpellClass(){
 		// nothing for now
 	}
 	
-	public SpellType(String name){
+	public SpellClass(String name){
 		setName(name);
 	}
 	 
