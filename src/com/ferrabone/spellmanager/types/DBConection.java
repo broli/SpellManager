@@ -17,6 +17,11 @@ package com.ferrabone.spellmanager.types;
 
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
@@ -73,14 +78,23 @@ public class DBConection {
 	 * Search a spell by the name (exactly)
 	 * @param spellName
 	 * @return SpellClass
+	 * @throws SQLException 
 	 */
-	public SpellClass getSpellbyName(String spellName){
+	public SpellClass getSpellbyName(String spellName) throws SQLException{
 		SpellClass tmpSpell = new SpellClass(spellName);
+		Connection connection = null;
+
 		// TODO write this method getSpellbyName
+
 		//open DB and start query
-		
-		//select id FROM tabla WHERE name = ' parametro'
-		
+		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
+		//Statement statement = connection.createStatement();
+
+		//SELECT spell_id FROM spells WHERE spell_name = ' spellName ' ;
+		PreparedStatement prep = connection.prepareStatement("SELECT spell_id FROM spells WHERE spell_name = '?';");
+		prep.setString(1, spellName);
+		ResultSet rs = prep.executeQuery();
+
 		//tmpSpell = getSpellByID(int id)
 		
 		return tmpSpell;

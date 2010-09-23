@@ -42,7 +42,7 @@ domain_name TEXT(50) NOT NULL
 CREATE TABLE range (
 range_id INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
 range_name TEXT(50) NOT NULL ,
-rage_distance INTEGER NOT NULL 
+rage_distance TEXT NOT NULL 
 );
 
 CREATE TABLE resistance (
@@ -55,7 +55,7 @@ spell_id INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
 spell_name TEXT(50) NOT NULL ,
 time_id INTEGER NOT NULL  DEFAULT NULL REFERENCES castingTime (time_id),
 range_id INTEGER NOT NULL  REFERENCES range (range_id),
-target_id INTEGER NOT NULL  DEFAULT NULL REFERENCES targets (target_id),
+target TEXT NOT NULL ,
 duration_id INTEGER NOT NULL  REFERENCES duration (duration_id),
 save_id INTEGER NOT NULL  REFERENCES savingThrow (save_id),
 resistance_id INTEGER NOT NULL  REFERENCES resistance (resistance_id),
@@ -82,11 +82,6 @@ spell_id INTEGER NOT NULL  REFERENCES spells (spell_id)
 CREATE TABLE castingTime (
 time_id INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
 time TEXT NOT NULL 
-);
-
-CREATE TABLE targets (
-target_id INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
-target TEXT NOT NULL 
 );
 
 CREATE TABLE duration (

@@ -112,8 +112,8 @@
 <datatype>TEXT(50)</datatype>
 </row>
 <row name="rage_distance" null="0" autoincrement="0">
-<datatype>INTEGER</datatype>
-<comment>the real distance in foots</comment>
+<datatype>TEXT</datatype>
+<comment>the real distance </comment>
 </row>
 <key type="PRIMARY" name="">
 <part>range_id</part>
@@ -139,7 +139,7 @@
 </row>
 <row name="time_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="CastingTime" row="time_id" />
+<default>NULL</default><relation table="castingTime" row="time_id" />
 </row>
 <row name="range_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -147,7 +147,7 @@
 </row>
 <row name="target_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Targets" row="target_id" />
+<default>NULL</default><relation table="targets" row="target_id" />
 </row>
 <row name="duration_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -210,7 +210,7 @@
 <key type="PRIMARY" name="">
 </key>
 </table>
-<table x="28" y="501" name="CastingTime">
+<table x="28" y="501" name="castingTime">
 <row name="time_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -221,7 +221,7 @@
 <part>time_id</part>
 </key>
 </table>
-<table x="38" y="593" name="Targets">
+<table x="38" y="593" name="targets">
 <row name="target_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -243,7 +243,7 @@
 <part>duration_id</part>
 </key>
 </table>
-<table x="630" y="619" name="savingThrow">
+<table x="630" y="618" name="savingThrow">
 <row name="save_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>

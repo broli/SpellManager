@@ -112,8 +112,8 @@
 <datatype>TEXT(50)</datatype>
 </row>
 <row name="rage_distance" null="0" autoincrement="0">
-<datatype>INTEGER</datatype>
-<comment>the real distance in foots</comment>
+<datatype>TEXT</datatype>
+<comment>the real distance </comment>
 </row>
 <key type="PRIMARY" name="">
 <part>range_id</part>
@@ -145,9 +145,8 @@
 <datatype>INTEGER</datatype>
 <relation table="range" row="range_id" />
 </row>
-<row name="target_id" null="0" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="targets" row="target_id" />
+<row name="target" null="0" autoincrement="0">
+<datatype>TEXT</datatype>
 </row>
 <row name="duration_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -219,17 +218,6 @@
 </row>
 <key type="PRIMARY" name="">
 <part>time_id</part>
-</key>
-</table>
-<table x="38" y="593" name="targets">
-<row name="target_id" null="0" autoincrement="1">
-<datatype>INTEGER</datatype>
-</row>
-<row name="target" null="0" autoincrement="0">
-<datatype>TEXT</datatype>
-</row>
-<key type="PRIMARY" name="">
-<part>target_id</part>
 </key>
 </table>
 <table x="26" y="682" name="duration">
