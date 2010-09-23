@@ -81,8 +81,10 @@ public class DBConection {
 	 * @throws SQLException 
 	 */
 	public SpellClass getSpellbyName(String spellName) throws SQLException{
-		SpellClass tmpSpell = new SpellClass(spellName);
+		SpellClass tmpSpell = null;
 		Connection connection = null;
+		int RScount=0;
+		ResultSet rs=null;
 
 		// TODO write this method getSpellbyName
 
@@ -90,10 +92,28 @@ public class DBConection {
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 		//Statement statement = connection.createStatement();
 
-		//SELECT spell_id FROM spells WHERE spell_name = ' spellName ' ;
-		PreparedStatement prep = connection.prepareStatement("SELECT spell_id FROM spells WHERE spell_name = '?';");
+		//SELECT COUNT(spell_id) FROM spells WHERE spell_name = ' spellName ' ;
+		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = '?';");
 		prep.setString(1, spellName);
-		ResultSet rs = prep.executeQuery();
+		rs = prep.executeQuery();
+		//A ResultSet cursor is initially positioned before the first row; 
+		//the first call to the method next makes the first row the current row;
+		rs.next(); 
+		RScount = rs.getInt("COUNT");
+		if (RScount == 0){
+			// no results, nothing to do. 
+			//this is just a place holder, i know my logic is flawed, so i will need this if
+		}else {
+			if (RScount != 1){
+				//To many results, what do we do!!!
+			}else{
+				prep = connection.prepareStatement("SELECT spell_id FROM spells WHERE spell_name = '?';");
+				prep.setString(1, spellName);
+				rs = prep.executeQuery();
+				rs.next(); //i can assume the result set has 1 element(i hope)
+				tmpSpell = getSpellByID(rs.get);
+			}
+		}
 
 		//tmpSpell = getSpellByID(int id)
 		
