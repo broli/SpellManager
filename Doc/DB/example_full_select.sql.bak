@@ -1,0 +1,3 @@
+﻿
+SELECT * FROM spells,school_info 
+WHERE spells.spell_id = 1;

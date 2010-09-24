@@ -42,4 +42,4 @@ INSERT INTO domain_info VALUES(6,2);
 INSERT INTO school_info VALUES(1,1,2);
 
 
-COMMIT;
+commit;

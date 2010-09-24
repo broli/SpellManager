@@ -75,22 +75,19 @@ public class DBConection {
 	}
 	
 	/**
-	 * Search a spell by the name (exactly)
-	 * @param spellName
-	 * @return SpellClass
+	 * Search the database for the ID of a spell, given the name
+	 * @param spellName to search for
+	 * @return Id of the spell, or -1 if its not found
 	 * @throws SQLException 
 	 */
-	public SpellClass getSpellbyName(String spellName) throws SQLException{
-		SpellClass tmpSpell = null;
+	public int getSpellID(String spellName) throws SQLException{
+		int spellid=-1;
 		Connection connection = null;
 		int RScount=0;
 		ResultSet rs=null;
 
-		// TODO write this method getSpellbyName
-
 		//open DB and start query
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
-		//Statement statement = connection.createStatement();
 
 		//SELECT COUNT(spell_id) FROM spells WHERE spell_name = ' spellName ' ;
 		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = '?';");
@@ -100,6 +97,7 @@ public class DBConection {
 		//the first call to the method next makes the first row the current row;
 		rs.next(); 
 		RScount = rs.getInt("COUNT");
+		rs.close();
 		if (RScount == 0){
 			// no results, nothing to do. 
 			//this is just a place holder, i know my logic is flawed, so i will need this if
@@ -111,25 +109,45 @@ public class DBConection {
 				prep.setString(1, spellName);
 				rs = prep.executeQuery();
 				rs.next(); //i can assume the result set has 1 element(i hope)
-				tmpSpell = getSpellByID(rs.get);
+				spellid = rs.getInt("spell_id");
+				rs.close();
 			}
 		}
+		connection.close();
 
-		//tmpSpell = getSpellByID(int id)
 		
+		return spellid;
+	}
+	
+	/**
+	 * Search a spell by the name (exactly)
+	 * @param spellName
+	 * @return SpellClass object or null if no spell matches
+	 * @throws SQLException 
+	 */
+	public SpellClass getSpellbyName(String spellName) throws SQLException{
+		SpellClass tmpSpell = null;
+		
+		tmpSpell = getSpellByID(getSpellID(spellName));
+
 		return tmpSpell;
 	}
 	/**
 	 * Search a spell by ID
 	 * @param id 
 	 * @return SpellClass
+	 * @throws SQLException 
 	 */
-	public SpellClass getSpellByID(int id){
-		SpellClass tmpSpell = new SpellClass();
+	public SpellClass getSpellByID(int id) throws SQLException{
+		SpellClass tmpSpell = null;
+		Connection connection = null;
+		
 		// TODO write this method getSpellByID
 		//open DB and start query
+		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 		
 		// Full join and selects and stuff using spell id
+		
 		
 		return tmpSpell;
 	}
