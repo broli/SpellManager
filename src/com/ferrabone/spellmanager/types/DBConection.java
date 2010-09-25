@@ -146,7 +146,11 @@ public class DBConection {
 		//open DB and start query
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 		
-		// Full join and selects and stuff using spell id
+		//was going to use one natural join SELECT to get one spell at a time
+		//but a few tries with the example database and test java code made me
+		//decide to separate this into a few SELECTS
+		
+
 		
 		
 		return tmpSpell;
