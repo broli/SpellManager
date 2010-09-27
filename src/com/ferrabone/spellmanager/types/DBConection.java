@@ -141,6 +141,11 @@ public class DBConection {
 	public SpellClass getSpellByID(int id) throws SQLException{
 		SpellClass tmpSpell = null;
 		Connection connection = null;
+		PreparedStatement prep = null;
+		ResultSet rs=null;
+		IDStringPairType tmpPair=null;
+		SchoolInfo tmpSchoolInfo=null;
+		RangeType tmpRange=null;
 		
 		// TODO write this method getSpellByID
 		//open DB and start query
@@ -150,7 +155,44 @@ public class DBConection {
 		//but a few tries with the example database and test java code made me
 		//decide to separate this into a few SELECTS
 		
-
+		/*
+		 * --- first the main body with all the 1to1 tables 
+		 * SELECT a.spell_id, a.spell_name, g.school_name, g.subschool_name, b.time,c.range_name,c.rage_distance, a.target, d.duration, e.save, f.resistance_text, a.effect, a.text_id
+		 * 	FROM spells AS a NATURAL JOIN castingTime AS b NATURAL JOIN range AS c NATURAL JOIN duration AS d NATURAL JOIN savingThrow AS e NATURAL JOIN resistance AS f NATURAL JOIN (SELECT * FROM school_info NATURAL JOIN schools NATURAL JOIN subschools) as g
+		 * WHERE a.spell_id = 1;
+		 */
+		prep = connection.prepareStatement("SELECT a.spell_id, a.spell_name, g.school_name, g.subschool_name, b.time,c.range_name,c.rage_distance, a.target, d.duration, e.save, f.resistance_text, a.effect, a.text_id FROM spells AS a NATURAL JOIN castingTime AS b NATURAL JOIN range AS c NATURAL JOIN duration AS d NATURAL JOIN savingThrow AS e NATURAL JOIN resistance AS f NATURAL JOIN (SELECT * FROM school_info NATURAL JOIN schools NATURAL JOIN subschools) as g WHERE a.spell_id = '?';");  
+		//pass the id to the sql connection thingy and execute it
+		prep.setInt(1, id);
+		rs = prep.executeQuery();
+		/*
+		 * it should be imposible to get more than 1 spell with the same id, 
+		 * unless SQLite or the SQLite3 jdbc driver im using frack thing up big time
+		 */
+		rs.next();
+		//and now we finaly get ths tuff out and into a spell obj
+		tmpSpell = new SpellClass(rs.getString("a.spell_name"));
+		
+		//school
+		tmpSchoolInfo = new SchoolInfo();
+		
+		tmpPair = new IDStringPairType(rs.getInt("school_id"), rs.getString("school_name"));
+		tmpSchoolInfo.setSchool(tmpPair);
+		
+		tmpPair = new IDStringPairType(rs.getInt("subschool_id"), rs.getString("subschool_name"));
+		tmpSchoolInfo.setSubSchool(tmpPair);
+		
+		tmpSpell.setSchool(tmpSchoolInfo);
+		
+		//spellcasting time
+		tmpPair = new IDStringPairType(rs.getInt("time_id"), rs.getString("time"));
+		tmpSpell.setCastingTime(tmpPair);
+		
+		//range
+		tmpRange = new RangeType(rs.getInt("range_id"), rs.getString("range_name"), rs.getShort("range_distance"));
+		tmpSpell.setRange(tmpRange);
+		
+		
 		
 		
 		return tmpSpell;
