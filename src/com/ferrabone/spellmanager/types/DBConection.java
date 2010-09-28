@@ -75,7 +75,7 @@ public class DBConection {
 	}
 	
 	/**
-	 * Search the database for the ID of a spell, given the name
+	 * Search the database for the ID of a spell, given the name (exactly)
 	 * @param spellName to search for
 	 * @return Id of the spell, or -1 if its not found
 	 * @throws SQLException 
