@@ -34,7 +34,7 @@ public class SpellClass {
 	private IDStringPairType savingThrow=null;
 	private IDStringPairType resistance=null;
 	private IDStringPairType castingTime=null;
-	private IDStringPairType targets=null;
+	private String targets=null;
 	private IDStringPairType duration=null;
 	
 	/**
@@ -183,13 +183,13 @@ public class SpellClass {
 	/**
 	 * @return the targets
 	 */
-	public IDStringPairType getTargets() {
+	public String getTargets() {
 		return targets;
 	}
 	/**
 	 * @param targets the targets to set
 	 */
-	public void setTargets(IDStringPairType targets) {
+	public void setTargets(String targets) {
 		this.targets = targets;
 	}
 	/**
