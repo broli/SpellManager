@@ -12,9 +12,6 @@ SELECT * FROM class_info NATURAL JOIN casters WHERE spell_id = 1;
 --- Components
 SELECT * FROM components_info NATURAL JOIN components WHERE spell_id = 1;
 
---- Components
-SELECT * FROM components_info NATURAL JOIN components WHERE spell_id = 1;
-
 --- Domains
 SELECT * FROM domain_info NATURAL JOIN domains WHERE spell_id = 1;
 

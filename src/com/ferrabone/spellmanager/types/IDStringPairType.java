@@ -81,6 +81,13 @@ public class IDStringPairType {
 	public String getText() {
 		return text;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "[ID=" + ID + ", text=" + text + "]";
+	}
 	
 
 }

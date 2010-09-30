@@ -36,6 +36,8 @@ public class SpellClass {
 	private IDStringPairType castingTime=null;
 	private String targets=null;
 	private IDStringPairType duration=null;
+	private String effect=null;
+	private String text=null; 
 	
 	/**
 	 * No args constructor 
@@ -203,6 +205,79 @@ public class SpellClass {
 	 */
 	public void setDuration(IDStringPairType duration) {
 		this.duration = duration;
+	}
+
+	/**
+	 * @param effect the effect to set
+	 */
+	public void setEffect(String effect) {
+		this.effect = effect;
+	}
+
+	/**
+	 * @return the effect
+	 */
+	public String getEffect() {
+		return effect;
+	}
+
+	/**
+	 * @param text the text to set
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		boolean result=false;
+		SpellClass parameter = (SpellClass) obj;
+		
+		if (parameter.getID() == this.getID()){
+			result = true;
+		}else{
+			result = false;
+		}
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String line="";
+		/**
+
+		private IDStringPairType savingThrow=null;
+		private IDStringPairType resistance=null;
+		private IDStringPairType castingTime=null;
+		private String targets=null;
+		private IDStringPairType duration=null;
+		private String effect=null;
+		private String text=null; 
+		 */
+		
+		
+		
+		line = this.getID() +";"+ this.getName() +";"+ this.getCasters().toString() +";"+
+				this.getSchool().toString() +";"+ this.getDescriptors().toString() +";"+
+				this.getComponents().toString() +";"+ this.getDomains() +";"+ this.getRange().toString()+";"+
+				this.getSavingThrow().toString() +";"+ this.getResistance().toString() +";"+ 
+				this.getCastingTime().toString()+";"+ this.getTargets() +";"+ this.getDuration().toString()+";"+
+				this.getEffect() +";"+ this.getText();
+				
+		return line;
 	}
 	
 }

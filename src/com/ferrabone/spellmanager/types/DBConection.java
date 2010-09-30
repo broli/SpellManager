@@ -22,6 +22,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 /**
@@ -144,9 +145,12 @@ public class DBConection {
 		PreparedStatement prep = null;
 		ResultSet rs=null;
 		IDStringPairType tmpPair=null;
+		ClassInfo tmpCaster=null;
 		SchoolInfo tmpSchoolInfo=null;
 		RangeType tmpRange=null;
-		
+		ArrayList<IDStringPairType> tmpArray= new ArrayList<IDStringPairType>();
+		ArrayList<ClassInfo> tmpArrCaster = new ArrayList<ClassInfo>();
+			
 		// TODO write this method getSpellByID
 		//open DB and start query
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
@@ -157,9 +161,6 @@ public class DBConection {
 		
 		/*
 		 * --- first the main body with all the 1to1 tables 
-		 * SELECT a.spell_id, a.spell_name, g.school_name, g.subschool_name, b.time,c.range_name,c.rage_distance, a.target, d.duration, e.save, f.resistance_text, a.effect, a.text_id
-		 * 	FROM spells AS a NATURAL JOIN castingTime AS b NATURAL JOIN range AS c NATURAL JOIN duration AS d NATURAL JOIN savingThrow AS e NATURAL JOIN resistance AS f NATURAL JOIN (SELECT * FROM school_info NATURAL JOIN schools NATURAL JOIN subschools) as g
-		 * WHERE a.spell_id = 1;
 		 */
 		prep = connection.prepareStatement("SELECT * FROM Vspells WHERE spell_id = ?;");  
 		//pass the id to the sql connection thingy and execute it
@@ -172,6 +173,7 @@ public class DBConection {
 		rs.next();
 		//and now we finaly get ths tuff out and into a spell obj
 		tmpSpell = new SpellClass(rs.getString("spell_name"));
+		tmpSpell.setID(rs.getInt("spell_id"));
 		
 		//school
 		tmpSchoolInfo = new SchoolInfo();
@@ -192,7 +194,57 @@ public class DBConection {
 		tmpRange = new RangeType(rs.getInt("range_id"), rs.getString("range_name"), rs.getShort("range_distance"));
 		tmpSpell.setRange(tmpRange);
 		
-		//
+		//target
+		tmpSpell.setTargets(rs.getString("target"));
+		
+		//duration
+		tmpPair = new IDStringPairType(rs.getInt("duration_id"), rs.getString("duration"));
+		tmpSpell.setDuration(tmpPair);
+		
+		//save
+		tmpPair = new IDStringPairType(rs.getInt("save_id"), rs.getString("save"));
+		tmpSpell.setSavingThrow(tmpPair);
+		
+		//Resistance
+		tmpPair = new IDStringPairType(rs.getInt("resistance_id"), rs.getString("resistance_text"));
+		tmpSpell.setResistance(tmpPair);
+		
+		//effect 
+		tmpSpell.setEffect(rs.getString("effect"));
+		
+		//Text
+		tmpSpell.setText(rs.getString("text_id"));
+		
+		//cleanup the JDBC
+		rs.close();
+		prep.close();
+		// --- Now, one by one, to select the 1toMany tables
+		
+		// Descriptors
+		prep = connection.prepareStatement("SELECT * FROM descriptor_info NATURAL JOIN descriptors WHERE spell_id = ?;");
+		prep.setInt(1, id);
+		rs = prep.executeQuery();
+		
+		while (rs.next()){
+			tmpPair = new IDStringPairType(rs.getInt("descriptor_id"), rs.getString("descriptor_name"));
+			tmpArray.add(tmpPair);
+		}
+		tmpSpell.setDescriptors(tmpArray);
+		
+		//cleanup the JDBC
+		rs.close();
+		prep.close();
+		
+		//Casters
+		prep = connection.prepareStatement("SELECT * FROM class_info NATURAL JOIN casters WHERE spell_id = ?;");
+		prep.setInt(1, id);
+		rs = prep.executeQuery();
+		
+		while (rs.next()){
+			tmpCaster = new ClassInfo(rs.getInt("class_id"), rs.getString("class_name"), rs.getInt("Level"));
+			tmpArrCaster.add(tmpCaster);
+		}
+		tmpSpell.setCasters(tmpArrCaster);
 		
 		
 		
