@@ -70,21 +70,13 @@ public class SchoolInfo {
 	public IDStringPairType getSubSchool() {
 		return subSchool;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
-	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return this.getSchool().toString() + this.getSubSchool().toString();
 	}
 	
 	

@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 CREATE TABLE casters (
 class_id INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
 class_name TEXT(50) NOT NULL 
@@ -42,7 +44,7 @@ domain_name TEXT(50) NOT NULL
 CREATE TABLE range (
 range_id INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT,
 range_name TEXT(50) NOT NULL ,
-rage_distance TEXT NOT NULL 
+range_distance TEXT NOT NULL 
 );
 
 CREATE TABLE resistance (
@@ -97,7 +99,7 @@ save TEXT NOT NULL
 CREATE VIEW Vschool AS 
 SELECT * FROM school_info AS si 
 JOIN schools AS sc ON si.school_id = sc.school_id
-JOIN subschools AS ssc ON si.subschool_id = ssc.subschool_id
+JOIN subschools AS ssc ON si.subschool_id = ssc.subschool_id;
 
 CREATE VIEW Vspells AS 
 SELECT * FROM spells AS s
@@ -107,3 +109,5 @@ SELECT * FROM spells AS s
    JOIN savingThrow AS st ON s.save_id = st.save_id
    JOIN resistance AS re ON s.resistance_id = re.resistance_id
    JOIN Vschool as vs ON s.spell_id = vs.spell_id;
+
+COMMIT;

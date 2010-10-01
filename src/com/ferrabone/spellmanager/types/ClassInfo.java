@@ -64,6 +64,20 @@ public class ClassInfo {
 		return casterClass;
 	}
 	/**
+	 * 
+	 * @param id the ID to set
+	 */
+	public void setCasterID(int id){
+		this.getCasterClass().setID(id);
+	}
+	/**
+	 * 
+	 * @param name the name to set
+	 */
+	public void setCasterName(String name){
+		this.getCasterClass().setText(name);
+	}
+	/**
 	 * @param level the level to set
 	 */
 	public void setLevel(int level) {
@@ -78,6 +92,29 @@ public class ClassInfo {
 	 */
 	public int getLevel() {
 		return level;
+	}
+	/**
+	 * 
+	 * @return the ID
+	 */
+	public int getID(){
+		return this.getCasterClass().getID();
+	}
+	/**
+	 * 
+	 * @return the name
+	 */
+	public String getName() {
+		return this.getCasterClass().getText();
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		
+		return "[Caster id: " + this.getID() + ";Caster name: " + this.getName() + 
+		"; Caster level: " + this.getLevel()+"]";
 	}
 
 }

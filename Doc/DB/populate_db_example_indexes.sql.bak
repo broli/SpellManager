@@ -24,7 +24,9 @@ INSERT INTO descriptors (descriptor_name) VALUES('chaotic');
 INSERT INTO descriptors (descriptor_name) VALUES('force');
 INSERT INTO descriptors (descriptor_name) VALUES('ligth');
 INSERT INTO descriptors (descriptor_name) VALUES('lawfull');
+INSERT INTO descriptors (descriptor_name) VALUES('water');
 
+INSERT INTO domains (domain_name) VALUES('None');
 INSERT INTO domains (domain_name) VALUES('Air');
 INSERT INTO domains (domain_name) VALUES('Animal');
 INSERT INTO domains (domain_name) VALUES('Evil');
@@ -50,12 +52,14 @@ INSERT INTO savingThrow (save) VALUES('Fortitude negates');
 INSERT INTO savingThrow (save) VALUES('None');
 INSERT INTO savingThrow (save) VALUES('See Text');
 
+INSERT INTO schools (school_name) VALUES('None');
 INSERT INTO schools (school_name) VALUES('Conjuration');
 INSERT INTO schools (school_name) VALUES('Abjuration');
 INSERT INTO schools (school_name) VALUES('Divination');
 INSERT INTO schools (school_name) VALUES('Evocation');
 INSERT INTO schools (school_name) VALUES('Necromancy');
 
+INSERT INTO subschools (subschool_name) VALUES('None');
 INSERT INTO subschools (subschool_name) VALUES('Creation');
 INSERT INTO subschools (subschool_name) VALUES('Calling');
 INSERT INTO subschools (subschool_name) VALUES('Healing');

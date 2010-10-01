@@ -37,9 +37,9 @@ INSERT INTO duration (duration) VALUES('1 round');
 INSERT INTO duration (duration) VALUES('Instantaneous');
 INSERT INTO duration (duration) VALUES('1 round + 1 round/3 levels');
 
-INSERT INTO range (range_name,rage_distance) VALUES('Long','400 + 40/level');
-INSERT INTO range (range_name,rage_distance) VALUES('Short','25 + 5/2 levels');
-INSERT INTO range (range_name,rage_distance) VALUES('Medium','100 + 10/level');
+INSERT INTO range (range_name,range_distance) VALUES('Long','400 + 40/level');
+INSERT INTO range (range_name,range_distance) VALUES('Short','25 + 5/2 levels');
+INSERT INTO range (range_name,range_distance) VALUES('Medium','100 + 10/level');
 
 INSERT INTO resistance (resistance_text) VALUES('Yes');
 INSERT INTO resistance (resistance_text) VALUES('No');

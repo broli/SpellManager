@@ -91,14 +91,14 @@ public class DBConection {
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 
 		//SELECT COUNT(spell_id) FROM spells WHERE spell_name = ' spellName ' ;
-		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = '?';");
+		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ?;");
 		prep.setString(1, spellName);
 		rs = prep.executeQuery();
 		//A ResultSet cursor is initially positioned before the first row; 
 		//the first call to the method next makes the first row the current row;
 		rs.next(); 
 		RScount = rs.getInt("COUNT");
-		rs.close();
+		CloseConections(rs,null,null);
 		if (RScount == 0){
 			// no results, nothing to do. 
 			//this is just a place holder, i know my logic is flawed, so i will need this if
@@ -106,15 +106,15 @@ public class DBConection {
 			if (RScount != 1){
 				//To many results, what do we do!!!
 			}else{
-				prep = connection.prepareStatement("SELECT spell_id FROM spells WHERE spell_name = '?';");
+				prep = connection.prepareStatement("SELECT spell_id FROM spells WHERE spell_name = ?;");
 				prep.setString(1, spellName);
 				rs = prep.executeQuery();
 				rs.next(); //i can assume the result set has 1 element(i hope)
 				spellid = rs.getInt("spell_id");
-				rs.close();
+				CloseConections(rs,null,null);
 			}
 		}
-		connection.close();
+		CloseConections(null,prep,connection);
 
 		
 		return spellid;
@@ -191,7 +191,7 @@ public class DBConection {
 		tmpSpell.setCastingTime(tmpPair);
 		
 		//range
-		tmpRange = new RangeType(rs.getInt("range_id"), rs.getString("range_name"), rs.getShort("range_distance"));
+		tmpRange = new RangeType(rs.getInt("range_id"), rs.getString("range_name"), rs.getString("range_distance"));
 		tmpSpell.setRange(tmpRange);
 		
 		//target
@@ -216,8 +216,7 @@ public class DBConection {
 		tmpSpell.setText(rs.getString("text_id"));
 		
 		//cleanup the JDBC
-		rs.close();
-		prep.close();
+		CloseConections(rs,prep,null);
 		// --- Now, one by one, to select the 1toMany tables
 		
 		// Descriptors
@@ -232,8 +231,7 @@ public class DBConection {
 		tmpSpell.setDescriptors(tmpArray);
 		
 		//cleanup the JDBC
-		rs.close();
-		prep.close();
+		CloseConections(rs,prep,null);
 		
 		//Casters
 		prep = connection.prepareStatement("SELECT * FROM class_info NATURAL JOIN casters WHERE spell_id = ?;");
@@ -246,7 +244,38 @@ public class DBConection {
 		}
 		tmpSpell.setCasters(tmpArrCaster);
 		
+		//cleanup the JDBC
+		CloseConections(rs,prep,null);
 		
+		//components
+		prep = connection.prepareStatement("SELECT * FROM components_info NATURAL JOIN components WHERE spell_id = ?;");
+		prep.setInt(1, id);
+		rs = prep.executeQuery();
+		
+		tmpArray= new ArrayList<IDStringPairType>();
+		while (rs.next()){
+			tmpPair = new IDStringPairType(rs.getInt("component_id"), rs.getString("component_name"));
+			tmpArray.add(tmpPair);
+		}
+		tmpSpell.setComponents(tmpArray);
+		
+		//cleanup the JDBC
+		CloseConections(rs,prep,null);
+		
+		//domains
+		prep = connection.prepareStatement("SELECT * FROM domain_info NATURAL JOIN domains WHERE spell_id = ?;");
+		prep.setInt(1, id);
+		rs = prep.executeQuery();
+		
+		tmpArray= new ArrayList<IDStringPairType>();
+		while (rs.next()){
+			tmpPair = new IDStringPairType(rs.getInt("domain_id"), rs.getString("domain_name"));
+			tmpArray.add(tmpPair);
+		}
+		tmpSpell.setDomains(tmpArray);
+		
+		//And finaly close everything
+		CloseConections(rs,prep,connection);
 		
 		return tmpSpell;
 	}
@@ -270,6 +299,27 @@ public class DBConection {
 		//commit or rollback
 
 		return result;
+	}
+	
+	/**
+	 * Closes the Database related objs passed as parameters.
+	 * Parameters can be null, in which case they will simple be ignored
+	 * @param ResultSet 
+	 * @param PrepStmt
+	 * @param connection
+	 * @throws SQLException 
+	 */
+	private void CloseConections(ResultSet resultSet, PreparedStatement PrepStmt,Connection connection) throws SQLException{
+		if (resultSet != null){
+			resultSet.close();
+		}
+		if (PrepStmt != null){
+			PrepStmt.close();
+		}
+		if (connection != null){
+			connection.close();
+		}
+		
 	}
 	
 

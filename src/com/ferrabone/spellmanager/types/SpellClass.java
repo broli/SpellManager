@@ -257,21 +257,14 @@ public class SpellClass {
 	@Override
 	public String toString() {
 		String line="";
-		/**
-
-		private IDStringPairType savingThrow=null;
-		private IDStringPairType resistance=null;
-		private IDStringPairType castingTime=null;
-		private String targets=null;
-		private IDStringPairType duration=null;
-		private String effect=null;
-		private String text=null; 
-		 */
 		
 		
 		
-		line = this.getID() +";"+ this.getName() +";"+ this.getCasters().toString() +";"+
-				this.getSchool().toString() +";"+ this.getDescriptors().toString() +";"+
+		line = "Spell id: "+ this.getID() +";"+ this.getName() +";Casters -";
+		for (ClassInfo caster:this.getCasters()){
+			line = line + caster.toString()+";";
+		}
+		line = line +"School/subSchool -"+ this.getSchool().toString() +";"+ this.getDescriptors().toString() +";"+
 				this.getComponents().toString() +";"+ this.getDomains() +";"+ this.getRange().toString()+";"+
 				this.getSavingThrow().toString() +";"+ this.getResistance().toString() +";"+ 
 				this.getCastingTime().toString()+";"+ this.getTargets() +";"+ this.getDuration().toString()+";"+

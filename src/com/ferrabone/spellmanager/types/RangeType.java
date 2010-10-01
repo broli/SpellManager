@@ -22,7 +22,7 @@ package com.ferrabone.spellmanager.types;
  *
  */
 public class RangeType extends IDStringPairType {
-	private int range=0;
+	private String range=null;
 	
 	/**
 	 * Creates an obj with empty members
@@ -34,7 +34,7 @@ public class RangeType extends IDStringPairType {
 	 * 
 	 * @param Range to use (other members are created empty)
 	 */
-	public RangeType(int Range){
+	public RangeType(String Range){
 		super();
 		this.setRange(Range);
 	}
@@ -44,20 +44,20 @@ public class RangeType extends IDStringPairType {
 	 * @param name
 	 * @param range
 	 */
-	public RangeType(int iD,String name,int range){
+	public RangeType(int iD,String name,String range){
 		super(iD,name);
 		this.setRange(range);
 	}
 	/**
 	 * @param range the range to set
 	 */
-	public void setRange(int range) {
+	public void setRange(String range) {
 		this.range = range;
 	}
 	/**
 	 * @return the range
 	 */
-	public int getRange() {
+	public String getRange() {
 		return range;
 	}
 	/* (non-Javadoc)
