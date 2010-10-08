@@ -151,7 +151,6 @@ public class DBConection {
 		ArrayList<IDStringPairType> tmpArray= new ArrayList<IDStringPairType>();
 		ArrayList<ClassInfo> tmpArrCaster = new ArrayList<ClassInfo>();
 			
-		// TODO write this method getSpellByID
 		//open DB and start query
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 		
@@ -284,16 +283,44 @@ public class DBConection {
 	 * Inserts the spell in the DB
 	 * @param spell SpellClass object holding the spell.
 	 * @return true only if the spell was fully and successfully written 
+	 * @throws SQLException 
 	 */
-	public boolean writeSpell(SpellClass spell){
+	public boolean writeSpell(SpellClass spell) throws SQLException{
 		boolean result=false;
+		Connection connection = null;
+		PreparedStatement prep = null;
+		ResultSet rs=null;
+		IDStringPairType tmpPair=null;
+		ClassInfo tmpCaster=null;
+		SchoolInfo tmpSchoolInfo=null;
+		RangeType tmpRange=null;
+		ArrayList<IDStringPairType> tmpArray= new ArrayList<IDStringPairType>();
+		ArrayList<ClassInfo> tmpArrCaster = new ArrayList<ClassInfo>();
+		
 		// TODO write this method writeSpell
 		//open database and start transaction
+		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 		
 		// insert main table data
+		prep = connection.prepareStatement("INSERT INTO spells (spell_name,time_id,range_id,"+
+				"target,duration_id,save_id,resistance_id,effect,text_id) "+
+				"VALUES (?,?,?,?,?,?,?,?,?);");
+		
+		prep.setString(1, spell.getName());
+		prep.setInt(2, spell.getCastingTime().getID());
+		prep.setInt(3, spell.getRange().getID());
+		prep.setString(4, spell.getTargets());
+		prep.setInt(5, spell.getDuration().getID());
+		prep.setInt(6, spell.getSavingThrow().getID());
+		prep.setInt(7, spell.getResistance().getID());
+		prep.setString(8, spell.getEffect());
+		prep.setString(9, spell.getText());
+		
+		prep.executeUpdate();
+		prep.close();
 		
 		// search for spell id
-		
+		//spell.setID(this.getSpellbyName(spell.getName()));
 		// insert double join table data
 		
 		//commit or rollback
