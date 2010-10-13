@@ -65,7 +65,7 @@ public class ClassInfo {
 	}
 	/**
 	 * 
-	 * @param id the ID to set
+	 * @param id the caster ID to set
 	 */
 	public void setCasterID(int id){
 		this.getCasterClass().setID(id);
@@ -95,7 +95,7 @@ public class ClassInfo {
 	}
 	/**
 	 * 
-	 * @return the ID
+	 * @return the caster ID
 	 */
 	public int getID(){
 		return this.getCasterClass().getID();

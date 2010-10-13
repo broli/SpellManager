@@ -289,13 +289,7 @@ public class DBConection {
 		boolean result=false;
 		Connection connection = null;
 		PreparedStatement prep = null;
-		ResultSet rs=null;
-		IDStringPairType tmpPair=null;
-		ClassInfo tmpCaster=null;
-		SchoolInfo tmpSchoolInfo=null;
-		RangeType tmpRange=null;
-		ArrayList<IDStringPairType> tmpArray= new ArrayList<IDStringPairType>();
-		ArrayList<ClassInfo> tmpArrCaster = new ArrayList<ClassInfo>();
+
 		
 		// TODO write this method writeSpell
 		//open database and start transaction
@@ -320,10 +314,33 @@ public class DBConection {
 		prep.close();
 		
 		// search for spell id
-		//spell.setID(this.getSpellbyName(spell.getName()));
-		// insert double join table data
+		spell.setID(this.getSpellbyName(spell.getName()).getID());
 		
-		//commit or rollback
+		//******
+		// insert double join table data
+		//******
+		
+		// Class info
+		// Prepare the statement and batch mode
+		prep = connection.prepareStatement("INSERT INTO class_info VALUES(?,?,?);");
+		
+		connection.setAutoCommit(false);
+
+		for ( ClassInfo caster : spell.getCasters()){
+			//for each caster in the array
+			// set the 3 values to insert
+			prep.setInt(1, spell.getID());  // Spell ID
+			prep.setInt(2, caster.getID()); // Caster ID
+			prep.setInt(3, caster.getLevel()); // Level
+			//and add to the transaction
+			prep.executeUpdate();
+		}
+		//commit the transaction, and close the prepared statement
+		connection.commit();
+		prep.close();
+		
+		
+		
 
 		return result;
 	}
