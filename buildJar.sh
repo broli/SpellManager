@@ -4,8 +4,7 @@ if [ ! -d builds ]
 then
 	mkdir builds
 else
-	echo "cant create build dir"
-	exit 1
+	echo "Build dir exists"
 fi
 
 
