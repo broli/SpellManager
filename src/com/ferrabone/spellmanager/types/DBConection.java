@@ -340,8 +340,9 @@ public class DBConection {
 		
 		connection.setAutoCommit(false);
 
+		//for each caster in the array
 		for ( ClassInfo caster : spell.getCasters()){
-			//for each caster in the array
+
 			// set the 3 values to insert
 			prep.setInt(1, spell.getID());  // Spell ID
 			prep.setInt(2, caster.getID()); // Caster ID
@@ -350,6 +351,7 @@ public class DBConection {
 			prep.executeUpdate();
 		}
 		//commit the transaction, and close the prepared statement
+		//The commit is only needed because the auto commit setting is of
 		connection.commit();
 		prep.close();
 		
