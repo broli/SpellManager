@@ -91,7 +91,7 @@ public class DBConectionTest extends TestCase {
 		try {
 			SpellClass spell = null;
 			DBConection test = new DBConection("example.db");
-			spell = test.getSpellByID(1);
+			spell = test.getSpellByID(2);
 			System.out.println(spell.toString());
 			
 		} catch (ClassNotFoundException e) {

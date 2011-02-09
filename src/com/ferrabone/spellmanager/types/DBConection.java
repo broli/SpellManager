@@ -325,7 +325,7 @@ public class DBConection {
 		prep.setString(9, spell.getText());
 		
 		prep.executeUpdate();
-		prep.close();
+		CloseConections(null,prep,null);
 		
 		// search for spell id
 		spell.setID(this.getSpellbyName(spell.getName()).getID());
