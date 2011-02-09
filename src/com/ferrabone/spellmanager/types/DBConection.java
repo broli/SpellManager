@@ -35,7 +35,7 @@ public class DBConection {
 	/**
 	 * No Args constructor. 
 	 * Remember to set the db file before using db related methods.
-	 * It does loads the driver
+	 * It does load the driver
 	 * @throws ClassNotFoundException 
 	 */
 	public DBConection() throws ClassNotFoundException{
@@ -62,6 +62,8 @@ public class DBConection {
 	}
 
 	/**
+	 * Sets the DBFile to the specified one 
+	 * 
 	 * @param dbfile the dbfile to set
 	 */
 	public void setDbfile(String dbfile) {
@@ -69,7 +71,7 @@ public class DBConection {
 	}
 
 	/**
-	 * @return the dbfile
+	 * @return the dbfile (String)
 	 */
 	public String getDbfile() {
 		return dbfile;
@@ -91,32 +93,44 @@ public class DBConection {
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 
 		//SELECT COUNT(spell_id) FROM spells WHERE spell_name = ' spellName ' ;
+		//Create Statement for later execution
 		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ?;");
+		// Set the variable value of statement
 		prep.setString(1, spellName);
+		//Execute the statement
 		rs = prep.executeQuery();
 		//A ResultSet cursor is initially positioned before the first row; 
-		//the first call to the method next makes the first row the current row;
+		//the first call to the method "next" makes the first row the current row;
 		rs.next(); 
+		// Get the "COUNT" of results
 		RScount = rs.getInt("COUNT");
+
 		CloseConections(rs,null,null);
 		if (RScount == 0){
 			// no results, nothing to do. 
-			//this is just a place holder, i know my logic is flawed, so i will need this if
+			//this is just a place holder, i know my logic is flawed, so i will need this
 		}else {
 			if (RScount != 1){
 				//To many results, what do we do!!!
 			}else{
+				//Create Statement for later execution (reusing existing var)
 				prep = connection.prepareStatement("SELECT spell_id FROM spells WHERE spell_name = ?;");
+				// Set the variable value of statement
 				prep.setString(1, spellName);
+				//Execute the statement
 				rs = prep.executeQuery();
-				rs.next(); //i can assume the result set has 1 element(i hope)
+				//A ResultSet cursor is initially positioned before the first row; 
+				//the first call to the method "next" makes the first row the current row;
+				rs.next(); //i can assume the result set has 1 element
 				spellid = rs.getInt("spell_id");
 				CloseConections(rs,null,null);
 			}
 		}
 		CloseConections(null,prep,connection);
 
-		
+		/* Return the spell ID recovered from the DB.
+		 * if the search had no results, the spellid var has the value -1 (set during creation)
+		 */
 		return spellid;
 	}
 	
