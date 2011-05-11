@@ -94,7 +94,7 @@ public class DBConection {
 
 		//SELECT COUNT(spell_id) FROM spells WHERE spell_name = ' spellName ' ;
 		//Create Statement for later execution
-		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ?;");
+		PreparedStatement prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ? ;");
 		// Set the variable value of statement
 		prep.setString(1, spellName);
 		//Execute the statement
@@ -175,13 +175,13 @@ public class DBConection {
 		/*
 		 * --- first the main body with all the 1to1 tables 
 		 */
-		prep = connection.prepareStatement("SELECT * FROM Vspells WHERE spell_id = ?;");  
+		prep = connection.prepareStatement("SELECT * FROM Vspells WHERE spell_id = ? ;");  
 		//pass the id to the sql connection thingy and execute it
 		prep.setInt(1, id);
 		rs = prep.executeQuery();
 		/*
 		 * it should be imposible to get more than 1 spell with the same id, 
-		 * unless SQLite or the SQLite3 jdbc driver im using frack thing up big time
+		 * unless SQLite or the SQLite3 jdbc driver im using frack things up big time
 		 */
 		rs.next();
 		//and now we finaly get ths tuff out and into a spell obj
@@ -334,11 +334,14 @@ public class DBConection {
 		// insert double join table data
 		//******
 		
+		// Enter batch mode
+		connection.setAutoCommit(false);
+		
 		// Class info
-		// Prepare the statement and batch mode
+		// Prepare the statement 
 		prep = connection.prepareStatement("INSERT INTO class_info VALUES(?,?,?);");
 		
-		connection.setAutoCommit(false);
+
 
 		//for each caster in the array
 		for ( ClassInfo caster : spell.getCasters()){
@@ -353,13 +356,83 @@ public class DBConection {
 		//commit the transaction, and close the prepared statement
 		//The commit is only needed because the auto commit setting is of
 		connection.commit();
-		prep.close();
+		CloseConections(null,prep,null);
 		
 		
 		
+		// Descriptor Info
+		prep = connection.prepareStatement("INSERT INTO descriptor_info VALUES(?,?);");
+		
+		//for each Descriptor in the array
+		for ( IDStringPairType descriptors : spell.getDescriptors()){
 
+			// set the 2 values to insert
+			prep.setInt(1, descriptors.getID()); // Descriptor ID
+			prep.setInt(2, spell.getID());  // Spell ID
+			//and add to the transaction
+			prep.executeUpdate();
+		}
+		//commit the transaction, and close the prepared statement
+		//The commit is only needed because the auto commit setting is of
+		connection.commit();
+		CloseConections(null,prep,null);
+		
+		
+		
+		// School Info
+		prep = connection.prepareStatement("INSERT INTO school_info VALUES(?,?,?);");
+		
+		prep.setInt(1, spell.getSchool().getSchool().getID()); // School ID
+		prep.setInt(2, spell.getSchool().getSubSchool().getID()); // Subschool ID
+		prep.setInt(3, spell.getID());  // Spell ID
+		
+		prep.executeUpdate();
+		//commit the transaction, and close the prepared statement
+		//The commit is only needed because the auto commit setting is of
+		connection.commit();
+		CloseConections(null,prep,null);
+		
+		
+		
+		// Components Info
+		prep = connection.prepareStatement("INSERT INTO components_info VALUES(?,?);");
+		
+		//for each Component in the array
+		for ( IDStringPairType Components : spell.getComponents()){
+
+			// set the 2 values to insert
+			prep.setInt(1, Components.getID()); // component ID
+			prep.setInt(2, spell.getID());  // Spell ID
+			//and add to the transaction
+			prep.executeUpdate();
+		}
+		//commit the transaction, and close the prepared statement
+		//The commit is only needed because the auto commit setting is of
+		connection.commit();
+		CloseConections(null,prep,null);
+		
+		
+		
+		// Domain Info
+		prep = connection.prepareStatement("INSERT INTO domain_info VALUES(?,?);");
+		
+		//for each Component in the array
+		for ( IDStringPairType domain : spell.getDomains()){
+
+			// set the 2 values to insert
+			prep.setInt(1, domain.getID()); // domain ID
+			prep.setInt(2, spell.getID());  // Spell ID
+			//and add to the transaction
+			prep.executeUpdate();
+		}
+		//commit the transaction, and close the prepared statement
+		//The commit is only needed because the auto commit setting is of
+		connection.commit();
+		
+		CloseConections(null,prep,connection);
 		return result;
 	}
+	
 	
 	/**
 	 * Closes the Database related objs passed as parameters.

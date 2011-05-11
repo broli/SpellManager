@@ -43,7 +43,7 @@ public class DBConectionTest extends TestCase {
 			DBConection test = new DBConection("example.db");
 			test.getClass();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 	}
@@ -57,10 +57,10 @@ public class DBConectionTest extends TestCase {
 			System.out.println(test.getSpellID("Acid Arrow"));
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 	}
@@ -76,10 +76,10 @@ public class DBConectionTest extends TestCase {
 			System.out.println(spell.toString());
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 	}
@@ -95,13 +95,43 @@ public class DBConectionTest extends TestCase {
 			System.out.println(spell.toString());
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// 
 			e.printStackTrace();
 		}
 	}
+	
+
+	/**
+	 * Test method for {@link com.ferrabone.spellmanager.types.DBConection#writeSpell(SpellClass)}.
+	 */
+	public void testwriteSpell() {
+		try {
+			SpellClass spell = null;
+			DBConection test = new DBConection("example.db");
+			spell = test.getSpellByID(1);
+			
+			// modifico el spell para grabar como nuevo
+			String name = spell.getName();
+			int numero = spell.getID();
+			
+			spell.setName(name+" "+numero);
+			
+			test.writeSpell(spell);
+			
+			
+		} catch (ClassNotFoundException e) {
+			// 
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// 
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/*
 	public static Test suite(){
 		return new TestSuite(DBConectionTest.class);

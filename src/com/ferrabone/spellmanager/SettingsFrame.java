@@ -156,10 +156,10 @@ public class SettingsFrame {
 						os.writeObject(settings);
 						os.close();
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
+						// 
 						e1.printStackTrace();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						// 
 						e1.printStackTrace();
 					}
 				
@@ -178,7 +178,7 @@ public class SettingsFrame {
 			JComboBox combo = (JComboBox) e.getSource();
 			String Language = (String) combo.getSelectedItem();
 			newLocale = HMapLocale.get(Language);
-			// TODO show messagebox. this change needs restart
+			// 
 		}
 		
 	}
