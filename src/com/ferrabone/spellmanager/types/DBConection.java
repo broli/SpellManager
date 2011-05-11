@@ -303,11 +303,33 @@ public class DBConection {
 		boolean result=false;
 		Connection connection = null;
 		PreparedStatement prep = null;
-
+		ResultSet rs=null;
+		int RScount=0;
 		
 		// TODO write this method writeSpell
 		//open database and start transaction
 		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
+		
+		
+		//check if the spell exists. we cant allow duplicated named spells
+		prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ? ;");
+		// Set the variable value of statement
+		prep.setString(1, spell.getName());
+		//Execute the statement
+		rs = prep.executeQuery();
+		//A ResultSet cursor is initially positioned before the first row; 
+		//the first call to the method "next" makes the first row the current row;
+		rs.next(); 
+		// Get the "COUNT" of results
+		RScount = rs.getInt("COUNT");
+		
+		if (RScount == 0){
+			// no results, we can safely add the spell
+		}else {
+			// There is another spell with the same name, dont write!!!
+			return false;
+		}
+		
 		
 		// insert main table data
 		prep = connection.prepareStatement("INSERT INTO spells (spell_name,time_id,range_id,"+

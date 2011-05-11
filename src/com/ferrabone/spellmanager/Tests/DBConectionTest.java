@@ -110,6 +110,8 @@ public class DBConectionTest extends TestCase {
 	public void testwriteSpell() {
 		try {
 			SpellClass spell = null;
+			boolean result=false;
+			
 			DBConection test = new DBConection("example.db");
 			spell = test.getSpellByID(1);
 			
@@ -120,6 +122,8 @@ public class DBConectionTest extends TestCase {
 			spell.setName(name+" "+numero);
 			
 			test.writeSpell(spell);
+			
+			System.out.println("did it write? "+result);
 			
 			
 		} catch (ClassNotFoundException e) {
