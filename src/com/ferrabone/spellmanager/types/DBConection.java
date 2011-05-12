@@ -29,6 +29,10 @@ import java.util.ArrayList;
  * @author cferrabo
  *
  */
+/**
+ * @author cferrabo
+ *
+ */
 public class DBConection {
 	private String dbfile=null;
 	
@@ -136,6 +140,7 @@ public class DBConection {
 	
 	/**
 	 * Search a spell by the name (exactly)
+	 * Uses the View Vspells, so you cant use this method before fully writing a spell 
 	 * @param spellName
 	 * @return SpellClass object or null if no spell matches
 	 * @throws SQLException 
@@ -149,6 +154,7 @@ public class DBConection {
 	}
 	/**
 	 * Search a spell by ID
+	 * Uses the View Vspells, so you cant use this method before fully writing a spell 
 	 * @param id 
 	 * @return SpellClass
 	 * @throws SQLException 
@@ -350,7 +356,7 @@ public class DBConection {
 		CloseConections(null,prep,null);
 		
 		// search for spell id
-		spell.setID(this.getSpellbyName(spell.getName()).getID());
+		spell.setID(this.getSpellID(spell.getName()));
 		
 		//******
 		// insert double join table data
@@ -454,6 +460,7 @@ public class DBConection {
 		CloseConections(null,prep,connection);
 		return result;
 	}
+	
 	
 	
 	/**

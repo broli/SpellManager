@@ -121,7 +121,7 @@ public class DBConectionTest extends TestCase {
 			
 			spell.setName(name+" "+numero);
 			
-			test.writeSpell(spell);
+			result = test.writeSpell(spell);
 			
 			System.out.println("did it write? "+result);
 			
