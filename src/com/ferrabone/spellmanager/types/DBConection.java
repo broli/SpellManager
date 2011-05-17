@@ -25,8 +25,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
-
 
 /**
  * @author cferrabo
@@ -327,6 +325,9 @@ public class DBConection {
 		int RScount=0;
 		
 		// TODO finish writin this method, writeSpell
+		// TODO Handdle sql errors like IOerror or out of memory, disk full, ect
+		
+		
 		//open database and start transaction
 		try {
 			connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
@@ -356,126 +357,152 @@ public class DBConection {
 				return this.HMErrorCodes.get("DuplicatedSpell");
 			}
 		} catch (SQLException e) {
-			// TODO Handdle sql errors
+			// failed the select?
 			e.printStackTrace();
 			return this.HMErrorCodes.get("Unknown");
 		}		
 		
 		// insert main table data
-		prep = connection.prepareStatement("INSERT INTO spells (spell_name,time_id,range_id,"+
-				"target,duration_id,save_id,resistance_id,effect,text_id) "+
-				"VALUES (?,?,?,?,?,?,?,?,?);");
+		try {
+			
+			// Enter batch mode
+			connection.setAutoCommit(false);
+			
+			prep = connection.prepareStatement("INSERT INTO spells (spell_name,time_id,range_id,"+
+					"target,duration_id,save_id,resistance_id,effect,text_id) "+
+					"VALUES (?,?,?,?,?,?,?,?,?);");
 		
-		prep.setString(1, spell.getName());
-		prep.setInt(2, spell.getCastingTime().getID());
-		prep.setInt(3, spell.getRange().getID());
-		prep.setString(4, spell.getTargets());
-		prep.setInt(5, spell.getDuration().getID());
-		prep.setInt(6, spell.getSavingThrow().getID());
-		prep.setInt(7, spell.getResistance().getID());
-		prep.setString(8, spell.getEffect());
-		prep.setString(9, spell.getText());
+			prep.setString(1, spell.getName());
+			prep.setInt(2, spell.getCastingTime().getID());
+			prep.setInt(3, spell.getRange().getID());
+			prep.setString(4, spell.getTargets());
+			prep.setInt(5, spell.getDuration().getID());
+			prep.setInt(6, spell.getSavingThrow().getID());
+			prep.setInt(7, spell.getResistance().getID());
+			prep.setString(8, spell.getEffect());
+			prep.setString(9, spell.getText());
 		
-		prep.executeUpdate();
-		CloseConections(null,prep,null);
-		
-		// search for spell id
-		spell.setID(this.getSpellID(spell.getName()));
-		
-		//******
-		// insert double join table data
-		//******
-		
-		// Enter batch mode
-		connection.setAutoCommit(false);
-		
-		// Class info
-		// Prepare the statement 
-		prep = connection.prepareStatement("INSERT INTO class_info VALUES(?,?,?);");
-		
+			prep.executeUpdate();			
 
+		
+			// search for spell id
+			spell.setID(this.getSpellID(spell.getName()));
+		
+			//******
+			// insert double join table data
+			//******
+		
+		
+			// Class info
+			// Prepare the statement 
+			prep = connection.prepareStatement("INSERT INTO class_info VALUES(?,?,?);");
 
-		//for each caster in the array
-		for ( ClassInfo caster : spell.getCasters()){
+			//for each caster in the array
+			for ( ClassInfo caster : spell.getCasters()){
 
-			// set the 3 values to insert
-			prep.setInt(1, spell.getID());  // Spell ID
-			prep.setInt(2, caster.getID()); // Caster ID
-			prep.setInt(3, caster.getLevel()); // Level
-			//and add to the transaction
+				// set the 3 values to insert
+				prep.setInt(1, spell.getID());  // Spell ID
+				prep.setInt(2, caster.getID()); // Caster ID
+				prep.setInt(3, caster.getLevel()); // Level
+				//and add to the transaction
+				prep.executeUpdate();
+			}
+			// close the prepared statement
+			CloseConections(null,prep,null);
+		
+			// Descriptor Info
+			prep = connection.prepareStatement("INSERT INTO descriptor_info VALUES(?,?);");
+			
+			//for each Descriptor in the array
+			for ( IDStringPairType descriptors : spell.getDescriptors()){
+	
+				// set the 2 values to insert
+				prep.setInt(1, descriptors.getID()); // Descriptor ID
+				prep.setInt(2, spell.getID());  // Spell ID
+				//and add to the transaction
+				prep.executeUpdate();
+			}
+			// close the prepared statement
+			CloseConections(null,prep,null);
+			
+			
+			
+			// School Info
+			prep = connection.prepareStatement("INSERT INTO school_info VALUES(?,?,?);");
+			
+			prep.setInt(1, spell.getSchool().getSchool().getID()); // School ID
+			prep.setInt(2, spell.getSchool().getSubSchool().getID()); // Subschool ID
+			prep.setInt(3, spell.getID());  // Spell ID
+			
 			prep.executeUpdate();
-		}
-		// close the prepared statement
-		CloseConections(null,prep,null);
-		
-		
-		
-		// Descriptor Info
-		prep = connection.prepareStatement("INSERT INTO descriptor_info VALUES(?,?);");
-		
-		//for each Descriptor in the array
-		for ( IDStringPairType descriptors : spell.getDescriptors()){
+			// close the prepared statement
+			CloseConections(null,prep,null);
+			
+			
+			
+			// Components Info
+			prep = connection.prepareStatement("INSERT INTO components_info VALUES(?,?);");
+			
+			//for each Component in the array
+			for ( IDStringPairType Components : spell.getComponents()){
+	
+				// set the 2 values to insert
+				prep.setInt(1, Components.getID()); // component ID
+				prep.setInt(2, spell.getID());  // Spell ID
+				//and add to the transaction
+				prep.executeUpdate();
+			}
+			// close the prepared statement
+			CloseConections(null,prep,null);
+			
+			
+			
+			// Domain Info
+			prep = connection.prepareStatement("INSERT INTO domain_info VALUES(?,?);");
+			
+			//for each Component in the array
+			for ( IDStringPairType domain : spell.getDomains()){
+	
+				// set the 2 values to insert
+				prep.setInt(1, domain.getID()); // domain ID
+				prep.setInt(2, spell.getID());  // Spell ID
+				//and add to the transaction
+				prep.executeUpdate();
+			}
+			// close the prepared statement
+			CloseConections(null,prep,null);
 
-			// set the 2 values to insert
-			prep.setInt(1, descriptors.getID()); // Descriptor ID
-			prep.setInt(2, spell.getID());  // Spell ID
-			//and add to the transaction
-			prep.executeUpdate();
+		} catch (SQLException e) {
+			// The insert failed at some point
+			// Printing information
+			System.out.print("\n");
+			System.out.print(e.getMessage());
+			System.out.print(e.getCause());
+			System.out.print("\n");
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// Rollback failed. no idea what to do here
+				System.out.print("***********************************\n");
+				System.out.print(e1.getMessage());
+				System.out.print(e1.getCause());
+				System.out.print("\n");
+				e1.printStackTrace();
+				System.out.print("***********************************\n");
+			}
+			
+			return this.HMErrorCodes.get("Unknown");
 		}
-		// close the prepared statement
-		CloseConections(null,prep,null);
-		
-		
-		
-		// School Info
-		prep = connection.prepareStatement("INSERT INTO school_info VALUES(?,?,?);");
-		
-		prep.setInt(1, spell.getSchool().getSchool().getID()); // School ID
-		prep.setInt(2, spell.getSchool().getSubSchool().getID()); // Subschool ID
-		prep.setInt(3, spell.getID());  // Spell ID
-		
-		prep.executeUpdate();
-		// close the prepared statement
-		CloseConections(null,prep,null);
-		
-		
-		
-		// Components Info
-		prep = connection.prepareStatement("INSERT INTO components_info VALUES(?,?);");
-		
-		//for each Component in the array
-		for ( IDStringPairType Components : spell.getComponents()){
-
-			// set the 2 values to insert
-			prep.setInt(1, Components.getID()); // component ID
-			prep.setInt(2, spell.getID());  // Spell ID
-			//and add to the transaction
-			prep.executeUpdate();
-		}
-		// close the prepared statement
-		CloseConections(null,prep,null);
-		
-		
-		
-		// Domain Info
-		prep = connection.prepareStatement("INSERT INTO domain_info VALUES(?,?);");
-		
-		//for each Component in the array
-		for ( IDStringPairType domain : spell.getDomains()){
-
-			// set the 2 values to insert
-			prep.setInt(1, domain.getID()); // domain ID
-			prep.setInt(2, spell.getID());  // Spell ID
-			//and add to the transaction
-			prep.executeUpdate();
-		}
-		// close the prepared statement
-		CloseConections(null,prep,null);
 		
 		//if we got here, its because everything went ok so far, and we dont need to rollback
-		connection.commit();
+		try {
+			connection.commit();
+			CloseConections(null,prep,connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		CloseConections(null,prep,connection);
 		return this.HMErrorCodes.get("NoError");
 	}
 	
