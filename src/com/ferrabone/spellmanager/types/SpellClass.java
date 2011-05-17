@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *
  */
 public class SpellClass {
-	private int ID=0;
+	private int ID=-1;
 	private String Name=null;
 	private ArrayList<ClassInfo> casters=null;
 	private SchoolInfo school=null;

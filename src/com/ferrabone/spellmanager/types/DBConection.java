@@ -71,10 +71,14 @@ public class DBConection {
 	 * 
 	 */
 	private void InitializeErrorCodes(){
+		HMErrorCodes = new HashMap<String,Integer>();
+		
 		// TODO write all the returning codes
+		
 		HMErrorCodes.put("NoError",0);
 		HMErrorCodes.put("DBFileNotFound",-1);
 		HMErrorCodes.put("DuplicatedSpell",-2);
+		HMErrorCodes.put("InvalidSpellID",-3);
 		
 		HMErrorCodes.put("Unknown",-999);
 	}
@@ -97,17 +101,28 @@ public class DBConection {
 	/**
 	 * Search the database for the ID of a spell, given the name (exactly)
 	 * @param spellName to search for
+	 * @param connection to use. might be null
 	 * @return Id of the spell, or -1 if its not found
 	 * @throws SQLException 
+	 * 
+	 * If the parameter "connection" has a valid connection object, it will be used instead of making a new connection.
+	 * this is important in situations where you are working on transaction that has not yet been committed
+	 * If you dont re use the same connection, you wont see the changes made until a commit is made
 	 */
-	public int getSpellID(String spellName) throws SQLException{
+	public int getSpellID(String spellName, Connection con) throws SQLException{
 		int spellid=-1;
 		Connection connection = null;
 		int RScount=0;
 		ResultSet rs=null;
+		
+		if (con == null){
+			//open DB and start query
+			connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());			
+		}else {
+			// reuse the connection
+			connection = con;
+		}
 
-		//open DB and start query
-		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
 
 		//SELECT COUNT(spell_id) FROM spells WHERE spell_name = ' spellName ' ;
 		//Create Statement for later execution
@@ -143,7 +158,11 @@ public class DBConection {
 				CloseConections(rs,null,null);
 			}
 		}
-		CloseConections(null,prep,connection);
+		CloseConections(null,prep,null);
+		if (con == null){
+			//we can close the connection, because it was created localy 
+			CloseConections(null,null,connection);			
+		}
 
 		/* Return the spell ID recovered from the DB.
 		 * if the search had no results, the spellid var has the value -1 (set during creation)
@@ -161,7 +180,7 @@ public class DBConection {
 	public SpellClass getSpellbyName(String spellName) throws SQLException{
 		SpellClass tmpSpell = null;
 		
-		tmpSpell = getSpellByID(getSpellID(spellName));
+		tmpSpell = getSpellByID(getSpellID(spellName,null));
 
 		return tmpSpell;
 	}
@@ -324,9 +343,7 @@ public class DBConection {
 		ResultSet rs=null;
 		int RScount=0;
 		
-		// TODO finish writin this method, writeSpell
 		// TODO Handdle sql errors like IOerror or out of memory, disk full, ect
-		
 		
 		//open database and start transaction
 		try {
@@ -386,7 +403,7 @@ public class DBConection {
 
 		
 			// search for spell id
-			spell.setID(this.getSpellID(spell.getName()));
+			spell.setID(this.getSpellID(spell.getName(),connection));
 		
 			//******
 			// insert double join table data
@@ -506,7 +523,23 @@ public class DBConection {
 		return this.HMErrorCodes.get("NoError");
 	}
 	
-	
+	public int updateSpell(SpellClass spell){
+		// TODO working on the method updateSpell
+		
+		// First we have to check if the spell has already an id.
+		if (spell.getID() < 0) {
+			//the id is invalid, its probably a spell generated in memory
+			// for now, i wont allow this
+			return this.HMErrorCodes.get("InvalidSpellID");
+		}
+		// after this point, it means the spell in the parameter has an Id
+		// if this Id is real or not, thats another problem. 
+		// i will asumme is valid
+		
+		
+		
+		return this.HMErrorCodes.get("NoError");
+	}
 	
 	/**
 	 * Closes the Database related objs passed as parameters.

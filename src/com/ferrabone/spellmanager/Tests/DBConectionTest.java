@@ -54,7 +54,7 @@ public class DBConectionTest extends TestCase {
 	public void testGetSpellID() {
 		try {
 			DBConection test = new DBConection("example.db");
-			System.out.println(test.getSpellID("Acid Arrow"));
+			System.out.println(test.getSpellID("Acid Arrow",null));
 			
 		} catch (ClassNotFoundException e) {
 			// 
@@ -110,7 +110,7 @@ public class DBConectionTest extends TestCase {
 	public void testwriteSpell() {
 		try {
 			SpellClass spell = null;
-			boolean result=false;
+			int result=1;
 			
 			DBConection test = new DBConection("example.db");
 			spell = test.getSpellByID(1);
