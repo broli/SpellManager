@@ -23,18 +23,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JPanel;
 
 
 /**
  * @author cferrabo
  *
  */
-/**
- * @author cferrabo
- *
- */
+
 public class DBConection {
 	private String dbfile=null;
+	private HashMap<String,Integer> HMErrorCodes = null;
 	
 	/**
 	 * No Args constructor. 
@@ -44,6 +45,7 @@ public class DBConection {
 	 */
 	public DBConection() throws ClassNotFoundException{
 		loadDriver();
+		InitializeErrorCodes();
 	}
 
 	/**
@@ -56,6 +58,7 @@ public class DBConection {
 	public DBConection(String dbFile) throws ClassNotFoundException{
 		loadDriver();
 		setDbfile(dbFile);
+		InitializeErrorCodes();
 	}
 	/**
 	 * Tries to load the SQLite driver
@@ -65,6 +68,18 @@ public class DBConection {
 		Class.forName("org.sqlite.JDBC");
 	}
 
+	/**
+	 * Creates the array of return code errors
+	 * 
+	 */
+	private void InitializeErrorCodes(){
+		// TODO write all the returning codes
+		HMErrorCodes.put("NoError",0);
+		HMErrorCodes.put("DBFileNotFound",-1);
+		HMErrorCodes.put("DuplicatedSpell",-2);
+		
+		HMErrorCodes.put("Unknown",-999);
+	}
 	/**
 	 * Sets the DBFile to the specified one 
 	 * 
@@ -305,37 +320,46 @@ public class DBConection {
 	 * @return true only if the spell was fully and successfully written 
 	 * @throws SQLException 
 	 */
-	public boolean writeSpell(SpellClass spell) throws SQLException{
-		boolean result=false;
+	public int writeSpell(SpellClass spell) {
 		Connection connection = null;
 		PreparedStatement prep = null;
 		ResultSet rs=null;
 		int RScount=0;
 		
-		// TODO write this method writeSpell
+		// TODO finish writin this method, writeSpell
 		//open database and start transaction
-		connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
-		
-		
-		//check if the spell exists. we cant allow duplicated named spells
-		prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ? ;");
-		// Set the variable value of statement
-		prep.setString(1, spell.getName());
-		//Execute the statement
-		rs = prep.executeQuery();
-		//A ResultSet cursor is initially positioned before the first row; 
-		//the first call to the method "next" makes the first row the current row;
-		rs.next(); 
-		// Get the "COUNT" of results
-		RScount = rs.getInt("COUNT");
-		
-		if (RScount == 0){
-			// no results, we can safely add the spell
-		}else {
-			// There is another spell with the same name, dont write!!!
-			return false;
+		try {
+			connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
+		} catch (SQLException e) {
+			//we where not able to open database, so we return with a failure.
+			return this.HMErrorCodes.get("DBFileNotFound");
 		}
 		
+		try {
+			//check if the spell exists. we cant allow duplicated named spells
+			prep = connection.prepareStatement("SELECT COUNT(spell_id) AS COUNT FROM spells WHERE spell_name = ? ;");
+
+			// Set the variable value of statement
+			prep.setString(1, spell.getName());
+			//Execute the statement
+			rs = prep.executeQuery();
+			//A ResultSet cursor is initially positioned before the first row; 
+			//the first call to the method "next" makes the first row the current row;
+			rs.next(); 
+			// Get the "COUNT" of results
+			RScount = rs.getInt("COUNT");
+		
+			if (RScount == 0){
+				// no results, we can safely add the spell
+			}else {
+				// There is another spell with the same name, dont write!!!
+				return this.HMErrorCodes.get("DuplicatedSpell");
+			}
+		} catch (SQLException e) {
+			// TODO Handdle sql errors
+			e.printStackTrace();
+			return this.HMErrorCodes.get("Unknown");
+		}		
 		
 		// insert main table data
 		prep = connection.prepareStatement("INSERT INTO spells (spell_name,time_id,range_id,"+
@@ -381,9 +405,7 @@ public class DBConection {
 			//and add to the transaction
 			prep.executeUpdate();
 		}
-		//commit the transaction, and close the prepared statement
-		//The commit is only needed because the auto commit setting is of
-		connection.commit();
+		// close the prepared statement
 		CloseConections(null,prep,null);
 		
 		
@@ -400,9 +422,7 @@ public class DBConection {
 			//and add to the transaction
 			prep.executeUpdate();
 		}
-		//commit the transaction, and close the prepared statement
-		//The commit is only needed because the auto commit setting is of
-		connection.commit();
+		// close the prepared statement
 		CloseConections(null,prep,null);
 		
 		
@@ -415,9 +435,7 @@ public class DBConection {
 		prep.setInt(3, spell.getID());  // Spell ID
 		
 		prep.executeUpdate();
-		//commit the transaction, and close the prepared statement
-		//The commit is only needed because the auto commit setting is of
-		connection.commit();
+		// close the prepared statement
 		CloseConections(null,prep,null);
 		
 		
@@ -434,9 +452,7 @@ public class DBConection {
 			//and add to the transaction
 			prep.executeUpdate();
 		}
-		//commit the transaction, and close the prepared statement
-		//The commit is only needed because the auto commit setting is of
-		connection.commit();
+		// close the prepared statement
 		CloseConections(null,prep,null);
 		
 		
@@ -453,12 +469,14 @@ public class DBConection {
 			//and add to the transaction
 			prep.executeUpdate();
 		}
-		//commit the transaction, and close the prepared statement
-		//The commit is only needed because the auto commit setting is of
+		// close the prepared statement
+		CloseConections(null,prep,null);
+		
+		//if we got here, its because everything went ok so far, and we dont need to rollback
 		connection.commit();
 		
 		CloseConections(null,prep,connection);
-		return result;
+		return this.HMErrorCodes.get("NoError");
 	}
 	
 	
