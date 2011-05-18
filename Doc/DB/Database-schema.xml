@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- http://ondras.zarovi.cz/sql/demo/ -->
+<!-- SQL XML created by WWW SQL Designer, http://code.google.com/p/wwwsqldesigner/ -->
+<!-- Active URL: http://ondras.zarovi.cz/sql/demo/ -->
 <sql>
 <datatypes db="sqlite">
 	<group label="Affinity">
@@ -9,7 +10,7 @@
 		<type label="Real" default="0" length="0" sql="REAL" quote="" color="rgb(238,238,170)"/>
 		<type label="None" default="" length="0" sql="NONE" quote="" color="rgb(200,255,200)"/>
 	</group>
-</datatypes><table x="27" y="122" name="casters">
+</datatypes><table x="30" y="206" name="casters">
 <row name="class_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -21,7 +22,7 @@
 </key>
 <comment>Casting classes</comment>
 </table>
-<table x="522" y="29" name="schools ">
+<table x="665" y="125" name="schools ">
 <row name="school_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -32,7 +33,7 @@
 <part>school_id</part>
 </key>
 </table>
-<table x="262" y="33" name="subschools">
+<table x="428" y="134" name="subschools">
 <row name="subschool_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -43,7 +44,7 @@
 <part>subschool_id</part>
 </key>
 </table>
-<table x="513" y="169" name="school_info">
+<table x="529" y="220" name="school_info">
 <row name="school_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
 <relation table="schools " row="school_id" />
@@ -59,7 +60,7 @@
 <key type="PRIMARY" name="">
 </key>
 </table>
-<table x="240" y="138" name="descriptors">
+<table x="194" y="139" name="descriptors">
 <row name="descriptor_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -82,7 +83,7 @@
 <key type="PRIMARY" name="">
 </key>
 </table>
-<table x="689" y="32" name="components">
+<table x="827" y="177" name="components">
 <row name="component_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -93,7 +94,7 @@
 <part>component_id</part>
 </key>
 </table>
-<table x="818" y="268" name="domains">
+<table x="827" y="385" name="domains">
 <row name="domain_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -104,7 +105,7 @@
 <part>domain_id</part>
 </key>
 </table>
-<table x="680" y="506" name="range">
+<table x="634" y="475" name="range">
 <row name="range_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -119,7 +120,7 @@
 <part>range_id</part>
 </key>
 </table>
-<table x="645" y="722" name="resistance">
+<table x="173" y="617" name="resistance">
 <row name="resistance_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -130,7 +131,7 @@
 <part>resistance_id</part>
 </key>
 </table>
-<table x="360" y="530" name="spells">
+<table x="347" y="411" name="spells">
 <row name="spell_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -170,7 +171,7 @@
 <part>spell_id</part>
 </key>
 </table>
-<table x="33" y="266" name="class_info">
+<table x="27" y="334" name="class_info">
 <row name="spell_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
 <relation table="spells" row="spell_id" />
@@ -185,7 +186,7 @@
 <key type="PRIMARY" name="">
 </key>
 </table>
-<table x="740" y="162" name="components_info">
+<table x="731" y="276" name="components_info">
 <row name="component_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
 <relation table="components" row="component_id" />
@@ -197,7 +198,7 @@
 <key type="PRIMARY" name="">
 </key>
 </table>
-<table x="686" y="355" name="domain_info">
+<table x="635" y="385" name="domain_info">
 <row name="domain_id" null="0" autoincrement="0">
 <datatype>INTEGER</datatype>
 <relation table="domains" row="domain_id" />
@@ -209,7 +210,7 @@
 <key type="PRIMARY" name="">
 </key>
 </table>
-<table x="28" y="501" name="castingTime">
+<table x="21" y="464" name="castingTime">
 <row name="time_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -220,7 +221,7 @@
 <part>time_id</part>
 </key>
 </table>
-<table x="26" y="682" name="duration">
+<table x="24" y="562" name="duration">
 <row name="duration_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
@@ -231,7 +232,7 @@
 <part>duration_id</part>
 </key>
 </table>
-<table x="630" y="618" name="savingThrow">
+<table x="564" y="588" name="savingThrow">
 <row name="save_id" null="0" autoincrement="1">
 <datatype>INTEGER</datatype>
 </row>
