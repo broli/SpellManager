@@ -525,6 +525,9 @@ public class DBConection {
 	
 	public int updateSpell(SpellClass spell){
 		// TODO working on the method updateSpell
+		Connection connection = null;
+		PreparedStatement prep = null;
+		ResultSet rs=null;
 		
 		// First we have to check if the spell has already an id.
 		if (spell.getID() < 0) {
@@ -534,9 +537,57 @@ public class DBConection {
 		}
 		// after this point, it means the spell in the parameter has an Id
 		// if this Id is real or not, thats another problem. 
-		// i will asumme is valid
+		// i will assume is valid
 		
-		
+		try {
+			connection = DriverManager.getConnection("jdbc:sqlite:"+getDbfile());
+			connection.setAutoCommit(false);
+			
+			// the main table is easier to just over write the whole table
+			
+			prep = connection.prepareStatement("UPDATE spells " +
+												"SET spell_name=? , "+
+												"time_id=? , "+
+												"range_id=? , "+
+												"target=? , "+
+												"duration_id=? , "+
+												"save_id=? , "+
+												"resistance_id=? , "+
+												"effect=? , "+
+												"text_id=? "+
+												"WHERE spell_id = ?;");
+			
+			prep.setString(1, spell.getName());  // Set the name
+			prep.setInt(2,spell.getCastingTime().getID());  // set the time id
+			prep.setInt(3, spell.getRange().getID());  // set the range id
+			prep.setString(4, spell.getTargets());  // set the targets
+			prep.setInt(5, spell.getDuration().getID());  // set the duration
+			prep.setInt(6, spell.getSavingThrow().getID());  // set the Save
+			prep.setInt(7, spell.getResistance().getID());  // set the resistance
+			prep.setString(8, spell.getEffect());
+			prep.setString(9, spell.getText());
+			
+			prep.executeUpdate();
+			CloseConections(null,prep,null);
+		} catch (SQLException e) {
+			// TODO Catch all the errors and do something meaningful with them 
+			e.printStackTrace();
+		}
+			
+			
+			// Now to update the other tables
+			
+			// the other tables i can't just totally over write. i need to find exactly what changed
+			prep = connection.prepareStatement("select * from class_info where spell_id=?;");
+			prep.setInt(1, spell.getID());
+			rs = prep.executeQuery();
+			
+			while (rs.next()){
+
+			}
+			
+			
+
 		
 		return this.HMErrorCodes.get("NoError");
 	}
