@@ -13,14 +13,12 @@
 * You should have received a copy of the GNU General Public License
 * along with SpellManager. If not, see <http://www.gnu.org/licenses/>.
 */
-package com.ferrabone.spellmanager.Tests;
-
-import java.sql.SQLException;
 
 import com.ferrabone.spellmanager.types.DBConection;
 import com.ferrabone.spellmanager.types.SpellClass;
-
 import junit.framework.TestCase;
+
+import java.sql.SQLException;
 
 /**
  * @author cferrabo
@@ -29,7 +27,7 @@ import junit.framework.TestCase;
 public class DBConectionTest extends TestCase {
 
 	/**
-	 * @param name
+	 * @param name  Nombre
 	 */
 	public DBConectionTest(String name) {
 		super(name);
@@ -49,7 +47,7 @@ public class DBConectionTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link com.ferrabone.spellmanager.types.DBConection#getSpellID(java.lang.String)}.
+	 * Test method for .
 	 */
 	public void testGetSpellID() {
 		try {
@@ -70,8 +68,8 @@ public class DBConectionTest extends TestCase {
 	 */
 	public void testGetSpellbyName() {
 		try {
-			SpellClass spell = null;
-			DBConection test = new DBConection("example.db");
+			SpellClass spell;
+            DBConection test = new DBConection("example.db");
 			spell = test.getSpellbyName("Acid Arrow");
 			System.out.println(spell.toString());
 			
@@ -89,8 +87,9 @@ public class DBConectionTest extends TestCase {
 	 */
 	public void testGetSpellByID() {
 		try {
-			SpellClass spell = null;
-			DBConection test = new DBConection("example.db");
+			SpellClass spell;
+
+            DBConection test = new DBConection("example.db");
 			spell = test.getSpellByID(2);
 			System.out.println(spell.toString());
 			
@@ -109,10 +108,11 @@ public class DBConectionTest extends TestCase {
 	 */
 	public void testwriteSpell() {
 		try {
-			SpellClass spell = null;
-			int result=1;
-			
-			DBConection test = new DBConection("example.db");
+			SpellClass spell;
+
+            int result;
+
+            DBConection test = new DBConection("example.db");
 			spell = test.getSpellByID(1);
 			
 			// modifico el spell para grabar como nuevo

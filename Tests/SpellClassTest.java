@@ -13,17 +13,11 @@
 * You should have received a copy of the GNU General Public License
 * along with SpellManager. If not, see <http://www.gnu.org/licenses/>.
 */
-package com.ferrabone.spellmanager.Tests;
 
-import java.util.ArrayList;
-
+import com.ferrabone.spellmanager.types.*;
 import junit.framework.TestCase;
 
-import com.ferrabone.spellmanager.types.ClassInfo;
-import com.ferrabone.spellmanager.types.IDStringPairType;
-import com.ferrabone.spellmanager.types.RangeType;
-import com.ferrabone.spellmanager.types.SchoolInfo;
-import com.ferrabone.spellmanager.types.SpellClass;
+import java.util.ArrayList;
 
 /**
  * @author cferrabo
@@ -32,7 +26,7 @@ import com.ferrabone.spellmanager.types.SpellClass;
 public class SpellClassTest extends TestCase {
 
 	/**
-	 * @param name
+	 * @param name    nombre
 	 */
 	public SpellClassTest(String name) {
 		super(name);
@@ -41,11 +35,15 @@ public class SpellClassTest extends TestCase {
 	private SpellClass createSpell(){
 		SpellClass tmpSpell = new SpellClass("Test");
 		
-		IDStringPairType tmpPair=null;
-		ClassInfo tmpCaster=null;
-		SchoolInfo tmpSchoolInfo=null;
-		RangeType tmpRange=null;
-		ArrayList<IDStringPairType> tmpArray= new ArrayList<IDStringPairType>();
+		IDStringPairType tmpPair;
+
+        ClassInfo tmpCaster;
+
+        SchoolInfo tmpSchoolInfo;
+
+        RangeType tmpRange;
+
+        ArrayList<IDStringPairType> tmpArray= new ArrayList<IDStringPairType>();
 		ArrayList<ClassInfo> tmpArrCaster = new ArrayList<ClassInfo>();
 			
 		
